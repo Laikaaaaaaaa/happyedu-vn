@@ -264,6 +264,40 @@
       .user-pill {
         display: none;
       }
+      
+      /* Mobile content improvements */
+      main {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+      }
+      
+      /* Statistics on mobile */
+      section[style*="grid-template-columns"] {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+        gap: 0.75rem !important;
+      }
+      
+      .card-base {
+        padding: 1rem !important;
+      }
+      
+      .card-base h3, 
+      .card-base h1 {
+        font-size: 1.5rem !important;
+      }
+      
+      .card-base p, 
+      .card-base label {
+        font-size: 0.75rem !important;
+      }
+      
+      /* Action buttons on mobile */
+      button {
+        font-size: 0.75rem !important;
+        padding: 0.35rem 0.5rem !important;
+      }
     }
 
     .card-base {
