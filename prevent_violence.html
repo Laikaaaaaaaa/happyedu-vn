@@ -1244,13 +1244,13 @@
         initPreventVideoSlider();
       } else {
         console.warn('No videos found, using hardcoded fallback');
-        // Hardcoded fallback nếu tất cả đều thất bại - ưu tiên MP4
+        // Hardcoded fallback nếu tất cả đều thất bại - ưu tiên MP4, sử dụng /video/ endpoint
         preventVideoPlaylist = [
-          'video/videoplayback.mp4',
-          'video/videoplayback (1).mp4',
-          'video/videoplayback (2).mp4',
-          'video/videoplayback (3).mp4',
-          'video/videoplayback (4).mp4'
+          '/video/videoplayback.mp4',
+          '/video/videoplayback (1).mp4',
+          '/video/videoplayback (2).mp4',
+          '/video/videoplayback (3).mp4',
+          '/video/videoplayback (4).mp4'
         ];
         initPreventVideoSlider();
       }
@@ -1259,9 +1259,10 @@
     // Phát hiện video tại địa chỉ cụ thể (fallback)
     async function detectLocalVideos() {
       // Cố gắng tìm video, ưu tiên mp4 vì webm có thể chưa được convert
+      // Sử dụng /video/ endpoint thay vì video/ để đảm bảo hoạt động trên Heroku
       const videoPatterns = [
-        ['video/videoplayback.mp4', 'video/videoplayback (1).mp4', 'video/videoplayback (2).mp4', 'video/videoplayback (3).mp4', 'video/videoplayback (4).mp4'],
-        ['video/videoplayback.webm', 'video/videoplayback (1).webm', 'video/videoplayback (2).webm', 'video/videoplayback (3).webm', 'video/videoplayback (4).webm']
+        ['/video/videoplayback.mp4', '/video/videoplayback (1).mp4', '/video/videoplayback (2).mp4', '/video/videoplayback (3).mp4', '/video/videoplayback (4).mp4'],
+        ['/video/videoplayback.webm', '/video/videoplayback (1).webm', '/video/videoplayback (2).webm', '/video/videoplayback (3).webm', '/video/videoplayback (4).webm']
       ];
       
       for (const pattern of videoPatterns) {
