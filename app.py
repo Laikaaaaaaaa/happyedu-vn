@@ -840,29 +840,46 @@ def get_video_list():
     try:
         video_dir = os.path.join(os.getcwd(), 'video')
         
+        print(f"Looking for videos in: {video_dir}")
+        print(f"Directory exists: {os.path.exists(video_dir)}")
+        
         # Check if video directory exists
         if not os.path.exists(video_dir):
+            print("Video directory not found, creating fallback response")
             return jsonify({
                 'success': True,
-                'videos': []
+                'videos': [],
+                'message': 'Video directory not found'
             }), 200
         
         # Get all video files (webm, mp4)
         video_extensions = ('.webm', '.mp4')
         videos = []
         
-        for filename in sorted(os.listdir(video_dir)):
-            if filename.lower().endswith(video_extensions):
-                video_path = os.path.join('video', filename)
-                videos.append(video_path)
+        try:
+            all_files = os.listdir(video_dir)
+            print(f"Files in video directory: {all_files}")
+            
+            for filename in sorted(all_files):
+                if filename.lower().endswith(video_extensions):
+                    video_path = os.path.join('video', filename)
+                    videos.append(video_path)
+                    print(f"Added video: {video_path}")
+        except OSError as e:
+            print(f"Error reading video directory: {e}")
+        
+        print(f"Total videos found: {len(videos)}")
         
         return jsonify({
             'success': True,
-            'videos': videos
+            'videos': videos,
+            'count': len(videos)
         }), 200
         
     except Exception as e:
         print(f"Error getting video list: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({
             'success': False,
             'error': str(e),

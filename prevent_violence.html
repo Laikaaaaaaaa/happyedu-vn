@@ -1231,40 +1231,64 @@
         if (response.ok) {
           const data = await response.json();
           preventVideoPlaylist = data.videos || [];
+          console.log('Videos from API:', preventVideoPlaylist);
         }
       } catch (error) {
-        console.log('API error, using fallback video loading...');
+        console.log('API error, using fallback video loading...', error);
         // Fallback: tạo danh sách từ những video hiện có
         preventVideoPlaylist = await detectLocalVideos();
       }
       
       if (preventVideoPlaylist.length > 0) {
+        console.log('Loaded playlist with', preventVideoPlaylist.length, 'videos');
+        initPreventVideoSlider();
+      } else {
+        console.warn('No videos found, using hardcoded fallback');
+        // Hardcoded fallback nếu tất cả đều thất bại - ưu tiên MP4
+        preventVideoPlaylist = [
+          'video/videoplayback.mp4',
+          'video/videoplayback (1).mp4',
+          'video/videoplayback (2).mp4',
+          'video/videoplayback (3).mp4',
+          'video/videoplayback (4).mp4'
+        ];
         initPreventVideoSlider();
       }
     }
 
     // Phát hiện video tại địa chỉ cụ thể (fallback)
     async function detectLocalVideos() {
-      const videoFiles = [
-        'video/videoplayback.webm',
-        'video/videoplayback (1).webm',
-        'video/videoplayback (2).webm',
-        'video/videoplayback (3).webm',
-        'video/videoplayback (4).webm'
+      // Cố gắng tìm video, ưu tiên mp4 vì webm có thể chưa được convert
+      const videoPatterns = [
+        ['video/videoplayback.mp4', 'video/videoplayback (1).mp4', 'video/videoplayback (2).mp4', 'video/videoplayback (3).mp4', 'video/videoplayback (4).mp4'],
+        ['video/videoplayback.webm', 'video/videoplayback (1).webm', 'video/videoplayback (2).webm', 'video/videoplayback (3).webm', 'video/videoplayback (4).webm']
       ];
       
-      const existingVideos = [];
-      for (const file of videoFiles) {
-        try {
-          const response = await fetch(file, { method: 'HEAD' });
-          if (response.ok) {
-            existingVideos.push(file);
+      for (const pattern of videoPatterns) {
+        const existingVideos = [];
+        for (const file of pattern) {
+          try {
+            // Thử load bằng GET request thay vì HEAD (tương thích hơn)
+            const response = await fetch(file, { 
+              method: 'GET',
+              headers: { 'Range': 'bytes=0-1' }
+            });
+            if (response.ok || response.status === 206) { // 206 = Partial Content
+              existingVideos.push(file);
+            }
+          } catch (error) {
+            // File không tồn tại hoặc không thể truy cập
           }
-        } catch (error) {
-          // File không tồn tại
+        }
+        
+        if (existingVideos.length > 0) {
+          console.log('Found videos:', existingVideos);
+          return existingVideos;
         }
       }
-      return existingVideos;
+      
+      console.log('No local videos detected');
+      return [];
     }
 
     function initPreventVideoSlider() {
@@ -1276,7 +1300,12 @@
 
       const setSource = () => {
         const item = preventVideoPlaylist[preventCurrentVideoIndex];
-        if (!item) return;
+        if (!item) {
+          console.error('No video item at index', preventCurrentVideoIndex);
+          return;
+        }
+        
+        console.log('Loading video:', item);
         
         // Xóa tất cả source hiện tại
         const existingSources = videoEl.querySelectorAll('source');
@@ -1290,14 +1319,29 @@
           videoType = 'video/mp4';
         }
         
+        console.log('Video type:', videoType);
+        
         // Tạo source element mới
         const sourceEl = document.createElement('source');
         sourceEl.src = item;
         sourceEl.type = videoType;
+        sourceEl.onerror = () => {
+          console.error('Error loading video source:', item);
+        };
         videoEl.appendChild(sourceEl);
         
+        videoEl.onerror = () => {
+          console.error('Error playing video:', item);
+        };
+        
+        videoEl.onloadedmetadata = () => {
+          console.log('Video loaded successfully:', item);
+        };
+        
         videoEl.load();
-        videoEl.play().catch(() => {});
+        videoEl.play().catch(error => {
+          console.error('Error playing video:', error);
+        });
       };
 
       if (prevBtn) {
