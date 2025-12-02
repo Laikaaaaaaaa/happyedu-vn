@@ -862,7 +862,7 @@
       </li>
       <li id="sidebar-assessment" class="hidden">
         <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
-          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá
+          <i class="fas fa-clipboard-list" style="width: 20px; text-align: center;"></i> Đánh giá
         </a>
       </li>
       <li id="sidebar-chat" class="hidden">
@@ -951,7 +951,6 @@
               <i class="fas fa-chevron-left"></i>
             </button>
             <video id="prevent-video" preload="metadata" poster="logo/android-chrome-512x512.png" muted autoplay playsinline>
-              <source src="video/videoplayback (2).mp4" type="video/mp4" />
               Trình duyệt của bạn không hỗ trợ video.
             </video>
             <button id="next-video" class="video-switch video-next" aria-label="Video tiếp theo">
@@ -1074,7 +1073,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       initSidebarToggle();
       loadUserInfo();
-      initPreventVideoSlider();
+      loadPreventVideoPlaylist();
 
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -1222,13 +1221,51 @@
 
 
 
-    const preventVideoPlaylist = [
-      'video/videoplayback (2).mp4',
-      'video/videoplayback (3).mp4',
-      'video/videoplayback (4).mp4'
-    ];
-
+    let preventVideoPlaylist = [];
     let preventCurrentVideoIndex = 0;
+
+    // Tự động tải danh sách video từ server
+    async function loadPreventVideoPlaylist() {
+      try {
+        const response = await fetch('/api/videos/list');
+        if (response.ok) {
+          const data = await response.json();
+          preventVideoPlaylist = data.videos || [];
+        }
+      } catch (error) {
+        console.log('API error, using fallback video loading...');
+        // Fallback: tạo danh sách từ những video hiện có
+        preventVideoPlaylist = await detectLocalVideos();
+      }
+      
+      if (preventVideoPlaylist.length > 0) {
+        initPreventVideoSlider();
+      }
+    }
+
+    // Phát hiện video tại địa chỉ cụ thể (fallback)
+    async function detectLocalVideos() {
+      const videoFiles = [
+        'video/videoplayback.webm',
+        'video/videoplayback (1).webm',
+        'video/videoplayback (2).webm',
+        'video/videoplayback (3).webm',
+        'video/videoplayback (4).webm'
+      ];
+      
+      const existingVideos = [];
+      for (const file of videoFiles) {
+        try {
+          const response = await fetch(file, { method: 'HEAD' });
+          if (response.ok) {
+            existingVideos.push(file);
+          }
+        } catch (error) {
+          // File không tồn tại
+        }
+      }
+      return existingVideos;
+    }
 
     function initPreventVideoSlider() {
       const videoEl = document.getElementById('prevent-video');
@@ -1240,13 +1277,25 @@
       const setSource = () => {
         const item = preventVideoPlaylist[preventCurrentVideoIndex];
         if (!item) return;
-        let sourceEl = videoEl.querySelector('source');
-        if (!sourceEl) {
-          sourceEl = document.createElement('source');
-          sourceEl.type = 'video/mp4';
-          videoEl.appendChild(sourceEl);
+        
+        // Xóa tất cả source hiện tại
+        const existingSources = videoEl.querySelectorAll('source');
+        existingSources.forEach(src => src.remove());
+        
+        // Xác định loại video dựa vào extension
+        let videoType = 'video/mp4';
+        if (item.toLowerCase().endsWith('.webm')) {
+          videoType = 'video/webm';
+        } else if (item.toLowerCase().endsWith('.mp4')) {
+          videoType = 'video/mp4';
         }
+        
+        // Tạo source element mới
+        const sourceEl = document.createElement('source');
         sourceEl.src = item;
+        sourceEl.type = videoType;
+        videoEl.appendChild(sourceEl);
+        
         videoEl.load();
         videoEl.play().catch(() => {});
       };

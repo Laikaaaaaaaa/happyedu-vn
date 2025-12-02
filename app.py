@@ -834,6 +834,42 @@ def get_admin_stats():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+@app.route('/api/videos/list', methods=['GET'])
+def get_video_list():
+    """Get list of videos from video directory"""
+    try:
+        video_dir = os.path.join(os.getcwd(), 'video')
+        
+        # Check if video directory exists
+        if not os.path.exists(video_dir):
+            return jsonify({
+                'success': True,
+                'videos': []
+            }), 200
+        
+        # Get all video files (webm, mp4)
+        video_extensions = ('.webm', '.mp4')
+        videos = []
+        
+        for filename in sorted(os.listdir(video_dir)):
+            if filename.lower().endswith(video_extensions):
+                video_path = os.path.join('video', filename)
+                videos.append(video_path)
+        
+        return jsonify({
+            'success': True,
+            'videos': videos
+        }), 200
+        
+    except Exception as e:
+        print(f"Error getting video list: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'videos': []
+        }), 500
+
+
 if __name__ == '__main__':
     init_db()
     print("Starting HappyEdu VN Server...")
