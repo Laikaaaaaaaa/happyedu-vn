@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   
-  <title>Trả Lời Quiz - HappyEdu VN</title>
+  <title>Trả Lời Khảo Sát - HappyEdu VN</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -600,7 +600,7 @@
       </li>
       <li id="sidebar-assessment" class="hidden">
         <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
-          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá Cảm Xúc
+          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá
         </a>
       </li>
       <li id="sidebar-chat" class="hidden">
@@ -667,7 +667,7 @@
       <!-- Success/Error Messages -->
       <div class="success-message" id="success-message">
         <i class="fas fa-check-circle mr-2"></i>
-        <span id="success-text">Bạn đã hoàn thành quiz thành công!</span>
+        <span id="success-text">Bạn đã hoàn thành khảo sát thành công!</span>
       </div>
       <div class="error-message" id="error-message">
         <i class="fas fa-exclamation-circle mr-2"></i>
@@ -690,7 +690,7 @@
 
         <!-- Quiz Header -->
         <div class="quiz-header">
-          <h2 id="quiz-title">Quiz: Đánh Giá Hạnh Phúc Học Đường</h2>
+          <h2 id="quiz-title">Đánh Giá Hạnh Phúc Học Đường</h2>
           <p id="quiz-description">Vui lòng trả lời tất cả các câu hỏi dưới đây. Bạn có thể thay đổi câu trả lời bất kỳ lúc nào trước khi gửi.</p>
         </div>
 
@@ -715,8 +715,8 @@
       <div id="quiz-landing" class="quiz-container">
         <div class="text-center mb-8">
           <i class="fas fa-clipboard-list text-5xl text-blue-500 mb-4 block"></i>
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">Trả Lời Quiz & Khảo Sát</h2>
-          <p class="text-gray-600">Chọn một quiz hoặc khảo sát dưới đây để bắt đầu trả lời các câu hỏi</p>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Trả Lời Khảo Sát</h2>
+          <p class="text-gray-600">Chọn khảo sát dưới đây để bắt đầu trả lời các câu hỏi</p>
         </div>
 
         <div class="space-y-3">
@@ -732,35 +732,8 @@
               </div>
             </div>
           </div>
-
-          <div class="border-2 border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="startQuiz('safety')">
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-shield-alt text-green-500 text-xl"></i>
-              </div>
-              <div class="flex-1">
-                <h3 class="font-bold text-gray-800 mb-1">Khảo Sát An Toàn Trường Học</h3>
-                <p class="text-sm text-gray-600">Cho chúng tôi biết về mức độ an toàn mà bạn cảm thấy trong môi trường học tập</p>
-                <p class="text-xs text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i>Khoảng 4-6 phút</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="border-2 border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="startQuiz('environment')">
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-leaf text-purple-500 text-xl"></i>
-              </div>
-              <div class="flex-1">
-                <h3 class="font-bold text-gray-800 mb-1">Môi Trường Học Tập</h3>
-                <p class="text-sm text-gray-600">Đánh giá về cơ sở vật chất, không khí học tập và tương tác giữa các thành viên</p>
-                <p class="text-xs text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i>Khoảng 5-7 phút</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-
     </div>
   </main>
 
