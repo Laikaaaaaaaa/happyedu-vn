@@ -168,30 +168,38 @@ def serve_video(filename):
         file_path = os.path.join(video_dir, filename)
         
         print(f"Attempting to serve video: {file_path}")
+        print(f"Filename received: {repr(filename)}")
         
         # Security check: ensure file is in video directory
-        if not os.path.abspath(file_path).startswith(os.path.abspath(video_dir)):
+        abs_file_path = os.path.abspath(file_path)
+        abs_video_dir = os.path.abspath(video_dir)
+        
+        if not abs_file_path.startswith(abs_video_dir):
             print(f"Security: Attempted to access file outside video directory: {file_path}")
             return {'error': 'Access denied'}, 403
         
         # Check if file exists
         if not os.path.exists(file_path):
             print(f"Video file not found: {file_path}")
+            # List available files for debugging
+            if os.path.exists(video_dir):
+                available_files = os.listdir(video_dir)
+                print(f"Available files: {available_files}")
             return {'error': 'Video not found'}, 404
         
         print(f"Serving video: {file_path}")
         
         # Determine MIME type
         mime_type = 'video/mp4'
-        if filename.endswith('.webm'):
+        if filename.lower().endswith('.webm'):
             mime_type = 'video/webm'
-        elif filename.endswith('.mp4'):
+        elif filename.lower().endswith('.mp4'):
             mime_type = 'video/mp4'
         
         print(f"MIME type: {mime_type}")
         
-        # Use send_from_directory for simpler and more reliable serving
-        return send_from_directory(video_dir, filename, mimetype=mime_type)
+        # Use send_file directly for better compatibility with Windows paths
+        return send_file(file_path, mimetype=mime_type, as_attachment=False)
         
     except Exception as e:
         print(f"Error serving video {filename}: {e}")
