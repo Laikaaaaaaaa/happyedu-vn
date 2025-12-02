@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, session, send_from_directory, send_file
 from werkzeug.wsgi import wrap_file
 from flask_cors import CORS
+from urllib.parse import unquote
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -164,11 +165,14 @@ def serve_static(filename):
 def serve_video(filename):
     """Serve video files with proper headers"""
     try:
+        # Decode URL-encoded filename (e.g., videoplayback%20(1).mp4 -> videoplayback (1).mp4)
+        filename = unquote(filename)
+        
         video_dir = os.path.join(os.getcwd(), 'video')
         file_path = os.path.join(video_dir, filename)
         
         print(f"Attempting to serve video: {file_path}")
-        print(f"Filename received: {repr(filename)}")
+        print(f"Filename received (decoded): {repr(filename)}")
         
         # Security check: ensure file is in video directory
         abs_file_path = os.path.abspath(file_path)
@@ -206,6 +210,7 @@ def serve_video(filename):
         import traceback
         traceback.print_exc()
         return {'error': str(e)}, 500
+
 
 # API Routes
 @app.route('/api/auth/login-init', methods=['POST'])
