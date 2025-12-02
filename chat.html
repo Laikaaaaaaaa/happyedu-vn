@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Trò Chuyện - HappyEdu VN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    /* Active sidebar item styling */
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-avatar {
+      width: 48px;
+      height: 48px;
+      background-color: #E0F2FE;
+      color: #0284C7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info h3 {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0F172A;
+    }
+
+    .chat-header-info p {
+      font-size: 0.85rem;
+      color: #16A34A;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .messages-container {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: #ffffff;
+      min-height: 0;
+    }
+
+    .messages-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .messages-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .messages-container::-webkit-scrollbar-thumb {
+      background: #cbd5f5;
+      border-radius: 4px;
+    }
+
+    .messages-container::-webkit-scrollbar-thumb:hover {
+      background: #1d4ed8;
+    }
+
+    .message {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 80%;
+    }
+
+    .message.user {
+      margin-left: auto;
+      flex-direction: row-reverse;
+    }
+
+    .message-bubble {
+      padding: 0.75rem 1.25rem;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .message.bot .message-bubble {
+      background-color: #F1F5F9;
+      color: #0F172A;
+      border-top-left-radius: 0.25rem;
+    }
+
+    .message.user .message-bubble {
+      background-color: #1D4ED8;
+      color: white;
+      border-top-right-radius: 0.25rem;
+    }
+
+    .message-timestamp {
+      font-size: 0.7rem;
+      color: #94A3B8;
+      margin-top: 0.35rem;
+    }
+
+    .message.user .message-timestamp {
+      text-align: right;
+    }
+
+    .chat-input-area {
+      padding: 1.25rem;
+      background-color: #ffffff;
+      border-top: 1px solid #E2E8F0;
+      flex-shrink: 0;
+    }
+
+    .chat-input-group {
+      display: flex;
+      gap: 0.75rem;
+      background: #F8FAFC;
+      padding: 0.5rem;
+      border-radius: 999px;
+      border: 1px solid #E2E8F0;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input-group:focus-within {
+      border-color: #CBD5F5;
+      box-shadow: 0 0 0 3px rgba(203, 213, 245, 0.3);
+    }
+
+    .chat-input-group input {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+      outline: none;
+      color: #0F172A;
+    }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      background-color: #0F172A;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .send-btn:hover {
+      background-color: #1E293B;
+      transform: scale(1.05);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      const publicPages = ['login.html', 'register.html', 'otp.html'];
+      const isPublic = publicPages.includes(path);
+      const isLoggedIn = !!sessionStorage.getItem('user_id');
+
+      if (!isLoggedIn && !isPublic) {
+        window.location.replace('login.html');
+      }
+
+      if (isLoggedIn && (path === 'login.html' || path === 'register.html')) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <!-- Not logged in menu -->
+      <li id="sidebar-login" class="block">
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-sign-in-alt" style="width: 20px; text-align: center;"></i> Đăng nhập
+        </a>
+      </li>
+      <li id="sidebar-register" class="block">
+        <a href="register.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user-plus" style="width: 20px; text-align: center;"></i> Đăng ký
+        </a>
+      </li>
+
+      <!-- Logged in menu -->
+      <li id="sidebar-home" class="hidden">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-home" style="width: 20px; text-align: center;"></i> Trang Chủ
+        </a>
+      </li>
+      <li id="sidebar-profile" class="hidden">
+        <a href="profile.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user" style="width: 20px; text-align: center;"></i> Hồ Sơ
+        </a>
+      </li>
+      <li id="sidebar-assessment" class="hidden">
+        <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá Cảm Xúc
+        </a>
+      </li>
+      <li id="sidebar-chat" class="hidden">
+        <a href="conversation.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
+          <i class="fas fa-comments" style="width: 20px; text-align: center;"></i> Trò Chuyện
+        </a>
+      </li>
+      <li id="sidebar-prevent" class="hidden">
+        <a href="prevent_violence.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-shield-alt" style="width: 20px; text-align: center;"></i> Phòng Chống
+        </a>
+      </li>
+      <li id="sidebar-sos" class="hidden">
+        <button onclick="triggerSOS()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </button>
+      </li>
+      <li id="sidebar-logout" class="hidden border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
+          </div>
+          HappyEdu VN
+        </div>
+        <nav class="nav-menu">
+          <a href="index.html">Trang Chủ</a>
+          <a href="assessment.html">Đánh Giá</a>
+          <a href="conversation.html" class="active">Trò Chuyện</a>
+          <a href="prevent_violence.html">Phòng Chống</a>
+          <a href="profile.html">Hồ Sơ</a>
+        </nav>
+        <div class="nav-utilities">
+          <div class="user-pill">
+            <i class="fas fa-circle text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="chat-header-avatar">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div class="chat-header-info">
+          <h3>Chuyên Gia Tâm Lý HappyEdu VN</h3>
+          <p><i class="fas fa-circle text-[8px] text-green-500"></i> Đang trực tuyến</p>
+        </div>
+      </div>
+      <div class="messages-container" id="messages-container">
+        <div class="message bot">
+          <div class="message-bubble">
+            Xin chào! Tôi ở đây để lắng nghe và giúp bạn xử lý tình huống cảm xúc.
+          </div>
+          <div class="message-timestamp">09:30</div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <div class="chat-input-group">
+          <input type="text" id="message-input" placeholder="Nhập tin nhắn của bạn..." autocomplete="off" />
+          <button class="send-btn" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+
+    const toggleSidebar = () => {
+      sidebar.classList.toggle('active');
+      sidebarOverlay.classList.toggle('active');
+    };
+
+    menuToggle?.addEventListener('click', toggleSidebar);
+    sidebarOverlay?.addEventListener('click', toggleSidebar);
+
+    document.querySelectorAll('#sidebar a, #sidebar button').forEach(item => {
+      item.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      });
+    });
+
+    function loadUserInfo() {
+      const userID = sessionStorage.getItem('user_id') || null;
+      const userName = sessionStorage.getItem('user_name') || 'Chưa đăng nhập';
+      const userRole = sessionStorage.getItem('user_role') || 'HS';
+      const isLoggedIn = userID !== null;
+      const displayId = userID ? `${userID} - ${userRole}` : '000000 - HS';
+
+      const userNameEl = document.getElementById('user-name');
+      const userIdEl = document.getElementById('user-id-display');
+      const sidebarNameEl = document.getElementById('sidebar-user-name');
+      const sidebarIdEl = document.getElementById('sidebar-user-id');
+
+      if (userNameEl) userNameEl.textContent = userName;
+      if (userIdEl) userIdEl.textContent = displayId;
+      if (sidebarNameEl) sidebarNameEl.textContent = userName;
+      if (sidebarIdEl) sidebarIdEl.textContent = displayId;
+
+      updateSidebarMenu(isLoggedIn);
+    }
+
+    function updateSidebarMenu(isLoggedIn) {
+      const showItem = (item) => item && item.classList.remove('hidden');
+      const hideItem = (item) => item && item.classList.add('hidden');
+      
+      const loginItem = document.getElementById('sidebar-login');
+      const registerItem = document.getElementById('sidebar-register');
+      const homeItem = document.getElementById('sidebar-home');
+      const profileItem = document.getElementById('sidebar-profile');
+      const assessmentItem = document.getElementById('sidebar-assessment');
+      const chatItem = document.getElementById('sidebar-chat');
+      const preventItem = document.getElementById('sidebar-prevent');
+      const sosItem = document.getElementById('sidebar-sos');
+      const logoutItem = document.getElementById('sidebar-logout');
+      
+      if (isLoggedIn) {
+        hideItem(loginItem);
+        hideItem(registerItem);
+        showItem(homeItem);
+        showItem(profileItem);
+        showItem(assessmentItem);
+        showItem(chatItem);
+        showItem(preventItem);
+        showItem(sosItem);
+        showItem(logoutItem);
+      } else {
+        showItem(loginItem);
+        showItem(registerItem);
+        hideItem(homeItem);
+        hideItem(profileItem);
+        hideItem(assessmentItem);
+        hideItem(chatItem);
+        hideItem(preventItem);
+        hideItem(sosItem);
+        hideItem(logoutItem);
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('message-input');
+      const messagesContainer = document.getElementById('messages-container');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const now = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+      const messageEl = document.createElement('div');
+      messageEl.className = 'message user';
+      messageEl.innerHTML = `
+        <div class="message-bubble">${escapeHtml(text)}</div>
+        <div class="message-timestamp">${now}</div>
+      `;
+      messagesContainer.appendChild(messageEl);
+      input.value = '';
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      setTimeout(() => {
+        const replies = [
+          'Cảm ơn bạn đã chia sẻ. Hãy kể tôi nghe thêm.',
+          'Tôi ở đây để giúp bạn ổn định cảm xúc.',
+          'Bạn đang cảm thấy thế nào? Chúng ta cùng tìm giải pháp nhé.'
+        ];
+        const response = replies[Math.floor(Math.random() * replies.length)];
+        const responseEl = document.createElement('div');
+        responseEl.className = 'message bot';
+        responseEl.innerHTML = `
+          <div class="message-bubble">${response}</div>
+          <div class="message-timestamp">${now}</div>
+        `;
+        messagesContainer.appendChild(responseEl);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }, 750);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function logoutUser() {
+      if (!confirm('Bạn chắc chắn muốn đăng xuất?')) return;
+      sessionStorage.clear();
+      alert('Đã đăng xuất thành công!');
+      window.location.replace('login.html');
+    }
+
+    function triggerSOS() {
+      const userID = sessionStorage.getItem('user_id') || 'Unknown';
+      const userRole = sessionStorage.getItem('user_role') || 'Unknown';
+      if (!confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) return;
+
+      fetch('/api/sos/send', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: userID,
+          user_role: userRole,
+          timestamp: new Date().toISOString()
+        })
+      })
+        .then(res => res.json())
+        .then(data => alert(data.success ? 'Tín hiệu SOS đã được gửi thành công!' : 'Không thể gửi SOS: ' + (data.message || 'Lỗi')))
+        .catch(error => alert('Lỗi kết nối: ' + error.message));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserInfo();
+      const messageInput = document.getElementById('message-input');
+      messageInput.addEventListener('keypress', event => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

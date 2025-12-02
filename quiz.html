@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <title>Trả Lời Quiz - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .light-blue-bg {
+      background-color: #E0F2FE;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    /* Active sidebar item styling */
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+    
+    .sidebar.active {
+      left: 0;
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+    
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+      }
+      .nav-brand img {
+        width: 32px;
+        height: 32px;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
+    }
+
+    /* Quiz Styles */
+    .quiz-container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+      margin-bottom: 2rem;
+    }
+
+    .quiz-progress {
+      background: #E2E8F0;
+      height: 6px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .quiz-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1D4ED8 0%, #3B82F6 100%);
+      transition: width 0.3s ease;
+    }
+
+    .quiz-header {
+      margin-bottom: 2rem;
+    }
+
+    .quiz-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz-header p {
+      color: #475569;
+      font-size: 0.95rem;
+    }
+
+    .question-block {
+      margin-bottom: 2.5rem;
+    }
+
+    .question-number {
+      font-size: 0.85rem;
+      color: #94A3B8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .question-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .answer-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .answer-option {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #ffffff;
+    }
+
+    .answer-option:hover {
+      border-color: #1D4ED8;
+      background: #E0F2FE;
+    }
+
+    .answer-option input[type="radio"],
+    .answer-option input[type="checkbox"] {
+      margin-right: 0.75rem;
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      accent-color: #1D4ED8;
+    }
+
+    .answer-option.selected {
+      border-color: #1D4ED8;
+      background: #E0F2FE;
+      font-weight: 500;
+    }
+
+    .answer-label {
+      cursor: pointer;
+      flex: 1;
+      font-size: 0.95rem;
+      color: #0F172A;
+      user-select: none;
+    }
+
+    .scale-options {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .scale-options {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .scale-btn {
+      padding: 0.75rem;
+      border: 2px solid #E2E8F0;
+      border-radius: 10px;
+      background: #ffffff;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0F172A;
+      transition: all 0.2s ease;
+      font-size: 0.85rem;
+    }
+
+    .scale-btn:hover {
+      border-color: #1D4ED8;
+      background: #E0F2FE;
+    }
+
+    .scale-btn.active {
+      border-color: #1D4ED8;
+      background: #1D4ED8;
+      color: #ffffff;
+    }
+
+    .textarea-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #0F172A;
+      resize: vertical;
+      min-height: 120px;
+      transition: all 0.2s ease;
+    }
+
+    .textarea-field:focus {
+      outline: none;
+      border-color: #1D4ED8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: space-between;
+    }
+
+    .btn-primary {
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid #0F172A;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #0F172A;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      border: 1px solid #CBD5F5;
+      color: #0F172A;
+    }
+
+    .btn-secondary:hover {
+      border-color: #94A3B8;
+      background-color: #F8FAFC;
+    }
+
+    .success-message {
+      background: #D1FAE5;
+      border: 1px solid #6EE7B7;
+      color: #065F46;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .error-message {
+      background: #FEE2E2;
+      border: 1px solid #FECACA;
+      color: #7F1D1D;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .quiz-summary {
+      background: #E0F2FE;
+      border: 1px solid #BAE6FD;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .quiz-summary h3 {
+      color: #0C4A6E;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz-summary p {
+      color: #0369A1;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 1.5rem;
+      }
+
+      .quiz-header h2 {
+        font-size: 1.25rem;
+      }
+
+      .question-text {
+        font-size: 1rem;
+      }
+
+      .quiz-actions {
+        flex-direction: column;
+      }
+
+      .scale-options {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body class="light-blue-bg">
+  <script>
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      const publicPages = ['login.html', 'register.html', 'otp.html'];
+      const isPublic = publicPages.includes(path);
+      const isLoggedIn = !!sessionStorage.getItem('user_id');
+
+      if (!isLoggedIn && !isPublic) {
+        window.location.replace('login.html');
+      }
+
+      if (isLoggedIn && (path === 'login.html' || path === 'register.html')) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
+  <!-- Sidebar Overlay -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <!-- Not logged in menu -->
+      <li id="sidebar-login" class="block">
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-sign-in-alt" style="width: 20px; text-align: center;"></i> Đăng nhập
+        </a>
+      </li>
+      <li id="sidebar-register" class="block">
+        <a href="register.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user-plus" style="width: 20px; text-align: center;"></i> Đăng ký
+        </a>
+      </li>
+
+      <!-- Logged in menu -->
+      <li id="sidebar-home" class="hidden">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-home" style="width: 20px; text-align: center;"></i> Trang Chủ
+        </a>
+      </li>
+      <li id="sidebar-profile" class="hidden">
+        <a href="profile.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user" style="width: 20px; text-align: center;"></i> Hồ Sơ
+        </a>
+      </li>
+      <li id="sidebar-assessment" class="hidden">
+        <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
+          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá Cảm Xúc
+        </a>
+      </li>
+      <li id="sidebar-chat" class="hidden">
+        <a href="conversation.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-comments" style="width: 20px; text-align: center;"></i> Trò Chuyện
+        </a>
+      </li>
+      <li id="sidebar-prevent" class="hidden">
+        <a href="prevent_violence.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-shield-alt" style="width: 20px; text-align: center;"></i> Phòng Chống
+        </a>
+      </li>
+      <li id="sidebar-sos" class="hidden">
+        <button onclick="triggerSOS()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </button>
+      </li>
+      <li id="sidebar-logout" class="hidden border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
+          </div>
+          HappyEdu VN
+        </div>
+
+        <nav class="nav-menu">
+          <a href="index.html">Trang Chủ</a>
+          <a href="assessment.html">Đánh Giá</a>
+          <a href="conversation.html">Trò Chuyện</a>
+          <a href="prevent_violence.html">Phòng Chống</a>
+          <a href="profile.html">Hồ Sơ</a>
+        </nav>
+
+        <div class="nav-utilities">
+          <div class="user-pill" id="user-pill">
+            <i class="fas fa-circle text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="px-4 py-6 md:py-10">
+    <div class="max-w-3xl mx-auto">
+      
+      <!-- Success/Error Messages -->
+      <div class="success-message" id="success-message">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="success-text">Bạn đã hoàn thành quiz thành công!</span>
+      </div>
+      <div class="error-message" id="error-message">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span id="error-text">Vui lòng trả lời tất cả câu hỏi trước khi tiếp tục.</span>
+      </div>
+
+      <!-- Quiz Summary -->
+      <div class="quiz-summary" id="quiz-summary">
+        <h3><i class="fas fa-check-circle mr-2"></i>Cảm ơn bạn!</h3>
+        <p>Câu trả lời của bạn đã được ghi nhận. Kết quả sẽ được xử lý để giúp chúng tôi hiểu rõ hơn về trải nghiệm của bạn.</p>
+      </div>
+
+      <!-- Quiz Container -->
+      <div class="quiz-container" id="quiz-container" style="display: none;">
+        
+        <!-- Progress Bar -->
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar" id="quiz-progress-bar" style="width: 0%"></div>
+        </div>
+
+        <!-- Quiz Header -->
+        <div class="quiz-header">
+          <h2 id="quiz-title">Quiz: Đánh Giá Hạnh Phúc Học Đường</h2>
+          <p id="quiz-description">Vui lòng trả lời tất cả các câu hỏi dưới đây. Bạn có thể thay đổi câu trả lời bất kỳ lúc nào trước khi gửi.</p>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questions-container"></div>
+
+        <!-- Quiz Actions -->
+        <div class="quiz-actions">
+          <button type="button" id="btn-previous" class="btn-primary btn-secondary" style="display: none;">
+            <i class="fas fa-arrow-left"></i> Quay Lại
+          </button>
+          <button type="button" id="btn-next" class="btn-primary">
+            Tiếp Tục <i class="fas fa-arrow-right"></i>
+          </button>
+          <button type="button" id="btn-submit" class="btn-primary" style="display: none;">
+            <i class="fas fa-paper-plane"></i> Gửi Câu Trả Lời
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Selection / Landing -->
+      <div id="quiz-landing" class="quiz-container">
+        <div class="text-center mb-8">
+          <i class="fas fa-clipboard-list text-5xl text-blue-500 mb-4 block"></i>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Trả Lời Quiz & Khảo Sát</h2>
+          <p class="text-gray-600">Chọn một quiz hoặc khảo sát dưới đây để bắt đầu trả lời các câu hỏi</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="border-2 border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="startQuiz('happiness')">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-smile text-blue-500 text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-gray-800 mb-1">Đánh Giá Mức Độ Hạnh Phúc</h3>
+                <p class="text-sm text-gray-600">Trả lời 10 câu hỏi về mức độ hạnh phúc của bạn tại trường học</p>
+                <p class="text-xs text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i>Khoảng 3-5 phút</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-2 border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="startQuiz('safety')">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-shield-alt text-green-500 text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-gray-800 mb-1">Khảo Sát An Toàn Trường Học</h3>
+                <p class="text-sm text-gray-600">Cho chúng tôi biết về mức độ an toàn mà bạn cảm thấy trong môi trường học tập</p>
+                <p class="text-xs text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i>Khoảng 4-6 phút</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-2 border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all" onclick="startQuiz('environment')">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-leaf text-purple-500 text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-gray-800 mb-1">Môi Trường Học Tập</h3>
+                <p class="text-sm text-gray-600">Đánh giá về cơ sở vật chất, không khí học tập và tương tác giữa các thành viên</p>
+                <p class="text-xs text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i>Khoảng 5-7 phút</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-600 mt-8 text-sm">
+    <p>&copy; 2025 HappyEdu VN. Tất cả quyền được bảo lưu.</p>
+  </footer>
+
+  <script>
+    // Quiz Data
+    const quizzes = {
+      happiness: {
+        title: 'Đánh Giá Mức Độ Hạnh Phúc',
+        description: 'Vui lòng trả lời 10 câu hỏi dưới đây dựa trên cảm nhận của bạn về trường học.',
+        questions: [
+          {
+            id: 1,
+            text: 'Tôi cảm thấy hạnh phúc khi ở trường học',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 2,
+            text: 'Các giáo viên của tôi quan tâm đến sự phát triển của tôi',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 3,
+            text: 'Tôi cảm thấy được chấp nhận và yêu mến tại trường',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 4,
+            text: 'Tôi có những bạn thân thiện tại trường',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 5,
+            text: 'Môi trường học tập ở đây giúp tôi phát triển kỹ năng',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 6,
+            text: 'Tôi cảm thấy áp lực quá nhiều về học tập',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 7,
+            text: 'Điều nào là lý do chính khiến bạn cảm thấy hạnh phúc ở trường? (Chọn tất cả những lựa chọn phù hợp)',
+            type: 'checkbox',
+            options: ['Bạn bè', 'Giáo viên', 'Khoá học/Môn học', 'Hoạt động ngoại khoá', 'Phong cách quản lý']
+          },
+          {
+            id: 8,
+            text: 'Điều gì có thể cải thiện để làm cho bạn hạnh phúc hơn?',
+            type: 'text',
+            placeholder: 'Hãy chia sẻ ý kiến của bạn...'
+          },
+          {
+            id: 9,
+            text: 'Bạn muốn gửi góp ý ẩn danh cho quản lý trường?',
+            type: 'radio',
+            options: ['Có, tôi muốn gửi một bức thư ẩn danh', 'Không, cảm ơn']
+          },
+          {
+            id: 10,
+            text: 'Thêm bất kỳ bình luận bổ sung nào (tùy chọn)',
+            type: 'text',
+            placeholder: 'Nhập bình luận của bạn...'
+          }
+        ]
+      },
+      safety: {
+        title: 'Khảo Sát An Toàn Trường Học',
+        description: 'Chúng tôi muốn biết bạn cảm thấy an toàn như thế nào tại trường học.',
+        questions: [
+          {
+            id: 1,
+            text: 'Tôi cảm thấy an toàn thể chất tại trường học',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 2,
+            text: 'Tôi cảm thấy an toàn về mặt tâm lý/cảm xúc',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 3,
+            text: 'Tôi biết cách tìm kiếm sự giúp đỡ nếu gặp vấn đề',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 4,
+            text: 'Bạo lực hoặc bắt nạt là một vấn đề tại trường của tôi',
+            type: 'scale',
+            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
+          },
+          {
+            id: 5,
+            text: 'Nếu bạn trả lời "Đồng ý" hoặc "Hoàn toàn đồng ý" ở câu trên, vui lòng mô tả tình hình (tùy chọn)',
+            type: 'text',
+            placeholder: 'Mô tả tình hình...'
+          }
+        ]
+      },
+      environment: {
+        title: 'Môi Trường Học Tập',
+        description: 'Đánh giá về cơ sở vật chất và không khí học tập.',
+        questions: [
+          {
+            id: 1,
+            text: 'Cơ sở vật chất của trường (lớp học, sân chơi, thư viện) tốt như thế nào?',
+            type: 'scale',
+            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
+          },
+          {
+            id: 2,
+            text: 'Không khí trong lớp học có thuận lợi cho học tập không?',
+            type: 'scale',
+            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
+          },
+          {
+            id: 3,
+            text: 'Mối quan hệ giữa học sinh-giáo viên như thế nào?',
+            type: 'scale',
+            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
+          },
+          {
+            id: 4,
+            text: 'Mối quan hệ giữa các học sinh như thế nào?',
+            type: 'scale',
+            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
+          },
+          {
+            id: 5,
+            text: 'Điều gì có thể cải thiện môi trường học tập?',
+            type: 'text',
+            placeholder: 'Chia sẻ đề xuất của bạn...'
+          }
+        ]
+      }
+    };
+
+    let currentQuiz = null;
+    let currentQuestion = 0;
+    let answers = {};
+    let quizStarted = false;
+
+    // Load user info
+    function loadUserInfo() {
+      const userID = sessionStorage.getItem('user_id') || null;
+      const userName = sessionStorage.getItem('user_name') || 'Chưa đăng nhập';
+      const userRole = sessionStorage.getItem('user_role') || 'HS';
+      const isLoggedIn = userID !== null;
+      
+      const userDisplayId = isLoggedIn && userID ? `${userID} - ${userRole}` : '000000 - HS';
+      
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-id-display').textContent = userDisplayId;
+      
+      document.getElementById('sidebar-user-name').textContent = userName;
+      document.getElementById('sidebar-user-id').textContent = userDisplayId;
+      
+      updateSidebarMenu(isLoggedIn);
+    }
+    
+    function updateSidebarMenu(isLoggedIn) {
+      const items = ['login', 'register', 'home', 'profile', 'assessment', 'chat', 'prevent', 'form', 'quiz', 'sos', 'logout'];
+      items.forEach(item => {
+        const el = document.getElementById(`sidebar-${item}`);
+        if (!el) return;
+        
+        const isPublic = ['login', 'register'].includes(item);
+        if (isLoggedIn) {
+          if (isPublic) el.classList.add('hidden');
+          else el.classList.remove('hidden');
+        } else {
+          if (isPublic) el.classList.remove('hidden');
+          else el.classList.add('hidden');
+        }
+      });
+
+      const userInfoBlock = document.getElementById('sidebar-user-block');
+      if (userInfoBlock) {
+        userInfoBlock.style.display = isLoggedIn ? 'flex' : 'none';
+      }
+    }
+
+    // Sidebar Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('active');
+          sidebarOverlay.classList.toggle('active');
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      }
+
+      const sidebarLinks = sidebar.querySelectorAll('a, button');
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      });
+
+      loadUserInfo();
+    });
+
+    // Logout function
+    function logoutUser() {
+      if (confirm('Bạn chắc chắn muốn đăng xuất?')) {
+        sessionStorage.removeItem('user_id');
+        sessionStorage.removeItem('user_name');
+        sessionStorage.removeItem('user_role');
+        sessionStorage.removeItem('user_email');
+        alert('Đã đăng xuất thành công!');
+        // Force redirect to login
+        window.location.replace('login.html');
+      }
+    }
+
+    // Trigger SOS
+    function triggerSOS() {
+      const userID = sessionStorage.getItem('user_id') || 'Unknown';
+      const userRole = sessionStorage.getItem('user_role') || 'Unknown';
+      
+      if (confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) {
+        fetch('/api/sos/send', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userID, user_role: userRole, timestamp: new Date().toISOString() })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) alert('Tín hiệu SOS đã được gửi thành công!');
+          else alert('Lỗi: ' + (data.message || 'Unknown error'));
+        })
+        .catch(error => console.error('Error:', error));
+      }
+    }
+
+    // Quiz functions
+    function startQuiz(quizId) {
+      currentQuiz = quizzes[quizId];
+      currentQuestion = 0;
+      answers = {};
+      quizStarted = true;
+
+      document.getElementById('quiz-landing').style.display = 'none';
+      document.getElementById('quiz-container').style.display = 'block';
+      
+      renderQuestion();
+      updateProgress();
+    }
+
+    function renderQuestion() {
+      const quiz = currentQuiz;
+      const q = quiz.questions[currentQuestion];
+      const container = document.getElementById('questions-container');
+      
+      let html = `
+        <div class="question-block">
+          <div class="question-number">Câu ${currentQuestion + 1}/${quiz.questions.length}</div>
+          <div class="question-text">${q.text}</div>
+      `;
+
+      if (q.type === 'scale') {
+        html += '<div class="scale-options">';
+        q.options.forEach((opt, idx) => {
+          const isSelected = answers[q.id] === idx;
+          html += `
+            <button type="button" class="scale-btn ${isSelected ? 'active' : ''}" onclick="selectAnswer(${q.id}, ${idx}, 'scale')">
+              ${idx + 1}
+            </button>
+          `;
+        });
+        html += '</div>';
+      } else if (q.type === 'radio') {
+        html += '<div class="answer-options">';
+        q.options.forEach((opt, idx) => {
+          const isSelected = answers[q.id] === idx;
+          html += `
+            <label class="answer-option ${isSelected ? 'selected' : ''}">
+              <input type="radio" name="q${q.id}" value="${idx}" ${isSelected ? 'checked' : ''} onchange="selectAnswer(${q.id}, ${idx}, 'radio')">
+              <span class="answer-label">${opt}</span>
+            </label>
+          `;
+        });
+        html += '</div>';
+      } else if (q.type === 'checkbox') {
+        html += '<div class="answer-options">';
+        q.options.forEach((opt, idx) => {
+          const isSelected = (answers[q.id] || []).includes(idx);
+          html += `
+            <label class="answer-option ${isSelected ? 'selected' : ''}">
+              <input type="checkbox" name="q${q.id}" value="${idx}" ${isSelected ? 'checked' : ''} onchange="selectAnswer(${q.id}, ${idx}, 'checkbox')">
+              <span class="answer-label">${opt}</span>
+            </label>
+          `;
+        });
+        html += '</div>';
+      } else if (q.type === 'text') {
+        const currentValue = answers[q.id] || '';
+        html += `<textarea class="textarea-field" placeholder="${q.placeholder || ''}" onchange="selectAnswer(${q.id}, this.value, 'text')">${currentValue}</textarea>`;
+      }
+
+      html += '</div>';
+      container.innerHTML = html;
+      updateButtons();
+    }
+
+    function selectAnswer(qId, value, type) {
+      if (type === 'checkbox') {
+        if (!answers[qId]) answers[qId] = [];
+        if (answers[qId].includes(value)) {
+          answers[qId] = answers[qId].filter(v => v !== value);
+        } else {
+          answers[qId].push(value);
+        }
+      } else {
+        answers[qId] = value;
+      }
+      renderQuestion();
+    }
+
+    function updateButtons() {
+      const quiz = currentQuiz;
+      const isFirst = currentQuestion === 0;
+      const isLast = currentQuestion === quiz.questions.length - 1;
+      
+      document.getElementById('btn-previous').style.display = isFirst ? 'none' : 'inline-flex';
+      document.getElementById('btn-next').style.display = isLast ? 'none' : 'inline-flex';
+      document.getElementById('btn-submit').style.display = isLast ? 'inline-flex' : 'none';
+    }
+
+    function updateProgress() {
+      const quiz = currentQuiz;
+      const progress = ((currentQuestion + 1) / quiz.questions.length) * 100;
+      document.getElementById('quiz-progress-bar').style.width = progress + '%';
+    }
+
+    document.getElementById('btn-next').addEventListener('click', function() {
+      if (currentQuestion < currentQuiz.questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+        updateProgress();
+      }
+    });
+
+    document.getElementById('btn-previous').addEventListener('click', function() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+        updateProgress();
+      }
+    });
+
+    document.getElementById('btn-submit').addEventListener('click', function() {
+      const quiz = currentQuiz;
+      const unanswered = quiz.questions.filter(q => !(q.id in answers)).length;
+      
+      if (unanswered > 0) {
+        document.getElementById('error-message').style.display = 'block';
+        document.getElementById('error-text').textContent = `Vui lòng trả lời tất cả ${unanswered} câu hỏi trước khi gửi.`;
+        setTimeout(() => {
+          document.getElementById('error-message').style.display = 'none';
+        }, 4000);
+        return;
+      }
+
+      // Submit quiz
+      console.log('Quiz Answers:', answers);
+      
+      document.getElementById('quiz-container').style.display = 'none';
+      document.getElementById('quiz-summary').style.display = 'block';
+      
+      // Reset after 3 seconds
+      setTimeout(() => {
+        document.getElementById('quiz-summary').style.display = 'none';
+        document.getElementById('quiz-landing').style.display = 'block';
+        currentQuiz = null;
+        quizStarted = false;
+        answers = {};
+        currentQuestion = 0;
+      }, 3000);
+    });
+  </script>
+  
+</body>
+</html>

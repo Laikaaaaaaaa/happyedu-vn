@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+
+  <title>Đăng nhập - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #E0F2FE 0%, #BFE7F8 100%);
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #0EA5E9;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+
+    /* Tab animations */
+    .tabs-container {
+      position: relative;
+      min-height: auto;
+      transition: min-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .tab-content {
+      opacity: 0;
+      transform: scale(0.97) translateY(8px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 0;
+    }
+
+    .tab-content.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      position: relative;
+      top: auto;
+      left: auto;
+    }
+
+    /* Tab buttons with sliding underline */
+    .tab-buttons-container {
+      display: flex;
+      gap: 1rem;
+      position: relative;
+      border-bottom: 2px solid #E5E7EB;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-button {
+      padding: 0.5rem 0;
+      font-weight: 500;
+      color: #6B7280;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      position: relative;
+      font-size: 1rem;
+    }
+
+    .tab-button:hover {
+      color: #0EA5E9;
+    }
+
+    .tab-button.active {
+      color: #0EA5E9;
+    }
+
+    /* Animated underline */
+    .tab-button::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #0EA5E9;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .tab-button.active::after {
+      transform: scaleX(1);
+    }
+  </style>
+</head>
+<body class="light-blue-bg">
+  <script>
+    // Teacher invitation code
+    const TEACHER_INVITE_CODE = 'abc123';
+
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      const publicPages = ['login.html', 'register.html', 'otp.html'];
+      const isPublic = publicPages.includes(path);
+      const isLoggedIn = !!sessionStorage.getItem('user_id');
+
+      if (!isLoggedIn && !isPublic) {
+        window.location.replace('login.html');
+      }
+
+      if (isLoggedIn && (path === 'login.html' || path === 'register.html')) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-8 w-full max-w-md">
+      <!-- Tab Toggle -->
+      <div class="tab-buttons-container">
+        <button type="button" id="student-tab" class="tab-button active" onclick="switchTab('student')">
+          Học Sinh
+        </button>
+        <button type="button" id="teacher-tab" class="tab-button" onclick="switchTab('teacher')">
+          Giáo Viên
+        </button>
+        <button type="button" id="parent-tab" class="tab-button" onclick="switchTab('parent')">
+          Phụ Huynh
+        </button>
+      </div>
+
+      <div class="tabs-container">
+        <!-- Student Login Form -->
+        <div id="student-form" class="tab-content active">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Đăng nhập học sinh</h2>
+
+          <div id="alert-message" class="hidden mb-4 p-3 rounded text-sm"></div>
+
+          <form id="login-form" class="space-y-4">
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600"
+                placeholder="example@email.com"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+              <div class="relative">
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  required 
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600 pr-10"
+                  placeholder="••••••••"
+                />
+                <button 
+                  type="button" 
+                  id="toggle-password"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium"
+            >
+              Đăng nhập
+            </button>
+          </form>
+
+          <div class="text-center mt-4 pt-4 border-t border-gray-200">
+            <p class="text-sm text-gray-600">
+              Chưa có tài khoản? 
+              <a href="register.html" class="text-blue-600 hover:text-blue-700 font-medium">
+                Đăng ký ngay
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Teacher Login Form -->
+        <div id="teacher-form" class="tab-content">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Đăng nhập giáo viên</h2>
+
+          <div id="teacher-alert-message" class="hidden mb-4 p-3 rounded text-sm"></div>
+
+          <form id="teacher-login-form" class="space-y-4">
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input 
+                type="email" 
+                id="teacher-email" 
+                name="email" 
+                required 
+                class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600"
+                placeholder="teacher@email.com"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+              <div class="relative">
+                <input 
+                  type="password" 
+                  id="teacher-password" 
+                  name="password" 
+                  required 
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600 pr-10"
+                  placeholder="••••••••"
+                />
+                <button 
+                  type="button" 
+                  id="toggle-teacher-password"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Mã giáo viên <span class="text-red-500">*</span></label>
+              <input 
+                type="password" 
+                id="teacher-code" 
+                name="teacher_code" 
+                required 
+                class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600"
+                placeholder="••••••••"
+              />
+              <p class="text-xs text-gray-500 mt-1">Nhập mã được cấp bởi quản trị viên (mặc định: abc123)</p>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium"
+            >
+              Đăng nhập
+            </button>
+          </form>
+
+          <div class="text-center mt-4 pt-4 border-t border-gray-200">
+            <p class="text-sm text-gray-600">
+              Chưa có tài khoản? 
+              <a href="register.html" class="text-blue-600 hover:text-blue-700 font-medium">
+                Đăng ký ngay
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Parent Login Form -->
+        <div id="parent-form" class="tab-content">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Đăng nhập phụ huynh</h2>
+
+          <div id="parent-alert-message" class="hidden mb-4 p-3 rounded text-sm"></div>
+
+          <form id="parent-login-form" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
+              <input 
+                type="tel" 
+                id="parent-phone" 
+                name="phone" 
+                required 
+                class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600"
+                placeholder="0912xxxxxx"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+              <div class="relative">
+                <input 
+                  type="password" 
+                  id="parent-password" 
+                  name="password" 
+                  required 
+                  class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600 pr-10"
+                  placeholder="••••••••"
+                />
+                <button 
+                  type="button" 
+                  id="toggle-parent-password"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  <i class="fas fa-eye text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium"
+            >
+              Đăng nhập
+            </button>
+          </form>
+
+          <div class="text-center mt-4 pt-4 border-t border-gray-200">
+            <p class="text-sm text-gray-600">
+              Chưa có tài khoản? 
+              <a href="register.html" class="text-blue-600 hover:text-blue-700 font-medium">
+                Đăng ký ngay
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Tab switching function
+    function switchTab(tabName) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.tab-button');
+      
+      tabs.forEach(tab => tab.classList.remove('active'));
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabName + '-form').classList.add('active');
+      document.getElementById(tabName + '-tab').classList.add('active');
+    }
+
+    // Toggle password visibility
+    function setupPasswordToggle(inputId, buttonId) {
+      document.getElementById(buttonId).addEventListener('click', function() {
+        const input = document.getElementById(inputId);
+        const icon = this.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+    }
+    
+    setupPasswordToggle('password', 'toggle-password');
+    setupPasswordToggle('teacher-password', 'toggle-teacher-password');
+    setupPasswordToggle('parent-password', 'toggle-parent-password');
+    
+    // Show alert message
+    function showAlert(message, type = 'error', elementId = 'alert-message') {
+      const alertDiv = document.getElementById(elementId);
+      alertDiv.className = `mb-4 p-3 rounded text-sm ${
+        type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 
+        type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' :
+        'bg-blue-50 text-blue-700 border border-blue-200'
+      }`;
+      alertDiv.textContent = message;
+      alertDiv.classList.remove('hidden');
+      
+      if (type === 'success') {
+        setTimeout(() => {
+          alertDiv.classList.add('hidden');
+        }, 3000);
+      }
+    }
+    const ACCOUNTS_KEY = 'user_accounts';
+
+    function loadAccounts() {
+      try {
+        const raw = localStorage.getItem(ACCOUNTS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (error) {
+        console.error('Không thể đọc danh sách tài khoản', error);
+        return [];
+      }
+    }
+
+    function normalizeEmail(value) {
+      return (value || '').trim().toLowerCase();
+    }
+
+    function normalizePhone(value) {
+      return (value || '').replace(/\D/g, '');
+    }
+
+    function findStudentAccount(identifier) {
+      const accounts = loadAccounts();
+      const normalizedEmail = normalizeEmail(identifier);
+      const normalizedId = (identifier || '').trim().toUpperCase();
+      // Only return accounts with HS role - strictly filter out GV and PH
+      const account = accounts.find(acc => 
+        (acc.email === normalizedEmail || acc.userId.toUpperCase() === normalizedId) && 
+        acc.role === 'HS'
+      );
+      return account || null;
+    }
+
+    function findTeacherAccount(email, teacherId) {
+      const normalizedEmail = normalizeEmail(email);
+      // For teacher login, only match by email - teacher code was already validated during registration
+      return loadAccounts().find(acc => acc.role === 'GV' && acc.email === normalizedEmail);
+    }
+
+    function findParentAccount(identifier) {
+      const normalizedEmail = normalizeEmail(identifier);
+      const normalizedId = (identifier || '').trim().toUpperCase();
+      const normalizedPhone = normalizePhone(identifier);
+      return loadAccounts().find(acc => acc.role === 'PH' && (acc.phone === normalizedPhone || acc.email === normalizedEmail || acc.userId.toUpperCase() === normalizedId));
+    }
+
+    function completeLogin(account, elementId = 'alert-message') {
+      sessionStorage.setItem('user_id', account.userId);
+      sessionStorage.setItem('user_name', account.name);
+      sessionStorage.setItem('user_role', account.role);
+      sessionStorage.setItem('user_email', account.email || account.phone || '');
+      showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success', elementId);
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    }
+    
+    // Handle student login form submission
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang xử lý...';
+      
+      if (!email || !password) {
+        showAlert('Vui lòng nhập email (hoặc mã HS) và mật khẩu', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      const account = findStudentAccount(email);
+
+      if (!account) {
+        showAlert('Không tìm thấy tài khoản học sinh phù hợp', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      // Extra security check: ensure this is actually a student account
+      if (account.role !== 'HS') {
+        showAlert('Tài khoản này không phải tài khoản học sinh. Vui lòng chọn tab phù hợp.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      if (account.password !== password) {
+        showAlert('Mật khẩu không chính xác', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      completeLogin(account);
+    });
+
+    // Handle teacher login form submission
+    document.getElementById('teacher-login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('teacher-email').value;
+      const password = document.getElementById('teacher-password').value;
+      const teacherCode = document.getElementById('teacher-code').value;
+
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang xử lý...';
+      
+      if (!email || !password || !teacherCode) {
+        showAlert('Vui lòng nhập đầy đủ thông tin', 'error', 'teacher-alert-message');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      // Validate teacher code
+      if (teacherCode.trim() !== TEACHER_INVITE_CODE) {
+        showAlert('Mã giáo viên không hợp lệ', 'error', 'teacher-alert-message');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      const account = findTeacherAccount(email, teacherCode);
+
+      if (!account) {
+        showAlert('Không tìm thấy tài khoản giáo viên phù hợp', 'error', 'teacher-alert-message');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      // Extra security check: ensure this is actually a teacher account
+      if (account.role !== 'GV') {
+        showAlert('Tài khoản này không phải tài khoản giáo viên. Vui lòng chọn tab phù hợp.', 'error', 'teacher-alert-message');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      if (account.password !== password) {
+        showAlert('Mật khẩu không chính xác', 'error', 'teacher-alert-message');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        return;
+      }
+
+      completeLogin(account, 'teacher-alert-message');
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const parentForm = document.getElementById('parent-login-form');
+      if (parentForm) {
+        parentForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const phone = document.getElementById('parent-phone').value;
+          const password = document.getElementById('parent-password').value;
+          const submitBtn = this.querySelector('button[type="submit"]');
+          const originalText = submitBtn.innerHTML;
+
+          if (!phone || !password) {
+            showAlert('Vui lòng nhập số điện thoại và mật khẩu', 'error', 'parent-alert-message');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang xử lý...';
+
+          const account = findParentAccount(phone);
+
+          if (!account) {
+            showAlert('Không tìm thấy tài khoản phụ huynh phù hợp', 'error', 'parent-alert-message');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+          }
+
+          // Extra security check: ensure this is actually a parent account
+          if (account.role !== 'PH') {
+            showAlert('Tài khoản này không phải tài khoản phụ huynh. Vui lòng chọn tab phù hợp.', 'error', 'parent-alert-message');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+          }
+
+          if (account.password !== password) {
+            showAlert('Mật khẩu không chính xác', 'error', 'parent-alert-message');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            return;
+          }
+
+          completeLogin(account, 'parent-alert-message');
+        });
+      }
+    });
+
+    // Debug: Clear all accounts (dev tool)
+    window.clearAllAccounts = function() {
+      if (confirm('Bạn chắc chắn muốn xóa tất cả tài khoản? Hành động này không thể hoàn tác.')) {
+        localStorage.removeItem('user_accounts');
+        sessionStorage.clear();
+        alert('Tất cả tài khoản đã được xóa!');
+        location.reload();
+      }
+    };
+  </script>
+
+  <!-- Debug Panel (hidden, access via console) -->
+  <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <button onclick="window.clearAllAccounts()" style="padding: 8px 12px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">
+      Xóa tài khoản
+    </button>
+  </div>
+  
+</body>
+</html>

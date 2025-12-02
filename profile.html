@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <title>Hồ Sơ - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .light-blue-bg {
+      background-color: #E0F2FE;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    /* Active sidebar item styling */
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+    
+    .sidebar.active {
+      left: 0;
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+    
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
+    }
+    
+    .card-shadow {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-base {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+      border: 1px solid #E2E8F0;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-base::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .card-base:hover {
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border-color: #CBD5F5;
+    }
+
+    .card-base:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid #0F172A;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #0F172A;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #CBD5F5;
+      color: #0F172A;
+    }
+
+    .btn-outline:hover {
+      border-color: #94A3B8;
+      background-color: #F8FAFC;
+    }
+
+    .feature-section {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 320px;
+      border-radius: 20px;
+      background: #ffffff;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 4rem;
+      width: 4rem;
+      border-radius: 12px;
+      background-color: #F8FAFC;
+    }
+
+    .btn-sos {
+      background: #DC2626;
+      border-color: #B91C1C;
+      box-shadow: 0 12px 30px rgba(220, 38, 38, 0.25);
+    }
+
+    .btn-sos:hover {
+      background: #B91C1C;
+    }
+
+    .feature-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-description {
+      font-size: 1.05rem;
+      color: #1E293B;
+      opacity: 0.75;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    main > div {
+      animation: fadeInUp 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .feature-section a {
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      color: #0F172A;
+    }
+
+    .feature-section a:hover {
+      transform: translateY(-2px);
+      border-color: #94A3B8;
+    }
+
+    .hero-card {
+      text-align: center;
+    }
+
+    .hero-tagline {
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: #94A3B8;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 800;
+      color: #0F172A;
+      margin-top: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      margin: 0.5rem auto 1.5rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .hero-actions .btn-primary,
+    .hero-actions .btn-outline {
+      min-width: 140px;
+      border-radius: 999px;
+    }
+    
+      .hero-sos-wrap {
+        margin-top: 1.75rem;
+        display: flex;
+        justify-content: center;
+      }
+    
+      .hero-sos-wrap button {
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+
+    .utility-row {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .utility-row .btn-primary {
+      border-radius: 14px;
+      min-width: 180px;
+      font-size: 1rem;
+    }
+
+    /* Profile Styles */
+    .profile-header-card {
+      padding: 2.5rem 2rem;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .status-active {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+
+    .card-section {
+      padding: 0;
+    }
+
+    .card-section > section {
+      padding: 1.5rem 2rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .section-title span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      width: 140px;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-label i {
+      width: 18px;
+      text-align: center;
+      color: #94A3B8;
+    }
+
+    .info-value {
+      flex: 1;
+      font-size: 0.95rem;
+      color: #1E293B;
+      font-weight: 500;
+    }
+
+    .edit-form {
+      display: none;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    .edit-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #0F172A;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1D4ED8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+    }
+
+    /* Edit Modal */
+    .edit-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
+    }
+
+    .edit-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: #F1F5F9;
+      color: #64748B;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #E2E8F0;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    /* Action buttons styling */
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .action-buttons .btn-primary,
+    .action-buttons .btn-outline {
+      border: none !important;
+      padding: 0.65rem 1.25rem;
+    }
+
+    .action-buttons .btn-primary {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .action-buttons .btn-primary:hover {
+      background: #1E40AF;
+    }
+
+    .action-buttons .btn-outline {
+      background: #F1F5F9;
+      color: #475569;
+    }
+
+    .action-buttons .btn-outline:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    .btn-danger {
+      background: #DC2626 !important;
+      color: white !important;
+      border: none !important;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-danger:hover {
+      background: #B91C1C !important;
+    }
+
+    /* Hero buttons without border */
+    .hero-actions .btn-primary,
+    .hero-actions .btn-outline {
+      border: none !important;
+    }
+
+    .hero-actions .btn-outline {
+      background: #F1F5F9;
+      color: #475569;
+    }
+
+    .hero-actions .btn-outline:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    /* Section title button without border */
+    .section-title .btn-outline {
+      border: none !important;
+      background: #F1F5F9;
+      color: #475569;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .section-title .btn-outline:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    /* Modal overlay fix */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #E2E8F0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: none;
+      background: #F1F5F9;
+      color: #64748B;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    #modal-form-container {
+      padding: 1.5rem;
+    }
+
+    #modal-form-container .form-group {
+      margin-bottom: 1rem;
+    }
+
+    #modal-form-container .action-buttons {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    .badge-soft {
+      background: #D1FAE5;
+      color: #065F46;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .info-row {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .info-label {
+        width: 100%;
+      }
+
+      .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body class="light-blue-bg">
+  <script>
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      const publicPages = ['login.html', 'register.html', 'otp.html'];
+      const isPublic = publicPages.includes(path);
+      const isLoggedIn = !!sessionStorage.getItem('user_id');
+
+      if (!isLoggedIn && !isPublic) {
+        window.location.replace('login.html');
+      }
+
+      if (isLoggedIn && (path === 'login.html' || path === 'register.html')) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <li id="sidebar-login" class="block">
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-sign-in-alt" style="width: 20px; text-align: center;"></i> Đăng nhập
+        </a>
+      </li>
+      <li id="sidebar-register" class="block">
+        <a href="register.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user-plus" style="width: 20px; text-align: center;"></i> Đăng ký
+        </a>
+      </li>
+
+      <li id="sidebar-home" class="hidden">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-home" style="width: 20px; text-align: center;"></i> Trang Chủ
+        </a>
+      </li>
+      <li id="sidebar-profile" class="hidden">
+        <a href="profile.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
+          <i class="fas fa-user" style="width: 20px; text-align: center;"></i> Hồ Sơ
+        </a>
+      </li>
+      <li id="sidebar-assessment" class="hidden">
+        <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá Cảm Xúc
+        </a>
+      </li>
+      <li id="sidebar-chat" class="hidden">
+        <a href="conversation.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-comments" style="width: 20px; text-align: center;"></i> Trò Chuyện
+        </a>
+      </li>
+      <li id="sidebar-prevent" class="hidden">
+        <a href="prevent_violence.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-shield-alt" style="width: 20px; text-align: center;"></i> Phòng Chống
+        </a>
+      </li>
+      <li id="sidebar-sos" class="hidden">
+        <button onclick="triggerSOS()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </button>
+      </li>
+      <li id="sidebar-logout" class="hidden border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
+          </div>
+          HappyEdu VN
+        </div>
+
+        <nav class="nav-menu">
+          <a href="index.html">Trang Chủ</a>
+          <a href="assessment.html">Đánh Giá</a>
+          <a href="conversation.html">Trò Chuyện</a>
+          <a href="prevent_violence.html">Phòng Chống</a>
+          <a href="profile.html" class="active">Hồ Sơ</a>
+        </nav>
+
+        <div class="nav-utilities">
+          <div class="user-pill" id="user-pill">
+            <i class="fas fa-circle text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="px-4 py-10">
+    <div class="max-w-6xl mx-auto space-y-6">
+      <!-- Admin access link for teachers -->
+      <div id="admin-access-link" class="text-right mb-2" style="display: none;">
+        <a href="admin_login.html" class="text-sm text-amber-600 hover:text-amber-700 font-semibold transition">
+          <i class="fas fa-user-shield mr-1"></i>Đăng nhập quản trị viên
+        </a>
+      </div>
+
+      <section class="card-base hero-card profile-header-card">
+        <p class="hero-tagline" id="profile-hero-tagline">Hồ sơ học sinh</p>
+        <div class="profile-avatar" id="profile-avatar-initials">--</div>
+        <h2 class="hero-title" id="profile-name-display">--</h2>
+        <p class="text-gray-500" id="profile-role-text">Học sinh</p>
+        <div class="status-badge status-active">
+          <i class="fas fa-check-circle"></i>
+          <span id="profile-status-text">Đang hoạt động</span>
+        </div>
+        <p class="hero-desc" id="profile-summary">Thông tin cá nhân và hỗ trợ sẽ hiển thị tại đây.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="toggleEdit('personal', true)">
+            <i class="fas fa-pen"></i> Cập nhật thông tin
+          </button>
+          <button class="btn-outline" onclick="window.location.href='change_password.html'">
+            <i class="fas fa-lock"></i> Đổi mật khẩu
+          </button>
+        </div>
+      </section>
+
+      <div class="card-base card-section divide-y divide-gray-100">
+        <section class="py-6">
+          <div class="section-title">
+            <span><i class="fas fa-id-card text-blue-500"></i> Thông tin cá nhân</span>
+            <button class="btn-outline" onclick="toggleEdit('personal')">
+              <i class="fas fa-edit"></i> Chỉnh sửa
+            </button>
+          </div>
+          <div class="mt-6 space-y-2">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-user"></i> Họ tên</div>
+              <div class="info-value" id="personal-fullName">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-cake-candles"></i> Ngày sinh</div>
+              <div class="info-value" id="personal-birthDate">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-graduation-cap"></i> Lớp</div>
+              <div class="info-value" id="personal-grade">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-envelope"></i> Email</div>
+              <div class="info-value" id="personal-email">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-phone"></i> Số điện thoại</div>
+              <div class="info-value" id="personal-phone">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-location-dot"></i> Địa chỉ</div>
+              <div class="info-value" id="personal-address">--</div>
+            </div>
+          </div>
+
+          <form class="edit-form" data-section="personal">
+            <div class="form-group">
+              <label>Họ tên</label>
+              <input type="text" data-field="personal.fullName" />
+            </div>
+            <div class="form-group">
+              <label>Ngày sinh</label>
+              <input type="date" data-field="personal.birthDate" />
+            </div>
+            <div class="form-group">
+              <label>Lớp</label>
+              <input type="text" data-field="personal.grade" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" data-field="personal.email" />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="text" data-field="personal.phone" />
+            </div>
+            <div class="form-group">
+              <label>Địa chỉ</label>
+              <input type="text" data-field="personal.address" />
+            </div>
+            <div class="action-buttons">
+              <button type="button" class="btn-primary" onclick="saveSection('personal')">Lưu thay đổi</button>
+              <button type="button" class="btn-outline" onclick="closeModal()">Hủy</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="py-6 role-section" data-role="HS">
+          <div class="section-title">
+            <span><i class="fas fa-school text-emerald-500"></i> Thông tin học tập</span>
+            <span class="badge-soft">Cập nhật gần nhất</span>
+          </div>
+          <div class="mt-6 space-y-2">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-landmark"></i> Trường</div>
+              <div class="info-value" id="school-name">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-user-tie"></i> GV tư vấn</div>
+              <div class="info-value" id="school-counselor">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-phone-volume"></i> Điện thoại</div>
+              <div class="info-value" id="school-counselorPhone">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-inbox"></i> Email hỗ trợ</div>
+              <div class="info-value" id="school-advisorEmail">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-people-group"></i> Câu lạc bộ</div>
+              <div class="info-value" id="school-club">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-trophy"></i> Thành tích</div>
+              <div class="info-value" id="school-achievements">--</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="py-6 role-section" data-role="HS">
+          <div class="section-title">
+            <span><i class="fas fa-heart text-rose-500"></i> Liên hệ khẩn cấp</span>
+            <button class="btn-outline" onclick="toggleEdit('emergency')">
+              <i class="fas fa-edit"></i> Cập nhật
+            </button>
+          </div>
+          <div class="mt-6 space-y-2">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-person"></i> Người liên hệ chính</div>
+              <div class="info-value" id="emergency-parentName">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-people-arrows"></i> Mối quan hệ</div>
+              <div class="info-value" id="emergency-parentRelation">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-mobile-screen"></i> Số điện thoại</div>
+              <div class="info-value" id="emergency-parentPhone">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-user-shield"></i> Liên hệ dự phòng</div>
+              <div class="info-value" id="emergency-backupContact">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-phone"></i> Số dự phòng</div>
+              <div class="info-value" id="emergency-backupPhone">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-prescription-bottle-medical"></i> Ghi chú y tế</div>
+              <div class="info-value" id="emergency-medicalNote">--</div>
+            </div>
+          </div>
+
+          <form class="edit-form" data-section="emergency">
+            <div class="form-group">
+              <label>Người liên hệ chính</label>
+              <input type="text" data-field="emergency.parentName" />
+            </div>
+            <div class="form-group">
+              <label>Mối quan hệ</label>
+              <input type="text" data-field="emergency.parentRelation" />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="text" data-field="emergency.parentPhone" />
+            </div>
+            <div class="form-group">
+              <label>Liên hệ dự phòng</label>
+              <input type="text" data-field="emergency.backupContact" />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại dự phòng</label>
+              <input type="text" data-field="emergency.backupPhone" />
+            </div>
+            <div class="form-group">
+              <label>Ghi chú y tế</label>
+              <textarea rows="3" data-field="emergency.medicalNote"></textarea>
+            </div>
+            <div class="action-buttons">
+              <button type="button" class="btn-primary" onclick="saveSection('emergency')">Lưu liên hệ</button>
+              <button type="button" class="btn-outline" onclick="closeModal()">Đóng</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Teacher Teaching Info Section -->
+        <section class="py-6 role-section" data-role="GV">
+          <div class="section-title">
+            <span><i class="fas fa-book text-amber-500"></i> Thông tin dạy học</span>
+            <button class="btn-outline" onclick="toggleEdit('teaching')">
+              <i class="fas fa-edit"></i> Cập nhật
+            </button>
+          </div>
+          <div class="mt-6 space-y-2">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-graduation-cap"></i> Môn dạy</div>
+              <div class="info-value" id="teaching-subject">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-layer-group"></i> Khối</div>
+              <div class="info-value" id="teaching-grade">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-users"></i> Lớp dạy</div>
+              <div class="info-value" id="teaching-classes">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-certificate"></i> Bằng cấp</div>
+              <div class="info-value" id="teaching-qualification">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-clock-history"></i> Kinh nghiệm</div>
+              <div class="info-value" id="teaching-experience">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-door-open"></i> Phòng công vụ</div>
+              <div class="info-value" id="teaching-officeRoom">--</div>
+            </div>
+          </div>
+
+          <form class="edit-form" data-section="teaching">
+            <div class="form-group">
+              <label>Môn dạy</label>
+              <input type="text" data-field="teaching.subject" />
+            </div>
+            <div class="form-group">
+              <label>Khối</label>
+              <input type="text" data-field="teaching.grade" />
+            </div>
+            <div class="form-group">
+              <label>Lớp dạy</label>
+              <input type="text" data-field="teaching.classes" />
+            </div>
+            <div class="form-group">
+              <label>Bằng cấp</label>
+              <input type="text" data-field="teaching.qualification" />
+            </div>
+            <div class="form-group">
+              <label>Kinh nghiệm (năm)</label>
+              <input type="number" data-field="teaching.experience" />
+            </div>
+            <div class="form-group">
+              <label>Phòng công vụ</label>
+              <input type="text" data-field="teaching.officeRoom" />
+            </div>
+            <div class="action-buttons">
+              <button type="button" class="btn-primary" onclick="saveSection('teaching')">Lưu thay đổi</button>
+              <button type="button" class="btn-outline" onclick="closeModal()">Hủy</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Parent Children Info Section -->
+        <section class="py-6 role-section" data-role="PH">
+          <div class="section-title">
+            <span><i class="fas fa-children text-pink-500"></i> Thông tin con em</span>
+            <button class="btn-outline" onclick="toggleEdit('children')">
+              <i class="fas fa-edit"></i> Cập nhật
+            </button>
+          </div>
+          <div class="mt-6 space-y-2">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-child"></i> Tên con</div>
+              <div class="info-value" id="children-childName">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-layer-group"></i> Lớp</div>
+              <div class="info-value" id="children-childGrade">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-school"></i> Trường</div>
+              <div class="info-value" id="children-childSchool">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-handshake"></i> Mối quan hệ</div>
+              <div class="info-value" id="children-relationship">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-note-sticky"></i> Ghi chú</div>
+              <div class="info-value" id="children-emergencyNote">--</div>
+            </div>
+          </div>
+
+          <form class="edit-form" data-section="children">
+            <div class="form-group">
+              <label>Tên con</label>
+              <input type="text" data-field="children.childName" />
+            </div>
+            <div class="form-group">
+              <label>Lớp</label>
+              <input type="text" data-field="children.childGrade" />
+            </div>
+            <div class="form-group">
+              <label>Trường</label>
+              <input type="text" data-field="children.childSchool" />
+            </div>
+            <div class="form-group">
+              <label>Mối quan hệ</label>
+              <input type="text" data-field="children.relationship" />
+            </div>
+            <div class="form-group">
+              <label>Ghi chú</label>
+              <textarea rows="3" data-field="children.emergencyNote"></textarea>
+            </div>
+            <div class="action-buttons">
+              <button type="button" class="btn-primary" onclick="saveSection('children')">Lưu thay đổi</button>
+              <button type="button" class="btn-outline" onclick="closeModal()">Hủy</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="py-6">
+          <div class="section-title">
+            <span><i class="fas fa-shield-halved text-indigo-500"></i> Thiết lập bảo mật</span>
+            <span class="badge-soft">An toàn</span>
+          </div>
+          <div class="mt-6 space-y-4">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-clock"></i> Đăng nhập gần nhất</div>
+              <div class="info-value" id="security-lastLogin">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-key"></i> Đổi mật khẩu</div>
+              <div class="info-value" id="security-passwordChange">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-shield"></i> Xác thực 2 lớp</div>
+              <div class="info-value" id="security-twoFactor">--</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-laptop"></i> Thiết bị đang dùng</div>
+              <div class="info-value" id="security-devices">--</div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn-outline" onclick="window.location.href='change_password.html'">
+              <i class="fas fa-unlock"></i> Nhắc đổi mật khẩu
+            </button>
+            <button class="btn-primary" onclick="showSecurityReminder('2fa')">
+              <i class="fas fa-mobile-alt"></i> Bật mã 2 lớp
+            </button>
+          </div>
+        </section>
+
+        <section class="py-6">
+          <div class="section-title mb-4">
+            <span><i class="fas fa-history text-amber-500"></i> Hoạt động gần đây</span>
+            <span class="text-sm text-gray-500">Tự động ghi nhận</span>
+          </div>
+          <ul class="activity-list">
+            <li>
+              <div>
+                <strong>Cập nhật hồ sơ</strong>
+                <p class="text-sm text-gray-500">Bạn vừa chỉnh sửa mục thông tin cá nhân</p>
+              </div>
+              <span>Vài phút trước</span>
+            </li>
+            <li>
+              <div>
+                <strong>Đăng nhập thành công</strong>
+                <p class="text-sm text-gray-500">Thiết bị: Laptop trường</p>
+              </div>
+              <span>Hôm qua</span>
+            </li>
+            <li>
+              <div>
+                <strong>Nhận tư vấn</strong>
+                <p class="text-sm text-gray-500">Hoàn tất cuộc trò chuyện với chuyên gia</p>
+              </div>
+              <span>2 ngày trước</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="py-6">
+          <div class="action-buttons">
+            <button class="btn-danger" onclick="logoutUser()">
+              <i class="fas fa-sign-out-alt"></i> Đăng xuất
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="modal-header" id="modal-title">Chỉnh sửa thông tin</div>
+      <div id="modal-form-container"></div>
+    </div>
+  </div>
+
+  <footer class="text-center py-6 text-gray-600 mt-8 text-sm">
+    <p>&copy; 2025 HappyEdu VN. Tất cả quyền được bảo lưu.</p>
+  </footer>
+
+  <script>
+    function initSidebarToggle() {
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      if (!sidebar || !sidebarOverlay) return;
+
+      const closeSidebar = () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      };
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+          sidebar.classList.toggle('active');
+          sidebarOverlay.classList.toggle('active');
+        });
+      }
+
+      sidebarOverlay.addEventListener('click', closeSidebar);
+
+      const sidebarLinks = sidebar.querySelectorAll('a, button');
+      sidebarLinks.forEach(link => link.addEventListener('click', closeSidebar));
+
+      const desktopQuery = window.matchMedia('(min-width: 769px)');
+      const handleDesktopMatch = (e) => {
+        if (e.matches) {
+          closeSidebar();
+        }
+      };
+
+      if (desktopQuery.addEventListener) {
+        desktopQuery.addEventListener('change', handleDesktopMatch);
+      } else if (desktopQuery.addListener) {
+        desktopQuery.addListener(handleDesktopMatch);
+      }
+
+      if (desktopQuery.matches) {
+        closeSidebar();
+      }
+    }
+
+    function loadUserInfo() {
+      const userID = sessionStorage.getItem('user_id') || null;
+      const userName = sessionStorage.getItem('user_name') || 'Chưa đăng nhập';
+      const userRole = sessionStorage.getItem('user_role') || 'HS';
+      const isLoggedIn = !!userID;
+      const displayId = isLoggedIn && userID ? `${userID} - ${userRole}` : '000000 - HS';
+
+      const userNameEl = document.getElementById('user-name');
+      const sidebarNameEl = document.getElementById('sidebar-user-name');
+      const pillIdEl = document.getElementById('user-id-display');
+      const sidebarIdEl = document.getElementById('sidebar-user-id');
+
+      if (userNameEl) userNameEl.textContent = userName;
+      if (sidebarNameEl) sidebarNameEl.textContent = userName;
+      if (pillIdEl) pillIdEl.textContent = displayId;
+      if (sidebarIdEl) sidebarIdEl.textContent = displayId;
+
+      updateSidebarMenu(isLoggedIn);
+    }
+
+    function updateSidebarMenu(isLoggedIn) {
+      const loginItem = document.getElementById('sidebar-login');
+      const registerItem = document.getElementById('sidebar-register');
+      const homeItem = document.getElementById('sidebar-home');
+      const profileItem = document.getElementById('sidebar-profile');
+      const assessmentItem = document.getElementById('sidebar-assessment');
+      const chatItem = document.getElementById('sidebar-chat');
+      const preventItem = document.getElementById('sidebar-prevent');
+      const sosItem = document.getElementById('sidebar-sos');
+      const logoutItem = document.getElementById('sidebar-logout');
+      const toggle = (item, show) => {
+        if (!item) return;
+        item.classList.toggle('hidden', !show);
+      };
+
+      if (isLoggedIn) {
+        toggle(loginItem, false);
+        toggle(registerItem, false);
+        toggle(homeItem, true);
+        toggle(profileItem, true);
+        toggle(assessmentItem, true);
+        toggle(chatItem, true);
+        toggle(preventItem, true);
+        toggle(sosItem, true);
+        toggle(logoutItem, true);
+      } else {
+        toggle(loginItem, true);
+        toggle(registerItem, true);
+        toggle(homeItem, false);
+        toggle(profileItem, false);
+        toggle(assessmentItem, false);
+        toggle(chatItem, false);
+        toggle(preventItem, false);
+        toggle(sosItem, false);
+        toggle(logoutItem, false);
+      }
+    }
+
+
+    // Highlight current page in sidebar
+    function highlightActiveSidebarItem() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      
+      // Remove active class from all sidebar links
+      const allLinks = document.querySelectorAll('.sidebar a, .sidebar button[onclick*="triggerSOS"]');
+      allLinks.forEach(link => link.classList.remove('active'));
+      
+      // Add active class to current page link
+      if (currentPage === 'index.html' || currentPage === '') {
+        const homeLink = document.querySelector('#sidebar-home a');
+        if (homeLink) homeLink.classList.add('active');
+      } else if (currentPage === 'profile.html') {
+        const profileLink = document.querySelector('#sidebar-profile a');
+        if (profileLink) profileLink.classList.add('active');
+      } else if (currentPage === 'assessment.html') {
+        const assessmentLink = document.querySelector('#sidebar-assessment a');
+        if (assessmentLink) assessmentLink.classList.add('active');
+      } else if (currentPage === 'conversation.html' || currentPage === 'chat.html') {
+        const chatLink = document.querySelector('#sidebar-chat a');
+        if (chatLink) chatLink.classList.add('active');
+      } else if (currentPage === 'prevent_violence.html') {
+        const preventLink = document.querySelector('#sidebar-prevent a');
+        if (preventLink) preventLink.classList.add('active');
+      }
+    }
+
+
+
+    function logoutUser() {
+      if (confirm('Bạn chắc chắn muốn đăng xuất?')) {
+        sessionStorage.removeItem('user_id');
+        sessionStorage.removeItem('user_name');
+        sessionStorage.removeItem('user_role');
+        sessionStorage.removeItem('user_email');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        if (sidebar) sidebar.classList.remove('active');
+        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+        updateSidebarMenu(false);
+        loadUserInfo();
+        alert('Đã đăng xuất thành công!');
+        // Force redirect to login
+        window.location.replace('login.html');
+      }
+    }
+
+    function triggerSOS() {
+      sendSOSRequest();
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      if (sidebar) sidebar.classList.remove('active');
+      if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+    }
+
+    function sendSOSRequest(buttonElm) {
+      const sosButton = buttonElm || document.getElementById('sos-button');
+      const userID = sessionStorage.getItem('user_id') || 'Unknown';
+      const userRole = sessionStorage.getItem('user_role') || 'Unknown';
+      if (!confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) {
+        return;
+      }
+      const originalLabel = sosButton ? sosButton.innerHTML : '<i class="fas fa-exclamation-triangle"></i> SOS Khẩn Cấp';
+      if (sosButton) {
+        sosButton.disabled = true;
+        sosButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang gửi...';
+      }
+      fetch('/api/sos/send', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: userID,
+          user_role: userRole,
+          timestamp: new Date().toISOString()
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.success ? 'Tín hiệu SOS đã được gửi thành công!' : 'Lỗi khi gửi SOS: ' + (data.message || 'Unknown error'));
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Lỗi kết nối: ' + error.message);
+        })
+        .finally(() => {
+          if (sosButton) {
+            sosButton.disabled = false;
+            sosButton.innerHTML = originalLabel;
+          }
+        });
+    }
+
+    function setupSOSButton() {
+      const sosButton = document.getElementById('sos-button');
+      if (!sosButton) return;
+      sosButton.addEventListener('click', function() {
+        sendSOSRequest(sosButton);
+      });
+    }
+
+    const PROFILE_STORAGE_KEY = 'student_protect_profile';
+
+    const defaultProfile = {
+      personal: {
+        fullName: 'Chưa xác định',
+        birthDate: 'Chưa xác định',
+        grade: 'Chưa xác định',
+        email: 'Chưa xác định',
+        phone: 'Chưa xác định',
+        address: 'Chưa xác định'
+      },
+      school: {
+        schoolName: 'Chưa xác định',
+        counselor: 'Chưa xác định',
+        counselorPhone: 'Chưa xác định',
+        advisorEmail: 'Chưa xác định',
+        club: 'Chưa xác định',
+        achievements: 'Chưa xác định'
+      },
+      teaching: {
+        subject: 'Chưa xác định',
+        grade: 'Chưa xác định',
+        classes: 'Chưa xác định',
+        qualification: 'Chưa xác định',
+        experience: 'Chưa xác định',
+        officeRoom: 'Chưa xác định'
+      },
+      children: {
+        childName: 'Chưa xác định',
+        childGrade: 'Chưa xác định',
+        childSchool: 'Chưa xác định',
+        relationship: 'Chưa xác định',
+        emergencyNote: 'Chưa xác định'
+      },
+      emergency: {
+        parentName: 'Chưa xác định',
+        parentRelation: 'Chưa xác định',
+        parentPhone: 'Chưa xác định',
+        backupContact: 'Chưa xác định',
+        backupPhone: 'Chưa xác định',
+        medicalNote: 'Chưa xác định'
+      },
+      security: {
+        lastLogin: 'Chưa xác định',
+        lastPasswordChange: 'Chưa xác định',
+        twoFactor: 'Chưa xác định',
+        devices: 'Chưa xác định'
+      }
+    };
+
+    let profileState = null;
+
+    function getSessionSecurityOverrides() {
+      const sessionSecurity = {
+        lastLogin: sessionStorage.getItem('security_lastLogin'),
+        lastPasswordChange: sessionStorage.getItem('security_lastPasswordChange'),
+        twoFactor: sessionStorage.getItem('security_twoFactor'),
+        devices: sessionStorage.getItem('security_devices')
+      };
+      return Object.fromEntries(
+        Object.entries(sessionSecurity).filter(([, value]) => value && typeof value === 'string' && value.trim() !== '')
+      );
+    }
+
+    function updateRoleBasedVisibility() {
+      const userRole = sessionStorage.getItem('user_role') || 'HS';
+      const sections = document.querySelectorAll('.role-section');
+      
+      sections.forEach(section => {
+        const sectionRole = section.getAttribute('data-role');
+        // Show if role matches, hide otherwise
+        section.style.display = sectionRole === userRole ? 'block' : 'none';
+      });
+
+      // Show admin access link only for teachers (GV)
+      const adminLink = document.getElementById('admin-access-link');
+      if (adminLink) {
+        adminLink.style.display = userRole === 'GV' ? 'block' : 'none';
+      }
+    }
+
+    function loadProfileData() {
+      const savedRaw = localStorage.getItem(PROFILE_STORAGE_KEY);
+      let saved = null;
+      try {
+        saved = savedRaw ? JSON.parse(savedRaw) : null;
+      } catch (error) {
+        console.error('Không thể đọc dữ liệu hồ sơ:', error);
+      }
+
+      const sessionName = sessionStorage.getItem('user_name');
+      const sessionEmail = sessionStorage.getItem('user_email');
+      const personalOverride = {
+        fullName: sessionName || defaultProfile.personal.fullName,
+        email: sessionEmail || defaultProfile.personal.email
+      };
+      const sessionSecurity = getSessionSecurityOverrides();
+
+      // Auto-update last login and devices
+      const today = new Date().toLocaleDateString('vi-VN');
+      const userAgent = navigator.userAgent.includes('Mobile') ? 'Điện thoại di động' : 'Máy tính';
+      
+      profileState = {
+        personal: {
+          ...defaultProfile.personal,
+          ...(saved?.personal || {}),
+          ...personalOverride
+        },
+        school: { ...defaultProfile.school, ...(saved?.school || {}) },
+        teaching: { ...defaultProfile.teaching, ...(saved?.teaching || {}) },
+        children: { ...defaultProfile.children, ...(saved?.children || {}) },
+        emergency: { ...defaultProfile.emergency, ...(saved?.emergency || {}) },
+        security: {
+          ...defaultProfile.security,
+          ...(saved?.security || {}),
+          ...sessionSecurity,
+          lastLogin: today,
+          devices: userAgent
+        }
+      };
+
+      renderProfile();
+      updateRoleBasedVisibility();
+    }
+
+    function setText(id, value, fallback = 'Chưa xác định') {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = value && value !== '' ? value : fallback;
+      }
+    }
+
+    function getInitials(name = '') {
+      return name
+        .split(' ')
+        .filter(Boolean)
+        .map(part => part[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase() || '--';
+    }
+
+    function renderProfile() {
+      if (!profileState) return;
+      const { personal, school, emergency, security } = profileState;
+
+      setText('profile-name-display', personal.fullName);
+      const sessionRole = sessionStorage.getItem('user_role') || 'HS';
+      const heroTaglineText = sessionRole === 'PH' ? 'Hồ sơ phụ huynh' : sessionRole === 'GV' ? 'Hồ sơ giáo viên' : 'Hồ sơ học sinh';
+      setText('profile-hero-tagline', heroTaglineText, heroTaglineText);
+      const roleText = sessionRole === 'PH'
+        ? 'Phụ huynh'
+        : sessionRole === 'GV'
+          ? 'Giáo viên'
+          : (school.schoolName !== 'Chưa xác định' ? `Học sinh ${school.schoolName}` : 'Học sinh');
+      setText('profile-role-text', roleText, roleText);
+      const summaryParts = [personal.grade, personal.email, personal.phone].filter(part => part && part !== 'Chưa xác định');
+      const summaryFallback = sessionRole === 'PH'
+        ? 'Quản lý hồ sơ và hỗ trợ cho con bạn'
+        : 'Thông tin cá nhân và hỗ trợ sẽ hiển thị tại đây.';
+      const summaryText = summaryParts.length ? summaryParts.join(' · ') : summaryFallback;
+      setText('profile-summary', summaryText, summaryText);
+      setText('profile-status-text', 'Đang hoạt động');
+
+      const avatar = document.getElementById('profile-avatar-initials');
+      if (avatar) {
+        avatar.textContent = getInitials(personal.fullName);
+      }
+
+      setText('personal-fullName', personal.fullName);
+      setText('personal-birthDate', personal.birthDate);
+      setText('personal-grade', personal.grade);
+      setText('personal-email', personal.email);
+      setText('personal-phone', personal.phone);
+      setText('personal-address', personal.address);
+
+      setText('school-name', school.schoolName);
+      setText('school-counselor', school.counselor);
+      setText('school-counselorPhone', school.counselorPhone);
+      setText('school-advisorEmail', school.advisorEmail);
+      setText('school-club', school.club);
+      setText('school-achievements', school.achievements);
+
+      // Teaching info for teachers (GV)
+      const teaching = profileState.teaching || {};
+      setText('teaching-subject', teaching.subject);
+      setText('teaching-grade', teaching.grade);
+      setText('teaching-classes', teaching.classes);
+      setText('teaching-qualification', teaching.qualification);
+      setText('teaching-experience', teaching.experience);
+      setText('teaching-officeRoom', teaching.officeRoom);
+
+      // Children info for parents (PH)
+      const children = profileState.children || {};
+      setText('children-childName', children.childName);
+      setText('children-childGrade', children.childGrade);
+      setText('children-childSchool', children.childSchool);
+      setText('children-relationship', children.relationship);
+      setText('children-emergencyNote', children.emergencyNote);
+
+      setText('emergency-parentName', emergency.parentName);
+      setText('emergency-parentRelation', emergency.parentRelation);
+      setText('emergency-parentPhone', emergency.parentPhone);
+      setText('emergency-backupContact', emergency.backupContact);
+      setText('emergency-backupPhone', emergency.backupPhone);
+      setText('emergency-medicalNote', emergency.medicalNote);
+
+      setText('security-lastLogin', security.lastLogin);
+      setText('security-passwordChange', security.lastPasswordChange);
+      setText('security-twoFactor', security.twoFactor);
+      setText('security-devices', security.devices);
+    }
+
+    function toggleEdit(section, forceOpen) {
+      const form = document.querySelector(`.edit-form[data-section="${section}"]`);
+      if (!form) return;
+      
+      // Open modal with form
+      openModal(form, section);
+    }
+
+    function openModal(form, section) {
+      const modal = document.getElementById('edit-modal');
+      const container = document.getElementById('modal-form-container');
+      const title = document.getElementById('modal-title');
+      
+      // Set title based on section
+      if (section === 'personal') {
+        title.textContent = 'Chỉnh sửa thông tin cá nhân';
+      } else if (section === 'emergency') {
+        title.textContent = 'Chỉnh sửa thông tin liên hệ';
+      } else if (section === 'teaching') {
+        title.textContent = 'Chỉnh sửa thông tin dạy học';
+      } else if (section === 'children') {
+        title.textContent = 'Chỉnh sửa thông tin con em';
+      }
+      
+      // Clone form content to modal
+      container.innerHTML = form.innerHTML;
+      
+      // Populate form with current values
+      if (profileState) {
+        const inputs = container.querySelectorAll('[data-field]');
+        inputs.forEach(input => {
+          const path = input.dataset.field;
+          const value = getValueByPath(profileState, path);
+          if (value && value.trim() !== '') {
+            input.value = value;
+            input.placeholder = '';
+          } else {
+            input.value = '';
+            input.placeholder = 'Chưa xác định';
+          }
+        });
+      }
+      
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('edit-modal');
+      modal.classList.remove('active');
+    }
+
+    function getValueByPath(source, path) {
+      return path.split('.').reduce((acc, key) => {
+        if (acc && typeof acc === 'object') {
+          return acc[key];
+        }
+        return undefined;
+      }, source);
+    }
+
+    function saveSection(section) {
+      if (!profileState) return;
+      
+      // Get inputs from modal
+      const modalInputs = document.querySelectorAll('#modal-form-container [data-field]');
+      if (modalInputs.length === 0) return;
+      
+      modalInputs.forEach(input => {
+        const [group, field] = input.dataset.field.split('.');
+        if (!profileState[group]) {
+          profileState[group] = {};
+        }
+        profileState[group][field] = input.value.trim();
+      });
+      persistProfile();
+      renderProfile();
+      closeModal();
+      alert('Thông tin đã được lưu thành công.');
+    }
+
+    function persistProfile() {
+      try {
+        localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profileState));
+      } catch (error) {
+        console.error('Không thể lưu thông tin hồ sơ:', error);
+      }
+    }
+
+    function showSecurityReminder(type) {
+      if (type === 'password') {
+        const confirmed = confirm('Bạn muốn đổi mật khẩu ngay bây giờ?\n\nNên đổi mật khẩu ít nhất mỗi 90 ngày để bảo vệ tài khoản.');
+        if (confirmed && profileState) {
+          const today = new Date().toLocaleDateString('vi-VN');
+          profileState.security.lastPasswordChange = today;
+          persistProfile();
+          renderProfile();
+          alert('Mật khẩu đã được cập nhật!');
+        }
+      } else if (type === '2fa') {
+        const confirmed = confirm('Bạn muốn bật xác thực 2 lớp?\n\nXác thực 2 lớp sẽ tăng cường bảo mật tài khoản của bạn.');
+        if (confirmed && profileState) {
+          profileState.security.twoFactor = 'Đã bật';
+          persistProfile();
+          renderProfile();
+          alert('Xác thực 2 lớp đã được bật thành công!');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initSidebarToggle();
+      loadUserInfo();
+      setupSOSButton();
+      loadProfileData();
+      setupModalEvents();
+    });
+
+    function setupModalEvents() {
+      const modal = document.getElementById('edit-modal');
+      if (!modal) return;
+
+      // Close modal when clicking outside (on overlay)
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Close modal with back button on mobile
+      window.addEventListener('popstate', function() {
+        closeModal();
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

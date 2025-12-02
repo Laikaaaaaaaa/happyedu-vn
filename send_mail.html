@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <title>Gửi Mail - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .light-blue-bg {
+      background-color: #E0F2FE;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    /* Active sidebar item styling */
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+    
+    .sidebar.active {
+      left: 0;
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+    
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
+    }
+    
+    .card-shadow {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-base {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+      border: 1px solid #E2E8F0;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-base::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .card-base:hover {
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border-color: #CBD5F5;
+    }
+
+    .card-base:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid #0F172A;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #0F172A;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #CBD5F5;
+      color: #0F172A;
+    }
+
+    .btn-outline:hover {
+      border-color: #94A3B8;
+      background-color: #F8FAFC;
+    }
+
+    .feature-section {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 320px;
+      border-radius: 20px;
+      background: #ffffff;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 4rem;
+      width: 4rem;
+      border-radius: 12px;
+      background-color: #F8FAFC;
+    }
+
+    .btn-sos {
+      background: #DC2626;
+      border-color: #B91C1C;
+      box-shadow: 0 12px 30px rgba(220, 38, 38, 0.25);
+    }
+
+    .btn-sos:hover {
+      background: #B91C1C;
+    }
+
+    .feature-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-description {
+      font-size: 1.05rem;
+      color: #1E293B;
+      opacity: 0.75;
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    main > div {
+      animation: fadeInUp 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .feature-section a {
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      color: #0F172A;
+    }
+
+    .feature-section a:hover {
+      transform: translateY(-2px);
+      border-color: #94A3B8;
+    }
+
+    .hero-card {
+      text-align: center;
+    }
+
+    .hero-tagline {
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      color: #94A3B8;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 800;
+      color: #0F172A;
+      margin-top: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      margin: 0.5rem auto 1.5rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .hero-actions .btn-primary,
+    .hero-actions .btn-outline {
+      min-width: 140px;
+      border-radius: 999px;
+    }
+    
+      .hero-sos-wrap {
+        margin-top: 1.75rem;
+        display: flex;
+        justify-content: center;
+      }
+    
+      .hero-sos-wrap button {
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+
+    .utility-row {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .utility-row .btn-primary {
+      border-radius: 14px;
+      min-width: 180px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body class="light-blue-bg">
+  <script>
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      const publicPages = ['login.html', 'register.html', 'otp.html'];
+      const isPublic = publicPages.includes(path);
+      const isLoggedIn = !!sessionStorage.getItem('user_id');
+
+      if (!isLoggedIn && !isPublic) {
+        window.location.replace('login.html');
+      }
+
+      if (isLoggedIn && (path === 'login.html' || path === 'register.html')) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
+  <!-- Sidebar Overlay -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <!-- Not logged in menu -->
+      <li id="sidebar-login" class="block">
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-sign-in-alt" style="width: 20px; text-align: center;"></i> Đăng nhập
+        </a>
+      </li>
+      <li id="sidebar-register" class="block">
+        <a href="register.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user-plus" style="width: 20px; text-align: center;"></i> Đăng ký
+        </a>
+      </li>
+
+      <!-- Logged in menu -->
+      <li id="sidebar-home" class="hidden">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-home" style="width: 20px; text-align: center;"></i> Trang Chủ
+        </a>
+      </li>
+      <li id="sidebar-profile" class="hidden">
+        <a href="profile.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user" style="width: 20px; text-align: center;"></i> Hồ Sơ
+        </a>
+      </li>
+      <li id="sidebar-assessment" class="hidden">
+        <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-heart-pulse" style="width: 20px; text-align: center;"></i> Đánh giá
+        </a>
+      </li>
+      <li id="sidebar-chat" class="hidden">
+        <a href="conversation.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-comments" style="width: 20px; text-align: center;"></i> Trò Chuyện
+        </a>
+      </li>
+      <li id="sidebar-prevent" class="hidden">
+        <a href="prevent_violence.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-shield-alt" style="width: 20px; text-align: center;"></i> Phòng Chống
+        </a>
+      </li>
+      <li id="sidebar-sos" class="hidden">
+        <button onclick="triggerSOS()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </button>
+      </li>
+      <li id="sidebar-logout" class="hidden border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
+          </div>
+          HappyEdu VN
+        </div>
+
+        <nav class="nav-menu">
+          <a href="index.html">Trang Chủ</a>
+          <a href="assessment.html">Đánh Giá</a>
+          <a href="conversation.html">Trò Chuyện</a>
+          <a href="prevent_violence.html">Phòng Chống</a>
+          <a href="profile.html">Hồ Sơ</a>
+        </nav>
+
+        <div class="nav-utilities">
+          <div class="user-pill" id="user-pill">
+            <i class="fas fa-circle text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    
+    <!-- Form Section -->
+    <div class="bg-white rounded-lg card-shadow p-8 mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        <i class="fas fa-envelope text-blue-500 mr-2"></i>Soạn Thông Báo
+      </h2>
+
+      <div id="alert-message" class="hidden mb-4 p-3 rounded text-sm"></div>
+
+      <form id="send-mail-form" class="space-y-6">
+        
+        <!-- Chọn loại người nhận -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Người Nhận <span class="text-red-500">*</span></label>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <input type="radio" id="recipient-students" name="recipient_type" value="students" checked class="w-4 h-4 text-blue-600">
+              <label for="recipient-students" class="ml-2 text-gray-700">Học sinh</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" id="recipient-teachers" name="recipient_type" value="teachers" class="w-4 h-4 text-blue-600">
+              <label for="recipient-teachers" class="ml-2 text-gray-700">Giáo viên</label>
+            </div>
+            <div class="flex items-center">
+              <input type="radio" id="recipient-all" name="recipient_type" value="all" class="w-4 h-4 text-blue-600">
+              <label for="recipient-all" class="ml-2 text-gray-700">Tất cả</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email nhận -->
+        <div>
+          <label for="recipient-email" class="block text-sm font-medium text-gray-700 mb-2">Email Nhận <span class="text-red-500">*</span></label>
+          <input 
+            type="email" 
+            id="recipient-email" 
+            name="recipient_email" 
+            required 
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-600 transition-colors"
+            placeholder="abc@example.com"
+          />
+        </div>
+
+        <!-- Tiêu đề -->
+        <div>
+          <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Tiêu Đề <span class="text-red-500">*</span></label>
+          <input 
+            type="text" 
+            id="subject" 
+            name="subject" 
+            required 
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-600 transition-colors"
+            placeholder="Nhập tiêu đề thông báo"
+          />
+        </div>
+
+        <!-- Nội dung -->
+        <div>
+          <label for="body" class="block text-sm font-medium text-gray-700 mb-2">Nội Dung <span class="text-red-500">*</span></label>
+          <textarea 
+            id="body" 
+            name="body" 
+            required 
+            rows="8"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-600 transition-colors resize-none"
+            placeholder="Nhập nội dung thông báo..."
+          ></textarea>
+          <p class="text-xs text-gray-500 mt-1">Tối thiểu 10 ký tự</p>
+        </div>
+
+        <!-- Loại thông báo -->
+        <div>
+          <label for="mail-type" class="block text-sm font-medium text-gray-700 mb-2">Loại Thông Báo</label>
+          <select 
+            id="mail-type" 
+            name="mail_type"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-600 transition-colors"
+          >
+            <option value="info">Thông tin</option>
+            <option value="warning">Cảnh báo</option>
+            <option value="important">Quan trọng</option>
+            <option value="announcement">Thông báo</option>
+          </select>
+        </div>
+
+        <!-- Checkbox: Gửi ngay -->
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="send-immediately" 
+            name="send_immediately" 
+            checked
+            class="w-4 h-4 text-blue-600 border-gray-300 rounded"
+          />
+          <label for="send-immediately" class="ml-2 text-gray-700">Gửi ngay lập tức</label>
+        </div>
+
+        <!-- Nút submit -->
+        <div class="flex gap-4 pt-4">
+          <button 
+            type="submit" 
+            class="flex-1 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-lg text-white rounded-lg font-medium transition-all"
+          >
+            <i class="fas fa-paper-plane mr-2"></i>Gửi Thông Báo
+          </button>
+          <button 
+            type="reset" 
+            class="flex-1 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition-colors"
+          >
+            <i class="fas fa-redo mr-2"></i>Xóa
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Email Preview Section -->
+    <div class="bg-white rounded-lg card-shadow p-8">
+      <h3 class="text-xl font-bold text-gray-800 mb-4">
+        <i class="fas fa-eye text-blue-500 mr-2"></i>Xem Trước
+      </h3>
+      
+      <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+        <div class="mb-4">
+          <p class="text-sm text-gray-600">
+            <strong>Gửi tới:</strong> <span id="preview-email">abc@example.com</span>
+          </p>
+          <p class="text-sm text-gray-600 mt-2">
+            <strong>Tiêu đề:</strong> <span id="preview-subject" class="text-gray-800 font-medium">Tiêu đề thông báo</span>
+          </p>
+          <p class="text-sm text-gray-600 mt-2">
+            <strong>Loại:</strong> <span id="preview-type" class="inline-block px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">Thông tin</span>
+          </p>
+        </div>
+        
+        <div class="border-t border-gray-200 pt-4">
+          <p class="text-sm text-gray-600 mb-2">
+            <strong>Nội dung:</strong>
+          </p>
+          <p id="preview-body" class="text-gray-700 whitespace-pre-wrap">Nội dung thông báo sẽ hiển thị ở đây...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 text-gray-700 mt-12">
+    <p>&copy; 2025 HappyEdu VN. Tất cả quyền được bảo lưu.</p>
+  </footer>
+
+  <script>
+    // Load user info
+    function loadUserInfo() {
+      const userID = sessionStorage.getItem('user_id') || null;
+      const userName = sessionStorage.getItem('user_name') || 'Chưa đăng nhập';
+      const userRole = sessionStorage.getItem('user_role') || 'HS';
+      const isLoggedIn = userID !== null;
+      
+      // Create display ID with role
+      const userDisplayId = isLoggedIn && userID ? `${userID} - ${userRole}` : '000000 - HS';
+      
+      // Update navbar user-pill
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-id-display').textContent = userDisplayId;
+      
+      // Update sidebar user-info
+      document.getElementById('sidebar-user-name').textContent = userName;
+      document.getElementById('sidebar-user-id').textContent = userDisplayId;
+      
+      updateSidebarMenu(isLoggedIn);
+    }
+    
+    // Update sidebar menu based on login status
+    function updateSidebarMenu(isLoggedIn) {
+      const loginItem = document.getElementById('sidebar-login');
+      const registerItem = document.getElementById('sidebar-register');
+      const homeItem = document.getElementById('sidebar-home');
+      const profileItem = document.getElementById('sidebar-profile');
+      const assessmentItem = document.getElementById('sidebar-assessment');
+      const chatItem = document.getElementById('sidebar-chat');
+      const preventItem = document.getElementById('sidebar-prevent');
+      const sosItem = document.getElementById('sidebar-sos');
+      const logoutItem = document.getElementById('sidebar-logout');
+      const userInfoBlock = document.getElementById('sidebar-user-block');
+      
+      if (isLoggedIn) {
+        if (loginItem) loginItem.classList.add('hidden');
+        if (registerItem) registerItem.classList.add('hidden');
+        if (homeItem) homeItem.classList.remove('hidden');
+        if (profileItem) profileItem.classList.remove('hidden');
+        if (assessmentItem) assessmentItem.classList.remove('hidden');
+        if (chatItem) chatItem.classList.remove('hidden');
+        if (preventItem) preventItem.classList.remove('hidden');
+        if (sosItem) sosItem.classList.remove('hidden');
+        if (logoutItem) logoutItem.classList.remove('hidden');
+        if (userInfoBlock) userInfoBlock.style.display = 'flex';
+      } else {
+        if (loginItem) loginItem.classList.remove('hidden');
+        if (registerItem) registerItem.classList.remove('hidden');
+        if (homeItem) homeItem.classList.add('hidden');
+        if (profileItem) profileItem.classList.add('hidden');
+        if (assessmentItem) assessmentItem.classList.add('hidden');
+        if (chatItem) chatItem.classList.add('hidden');
+        if (preventItem) preventItem.classList.add('hidden');
+        if (sosItem) sosItem.classList.add('hidden');
+        if (logoutItem) logoutItem.classList.add('hidden');
+        if (userInfoBlock) userInfoBlock.style.display = 'none';
+      }
+    }
+
+
+    // Highlight current page in sidebar
+    function highlightActiveSidebarItem() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      
+      // Remove active class from all sidebar links
+      const allLinks = document.querySelectorAll('.sidebar a, .sidebar button[onclick*="triggerSOS"]');
+      allLinks.forEach(link => link.classList.remove('active'));
+      
+      // Add active class to current page link
+      if (currentPage === 'index.html' || currentPage === '') {
+        const homeLink = document.querySelector('#sidebar-home a');
+        if (homeLink) homeLink.classList.add('active');
+      } else if (currentPage === 'profile.html') {
+        const profileLink = document.querySelector('#sidebar-profile a');
+        if (profileLink) profileLink.classList.add('active');
+      } else if (currentPage === 'assessment.html') {
+        const assessmentLink = document.querySelector('#sidebar-assessment a');
+        if (assessmentLink) assessmentLink.classList.add('active');
+      } else if (currentPage === 'conversation.html' || currentPage === 'chat.html') {
+        const chatLink = document.querySelector('#sidebar-chat a');
+        if (chatLink) chatLink.classList.add('active');
+      } else if (currentPage === 'prevent_violence.html') {
+        const preventLink = document.querySelector('#sidebar-prevent a');
+        if (preventLink) preventLink.classList.add('active');
+      }
+    }
+
+
+    
+    // Sidebar Toggle and Navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      menuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active');
+      });
+
+      sidebarOverlay.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      });
+
+      // Close sidebar when clicking on a link
+      const sidebarLinks = sidebar.querySelectorAll('a, button');
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      });
+
+      loadUserInfo();
+    });
+    
+    // Logout function
+    function logoutUser() {
+      if (confirm('Bạn chắc chắn muốn đăng xuất?')) {
+        sessionStorage.removeItem('user_id');
+        sessionStorage.removeItem('user_name');
+        sessionStorage.removeItem('user_role');
+        sessionStorage.removeItem('user_email');
+        
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('sidebar-overlay').classList.remove('active');
+        
+        alert('Đã đăng xuất thành công!');
+        // Force redirect to login
+        window.location.replace('login.html');
+      }
+    }
+    
+    // Trigger SOS from sidebar
+    function triggerSOS() {
+      const userID = sessionStorage.getItem('user_id') || 'Unknown';
+      const userRole = sessionStorage.getItem('user_role') || 'Unknown';
+      
+      if (confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) {
+        fetch('/api/sos/send', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_id: userID,
+            user_role: userRole,
+            timestamp: new Date().toISOString()
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('Tín hiệu SOS đã được gửi thành công!');
+          } else {
+            alert('Lỗi khi gửi SOS: ' + (data.message || 'Unknown error'));
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Lỗi kết nối: ' + error.message);
+        })
+        .finally(() => {
+          document.getElementById('sidebar').classList.remove('active');
+          document.getElementById('sidebar-overlay').classList.remove('active');
+        });
+      }
+    }
+
+    const form = document.getElementById('send-mail-form');
+    const previewEmail = document.getElementById('preview-email');
+    const previewSubject = document.getElementById('preview-subject');
+    const previewBody = document.getElementById('preview-body');
+    const previewType = document.getElementById('preview-type');
+
+    // Update preview when form changes
+    document.getElementById('recipient-email').addEventListener('input', function() {
+      previewEmail.textContent = this.value || 'abc@example.com';
+    });
+
+    document.getElementById('subject').addEventListener('input', function() {
+      previewSubject.textContent = this.value || 'Tiêu đề thông báo';
+    });
+
+    document.getElementById('body').addEventListener('input', function() {
+      previewBody.textContent = this.value || 'Nội dung thông báo sẽ hiển thị ở đây...';
+    });
+
+    document.getElementById('mail-type').addEventListener('change', function() {
+      const typeMap = {
+        'info': 'Thông tin',
+        'warning': 'Cảnh báo',
+        'important': 'Quan trọng',
+        'announcement': 'Thông báo'
+      };
+      const colorMap = {
+        'info': 'bg-blue-100 text-blue-700',
+        'warning': 'bg-yellow-100 text-yellow-700',
+        'important': 'bg-red-100 text-red-700',
+        'announcement': 'bg-green-100 text-green-700'
+      };
+      previewType.textContent = typeMap[this.value];
+      previewType.className = `inline-block px-2 py-1 rounded text-xs ${colorMap[this.value]}`;
+    });
+
+    // Show alert message
+    function showAlert(message, type = 'error') {
+      const alertDiv = document.getElementById('alert-message');
+      alertDiv.className = `mb-4 p-4 rounded-lg text-sm font-medium ${
+        type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 
+        type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' :
+        'bg-blue-50 text-blue-700 border border-blue-200'
+      }`;
+      alertDiv.textContent = message;
+      alertDiv.classList.remove('hidden');
+      
+      if (type === 'success') {
+        setTimeout(() => {
+          alertDiv.classList.add('hidden');
+        }, 3000);
+      }
+    }
+
+    // Form validation and submission
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('recipient-email').value;
+      const subject = document.getElementById('subject').value;
+      const body = document.getElementById('body').value;
+      const recipientType = document.querySelector('input[name="recipient_type"]:checked').value;
+      const mailType = document.getElementById('mail-type').value;
+      const sendImmediately = document.getElementById('send-immediately').checked;
+
+      // Validation
+      if (!email || !subject || !body) {
+        showAlert('Vui lòng điền đầy đủ thông tin', 'error');
+        return;
+      }
+
+      if (body.length < 10) {
+        showAlert('Nội dung phải có ít nhất 10 ký tự', 'error');
+        return;
+      }
+
+      // Disable button during request
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi...';
+
+      try {
+        // Send to backend
+        const response = await fetch('/api/mail/send', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            recipient_email: email,
+            recipient_type: recipientType,
+            subject: subject,
+            body: body,
+            mail_type: mailType,
+            send_immediately: sendImmediately
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          showAlert('Gửi thông báo thành công!', 'success');
+          // Reset form
+          form.reset();
+          document.getElementById('preview-email').textContent = 'abc@example.com';
+          document.getElementById('preview-subject').textContent = 'Tiêu đề thông báo';
+          document.getElementById('preview-body').textContent = 'Nội dung thông báo sẽ hiển thị ở đây...';
+          document.getElementById('preview-type').className = 'inline-block px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs';
+        } else {
+          showAlert(data.message || 'Gửi thông báo thất bại', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Lỗi kết nối. Vui lòng thử lại.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    });
+
+    // Initialize preview on load
+    window.addEventListener('load', function() {
+      document.getElementById('send-immediately').checked = true;
+    });
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+
+  <title>Đăng nhập Quản trị viên - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #FEF08A 0%, #FCD34D 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #F59E0B;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #6B7280;
+      border: 2px solid #E5E7EB;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .btn-outline:hover {
+      border-color: #F59E0B;
+      color: #F59E0B;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #E5E7EB;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .input-field:focus {
+      border-color: #F59E0B;
+      background: #FFFBEB;
+    }
+
+    .error-message {
+      color: #DC2626;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .success-message {
+      color: #16A34A;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .admin-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .info-box {
+      background: #FFFBEB;
+      border-left: 4px solid #F59E0B;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-box p {
+      color: #92400E;
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .glass-effect {
+        border-radius: 16px 16px 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <!-- Logo & Header -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-lg mb-4">
+          <i class="fas fa-user-shield text-3xl" style="background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">HappyEdu VN</h1>
+        <p class="text-sm text-gray-600">
+          <span class="admin-badge"><i class="fas fa-crown mr-1"></i>Cổng quản trị viên</span>
+        </p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="glass-effect rounded-lg shadow-xl p-8 mb-6">
+        <!-- Info Box -->
+        <div class="info-box">
+          <p><strong>Chú ý:</strong> Chỉ giáo viên được phép truy cập cổng quản trị. Bạn cần mã xác thực quản trị gồm 8 ký tự.</p>
+        </div>
+
+        <!-- Admin Login Form -->
+        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+          <div class="mb-6">
+            <label for="adminEmail" class="block text-sm font-semibold text-gray-700 mb-2">
+              <i class="fas fa-envelope mr-2 text-amber-500"></i>Email giáo viên
+            </label>
+            <input
+              type="email"
+              id="adminEmail"
+              class="input-field"
+              placeholder="Nhập email giáo viên"
+              required
+            />
+            <div id="emailError" class="error-message"></div>
+          </div>
+
+          <div class="mb-6">
+            <label for="adminCode" class="block text-sm font-semibold text-gray-700 mb-2">
+              <i class="fas fa-key mr-2 text-amber-500"></i>Mã xác thực quản trị (8 ký tự)
+            </label>
+            <input
+              type="password"
+              id="adminCode"
+              class="input-field"
+              placeholder="Nhập mã xác thực quản trị"
+              maxlength="8"
+              required
+            />
+            <div id="codeError" class="error-message"></div>
+            <p class="text-xs text-gray-500 mt-1">Mã bao gồm chữ cái (A-Z, a-z) và số (0-9)</p>
+          </div>
+
+          <button type="submit" class="btn-primary mb-4">
+            <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập quản trị viên
+          </button>
+
+          <div id="loginMessage" class="text-center mb-4"></div>
+        </form>
+
+        <!-- Back Button -->
+        <button type="button" class="btn-outline" onclick="window.location.href='profile.html'">
+          <i class="fas fa-arrow-left mr-2"></i>Quay lại hồ sơ
+        </button>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="text-center text-sm text-gray-600 bg-white/50 rounded-lg p-4">
+        <p><i class="fas fa-info-circle mr-2"></i>Nếu quên mã xác thực, liên hệ với quản lý hệ thống</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Admin credentials (demo)
+    const ADMIN_ACCOUNTS = {
+      'teacher@example.com': {
+        adminCode: 'Admin12345',  // Example 8-character code
+        adminName: 'Giáo viên Demo'
+      },
+      'giao.vien@school.edu.vn': {
+        adminCode: 'GV@2024AB',
+        adminName: 'Giáo viên'
+      }
+    };
+
+    // Validate admin code format (8 characters: letters and numbers)
+    function isValidAdminCode(code) {
+      const regex = /^[a-zA-Z0-9]{8}$/;
+      return regex.test(code);
+    }
+
+    // Find admin account
+    function findAdminAccount(email, adminCode) {
+      const account = ADMIN_ACCOUNTS[email];
+      if (!account) return null;
+      
+      // Compare codes (case-sensitive)
+      if (account.adminCode === adminCode) {
+        return account;
+      }
+      return null;
+    }
+
+    // Handle admin login
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('adminEmail').value.trim();
+      const code = document.getElementById('adminCode').value.trim();
+      const emailError = document.getElementById('emailError');
+      const codeError = document.getElementById('codeError');
+      const loginMessage = document.getElementById('loginMessage');
+
+      // Clear previous errors
+      emailError.textContent = '';
+      codeError.textContent = '';
+      loginMessage.innerHTML = '';
+
+      // Validate email
+      if (!email) {
+        emailError.textContent = 'Vui lòng nhập email';
+        return;
+      }
+
+      // Validate code format
+      if (!code) {
+        codeError.textContent = 'Vui lòng nhập mã xác thực';
+        return;
+      }
+
+      if (!isValidAdminCode(code)) {
+        codeError.textContent = 'Mã xác thực phải gồm 8 ký tự (chữ và số)';
+        return;
+      }
+
+      // Find admin account
+      const adminAccount = findAdminAccount(email, code);
+      
+      if (!adminAccount) {
+        emailError.textContent = 'Email hoặc mã xác thực không chính xác';
+        return;
+      }
+
+      // Login successful
+      const today = new Date().toLocaleDateString('vi-VN');
+      sessionStorage.setItem('admin_logged_in', 'true');
+      sessionStorage.setItem('admin_email', email);
+      sessionStorage.setItem('admin_name', adminAccount.adminName);
+      sessionStorage.setItem('admin_login_time', today);
+
+      // Show success message
+      loginMessage.innerHTML = '<span class="success-message"><i class="fas fa-check-circle mr-1"></i>Đăng nhập thành công! Chuyển hướng...</span>';
+
+      // Redirect to admin dashboard (future page)
+      setTimeout(() => {
+        window.location.replace('admin_dashboard.html');
+      }, 1500);
+    }
+
+    // Check if user is a teacher before allowing access
+    document.addEventListener('DOMContentLoaded', function() {
+      const userRole = sessionStorage.getItem('user_role');
+      const userName = sessionStorage.getItem('user_name');
+
+      // If not logged in or not a teacher, redirect to login
+      if (!userRole || userRole !== 'GV') {
+        alert('Chỉ giáo viên mới có thể truy cập trang này!');
+        window.location.replace('login.html');
+        return;
+      }
+
+      // Populate email field with teacher's email if available
+      const userEmail = sessionStorage.getItem('user_email');
+      if (userEmail) {
+        document.getElementById('adminEmail').value = userEmail;
+      }
+
+      // Set page title with teacher name
+      if (userName) {
+        document.title = `Đăng nhập Quản trị - ${userName} - HappyEdu VN`;
+      }
+    });
+
+    // Allow Enter key to submit form
+    document.getElementById('adminCode').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('adminLoginForm').dispatchEvent(new Event('submit'));
+      }
+    });
+  </script>
+</body>
+</html>
