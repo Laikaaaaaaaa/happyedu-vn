@@ -264,40 +264,6 @@
       .user-pill {
         display: none;
       }
-      
-      /* Mobile content improvements */
-      main {
-        padding-left: 0.75rem !important;
-        padding-right: 0.75rem !important;
-        padding-top: 1rem !important;
-        padding-bottom: 1rem !important;
-      }
-      
-      /* Responsive tables on mobile */
-      .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      
-      table {
-        font-size: 0.75rem !important;
-      }
-      
-      th, td {
-        padding: 0.5rem 0.25rem !important;
-      }
-      
-      /* Filter buttons on mobile */
-      .filter-btn {
-        font-size: 0.7rem !important;
-        padding: 0.4rem 0.6rem !important;
-      }
-      
-      /* Action buttons on mobile */
-      button {
-        font-size: 0.75rem !important;
-        padding: 0.35rem 0.5rem !important;
-      }
     }
 
     .card-base {
@@ -313,6 +279,62 @@
     .card-base:hover {
       box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
       border-color: #CBD5F5;
+    }
+    
+    /* Mobile content improvements */
+    @media (max-width: 768px) {
+      main h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 1rem !important;
+      }
+      
+      /* Filter buttons on mobile - better sizing */
+      div[style*="display: flex"] {
+        gap: 8px !important;
+        margin-bottom: 1rem !important;
+      }
+      
+      button[style*="padding: 10px 20px"] {
+        padding: 10px 14px !important;
+        font-size: 0.95rem !important;
+        white-space: nowrap !important;
+      }
+      
+      /* Stats cards on mobile */
+      div[style*="grid-template-columns: repeat"] {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+        gap: 12px !important;
+        margin-bottom: 1rem !important;
+      }
+      
+      div[style*="padding: 20px"][style*="border-radius: 12px"] {
+        padding: 16px !important;
+      }
+      
+      /* Table improvements on mobile */
+      table {
+        white-space: nowrap !important;
+      }
+      
+      table th,
+      table td {
+        padding: 12px 10px !important;
+        font-size: 0.9rem !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      
+      /* Action buttons in table */
+      button[onclick*="openSosModal"] {
+        font-size: 0.85rem !important;
+        padding: 8px 12px !important;
+        white-space: nowrap !important;
+      }
+      
+      #sos-reports-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
     }
   </style>
 </head>
