@@ -167,6 +167,8 @@ def serve_video(filename):
         video_dir = os.path.join(os.getcwd(), 'video')
         file_path = os.path.join(video_dir, filename)
         
+        print(f"Attempting to serve video: {file_path}")
+        
         # Security check: ensure file is in video directory
         if not os.path.abspath(file_path).startswith(os.path.abspath(video_dir)):
             print(f"Security: Attempted to access file outside video directory: {file_path}")
@@ -180,56 +182,16 @@ def serve_video(filename):
         print(f"Serving video: {file_path}")
         
         # Determine MIME type
-        mime_type, _ = mimetypes.guess_type(file_path)
-        if not mime_type:
-            if filename.endswith('.webm'):
-                mime_type = 'video/webm'
-            elif filename.endswith('.mp4'):
-                mime_type = 'video/mp4'
-            else:
-                mime_type = 'application/octet-stream'
+        mime_type = 'video/mp4'
+        if filename.endswith('.webm'):
+            mime_type = 'video/webm'
+        elif filename.endswith('.mp4'):
+            mime_type = 'video/mp4'
         
-        # Get file size for range requests
-        file_size = os.path.getsize(file_path)
+        print(f"MIME type: {mime_type}")
         
-        # Check for range request (for seeking in video)
-        range_header = request.headers.get('Range')
-        if range_header:
-            # Parse range header
-            try:
-                start, end = range_header.replace('bytes=', '').split('-')
-                start = int(start) if start else 0
-                end = int(end) if end else file_size - 1
-                
-                if start > end or end >= file_size:
-                    return {'error': 'Invalid range'}, 416
-                
-                # Return partial content
-                with open(file_path, 'rb') as f:
-                    f.seek(start)
-                    data = f.read(end - start + 1)
-                
-                response = send_file(
-                    type('obj', (object,), {'read': lambda: data, 'seek': lambda x: None, 'tell': lambda: start})(),
-                    mimetype=mime_type,
-                    as_attachment=False
-                )
-                response.headers['Content-Range'] = f'bytes {start}-{end}/{file_size}'
-                response.headers['Content-Length'] = str(end - start + 1)
-                response.status_code = 206
-                return response
-            except:
-                pass
-        
-        # Regular file serve
-        response = send_file(
-            file_path,
-            mimetype=mime_type,
-            as_attachment=False
-        )
-        response.headers['Content-Length'] = file_size
-        response.headers['Accept-Ranges'] = 'bytes'
-        return response
+        # Use send_from_directory for simpler and more reliable serving
+        return send_from_directory(video_dir, filename, mimetype=mime_type)
         
     except Exception as e:
         print(f"Error serving video {filename}: {e}")
