@@ -435,6 +435,8 @@
       sessionStorage.setItem('user_name', account.name);
       sessionStorage.setItem('user_role', account.role);
       sessionStorage.setItem('user_email', account.email || account.phone || '');
+      sessionStorage.setItem('user_phone', account.phone || '');
+      sessionStorage.setItem('user_class', account.class || account.grade || '');
       showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success', elementId);
       setTimeout(() => {
         window.location.href = 'index.html';

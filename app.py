@@ -70,6 +70,21 @@ def init_db():
         alert_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )''')
     
+    # SOS Reports (for admin to track)
+    c.execute('''CREATE TABLE IF NOT EXISTS sos_reports (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        student_name TEXT,
+        student_email TEXT,
+        student_phone TEXT,
+        student_class TEXT,
+        location TEXT,
+        message TEXT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        resolved BOOLEAN DEFAULT 0,
+        resolved_at TIMESTAMP
+    )''')
+    
     conn.commit()
     conn.close()
 
@@ -368,34 +383,80 @@ def send_mail():
 
 @app.route('/api/sos/send', methods=['POST'])
 def send_sos():
-    """Send SOS alert"""
-    data = request.json
-    user_id = data.get('user_id')
-    user_role = data.get('user_role')
+    """Send SOS alert with full details"""
+    try:
+        data = request.get_json()
+        
+        student_id = data.get('student_id', '').strip()
+        student_name = data.get('student_name', '').strip()
+        student_email = data.get('student_email', '').strip()
+        student_phone = data.get('student_phone', '').strip()
+        student_class = data.get('student_class', '').strip()
+        location = data.get('location', 'Không xác định').strip()
+        message = data.get('message', 'Báo cáo khẩn').strip()
+        
+        # Validate required fields with better error messages
+        if not student_id:
+            return jsonify({'success': False, 'error': 'Thiếu ID người dùng. Vui lòng đăng nhập lại.'}), 400
+        if not student_email:
+            return jsonify({'success': False, 'error': 'Thiếu email người dùng. Vui lòng đăng nhập lại.'}), 400
+        
+        # Reject test/dummy values
+        if student_id == 'Unknown' or student_email == 'unknown@email.com':
+            return jsonify({'success': False, 'error': 'Thông tin đăng nhập không hợp lệ. Vui lòng đăng nhập lại.'}), 401
+        
+        # Generate SOS report ID
+        sos_id = f"SOS_{student_id}_{int(datetime.now().timestamp())}"
+        
+        # Save to database
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''INSERT INTO sos_reports 
+            (id, student_id, student_name, student_email, student_phone, student_class, location, message, timestamp, resolved)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+            (sos_id, student_id, student_name, student_email, student_phone, student_class, location, message, 
+             datetime.now().isoformat(), 0))
+        
+        conn.commit()
+        conn.close()
+        
+        # Try to send email to admins
+        try:
+            subject = f"🚨 CẢNH BÁO SOS từ {student_name}"
+            body = f"""
+Một báo cáo SOS mới đã được gửi!
 
-    if not user_id:
-        return jsonify({'success': False, 'message': 'Missing user_id'}), 400
+Thông tin người gửi:
+- Tên: {student_name}
+- Email: {student_email}
+- Điện thoại: {student_phone or 'N/A'}
+- Lớp/Phòng: {student_class or 'N/A'}
+- Địa chỉ: {location}
 
-    # Log SOS alert
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute('INSERT INTO sos_alerts (user_id, user_role) VALUES (?, ?)', (user_id, user_role))
-    conn.commit()
-    conn.close()
+Nội dung báo cáo: {message}
 
-    # Send alert email to admin/teachers
-    alert_message = f"""SOS ALERT!
+Thời gian: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
 
-User ID: {user_id}
-Role: {user_role}
-Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-
-Please respond immediately!
-"""
-    
-    send_email(SMTP_EMAIL, 'URGENT: SOS Alert Received', alert_message)
-
-    return jsonify({'success': True, 'message': 'Cảnh báo SOS đã được gửi'})
+Vui lòng truy cập vào trang admin để xem chi tiết và xử lý!
+            """
+            send_email(SMTP_EMAIL, subject, body, 'sos_alert')
+        except Exception as e:
+            print(f"Failed to send email: {e}")
+        
+        return jsonify({
+            'success': True, 
+            'message': 'SOS report sent successfully',
+            'report_id': sos_id
+        }), 200
+        
+    except Exception as e:
+        print(f"Error in send_sos: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+        
+    except Exception as e:
+        print(f"SOS send error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/api/auth/teacher-login', methods=['POST'])
 def teacher_login():
@@ -640,6 +701,137 @@ def verify_otp():
         return jsonify({'success': False, 'message': 'Mã OTP đã hết hạn'}), 401
 
     return jsonify({'success': True, 'message': 'OTP xác thực thành công'})
+
+
+@app.route('/api/admin_login', methods=['POST'])
+def admin_login():
+    """Login as admin with password"""
+    data = request.json or {}
+    password = data.get('password')
+    
+    # Default admin password
+    ADMIN_PASSWORD = 'abc12345'
+    
+    if not password:
+        return jsonify({'success': False, 'error': 'Vui lòng nhập mật khẩu'}), 400
+    
+    # Verify password
+    if password != ADMIN_PASSWORD:
+        return jsonify({'success': False, 'error': 'Mật khẩu không chính xác'}), 401
+    
+    # Set admin session - password is correct
+    session['admin_logged_in'] = True
+    session['user_role'] = 'AD'
+    
+    return jsonify({'success': True, 'message': 'Đăng nhập quản trị viên thành công'})
+
+
+@app.route('/api/sos/reports', methods=['GET'])
+def get_sos_reports():
+    """Get all SOS reports for admin"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''SELECT id, student_id, student_name, student_email, student_phone, 
+                     student_class, location, message, timestamp, resolved, resolved_at 
+                     FROM sos_reports ORDER BY timestamp DESC''')
+        
+        reports = []
+        for row in c.fetchall():
+            reports.append({
+                'id': row[0],
+                'student_id': row[1],
+                'student_name': row[2],
+                'student_email': row[3],
+                'student_phone': row[4],
+                'student_class': row[5],
+                'location': row[6],
+                'message': row[7],
+                'timestamp': row[8],
+                'resolved': bool(row[9]),
+                'resolved_at': row[10]
+            })
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'data': reports
+        }), 200
+        
+    except Exception as e:
+        print(f"Get SOS reports error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/sos/resolve/<sos_id>', methods=['POST'])
+def resolve_sos(sos_id):
+    """Mark SOS report as resolved"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''UPDATE sos_reports SET resolved = 1, resolved_at = ? WHERE id = ?''',
+                 (datetime.now().isoformat(), sos_id))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'message': 'SOS report marked as resolved'
+        }), 200
+        
+    except Exception as e:
+        print(f"Resolve SOS error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/admin/stats', methods=['GET'])
+def get_admin_stats():
+    """Get dashboard statistics - count of students, teachers, parents"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        # Count users by role
+        c.execute("SELECT role, COUNT(*) as count FROM users GROUP BY role")
+        results = c.fetchall()
+        
+        # Extract counts
+        stats = {
+            'students': 0,
+            'teachers': 0,
+            'parents': 0,
+            'total': 0
+        }
+        
+        for role, count in results:
+            if role == 'HS':
+                stats['students'] = count
+            elif role == 'GV':
+                stats['teachers'] = count
+            elif role == 'PH':
+                stats['parents'] = count
+            stats['total'] += count
+        
+        # Get SOS statistics
+        c.execute("SELECT COUNT(*) as total, SUM(CASE WHEN resolved = 0 THEN 1 ELSE 0 END) as unresolved FROM sos_reports")
+        sos_data = c.fetchone()
+        stats['sos_total'] = sos_data[0] or 0
+        stats['sos_unresolved'] = sos_data[1] or 0
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'data': stats
+        }), 200
+        
+    except Exception as e:
+        print(f"Error getting admin stats: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 
 if __name__ == '__main__':

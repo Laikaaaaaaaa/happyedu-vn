@@ -845,52 +845,6 @@
         // Force redirect to login
         window.location.replace('login.html');
       }
-    }    function triggerSOS() {
-      sendSOSRequest();
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('sidebar-overlay').classList.remove('active');
-    }
-
-    function sendSOSRequest(buttonElm) {
-      const sosButton = buttonElm || document.getElementById('sos-button');
-      const userID = sessionStorage.getItem('user_id') || 'Unknown';
-      const userRole = sessionStorage.getItem('user_role') || 'Unknown';
-      if (!confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) {
-        return;
-      }
-      const originalLabel = sosButton ? sosButton.innerHTML : '<i class="fas fa-exclamation-triangle"></i> SOS Khẩn Cấp';
-      if (sosButton) {
-        sosButton.disabled = true;
-        sosButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang gửi...';
-      }
-      fetch('/api/sos/send', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userID, user_role: userRole, timestamp: new Date().toISOString() })
-      })
-        .then(res => res.json())
-        .then(data => {
-          alert(data.success ? 'Tín hiệu SOS đã được gửi thành công!' : 'Lỗi khi gửi SOS: ' + (data.message || 'Unknown error'));
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Lỗi kết nối: ' + error.message);
-        })
-        .finally(() => {
-          if (sosButton) {
-            sosButton.disabled = false;
-            sosButton.innerHTML = originalLabel;
-          }
-        });
-    }
-
-    function setupSOSButton() {
-      const sosButton = document.getElementById('sos-button');
-      if (!sosButton) return;
-      sosButton.addEventListener('click', function () {
-        sendSOSRequest(sosButton);
-      });
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -898,7 +852,6 @@
       setupSOSButton();
     });
   </script>
-
+  <script src="sos_handler.js"></script>
 </body>
-
 </html>

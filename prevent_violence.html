@@ -1300,36 +1300,103 @@
     }
 
     function triggerSOS() {
-      const userID = sessionStorage.getItem('user_id') || 'Unknown';
-      const userRole = sessionStorage.getItem('user_role') || 'Unknown';
+      const userID = sessionStorage.getItem('user_id');
+      const userName = sessionStorage.getItem('user_name');
+      const userEmail = sessionStorage.getItem('user_email');
+      const userRole = sessionStorage.getItem('user_role');
+      const userPhone = sessionStorage.getItem('user_phone');
+      const userClass = sessionStorage.getItem('user_class');
+      
+      // Check if user is logged in
+      if (!userID || !userEmail) {
+        alert('Bạn phải đăng nhập trước khi gửi SOS!');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Check if user is valid (not default/placeholder values)
+      if (userID === 'Unknown' || userEmail === 'unknown@email.com') {
+        alert('Thông tin đăng nhập không hợp lệ. Vui lòng đăng nhập lại.');
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Allow students (HS), teachers (GV), and parents (PH) to send SOS
+      if (!['HS', 'GV', 'PH'].includes(userRole)) {
+        alert('Chỉ học sinh, giáo viên và phụ huynh mới có thể gửi báo cáo SOS!');
+        return;
+      }
       
       if (confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) {
-        fetch('/api/sos/send', {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            user_id: userID,
-            user_role: userRole,
-            timestamp: new Date().toISOString()
-          })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            alert('Tín hiệu SOS đã được gửi thành công!');
-          } else {
-            alert('Lỗi khi gửi SOS: ' + (data.message || 'Unknown error'));
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Lỗi kết nối: ' + error.message);
-        })
-        .finally(closeSidebar);
+        // Get current location
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const location = `Vĩ độ: ${position.coords.latitude}, Kinh độ: ${position.coords.longitude}`;
+              sendSOSRequest(userID, userName, userEmail, userPhone, userClass, location, userRole);
+            },
+            (error) => {
+              console.log('Geolocation error:', error);
+              sendSOSRequest(userID, userName, userEmail, userPhone, userClass, 'Không xác định', userRole);
+            }
+          );
+        } else {
+          sendSOSRequest(userID, userName, userEmail, userPhone, userClass, 'Không xác định', userRole);
+        }
       }
+    }
+
+    function sendSOSRequest(userId, userName, userEmail, userPhone, userClass, location, userRole) {
+      // Determine user type label
+      let userTypeLabel = 'Học sinh';
+      if (userRole === 'GV') userTypeLabel = 'Giáo viên';
+      else if (userRole === 'PH') userTypeLabel = 'Phụ huynh';
+      
+      // Use non-null values or empty string defaults
+      const payload = {
+        student_id: userId || '',
+        student_name: userName || 'N/A',
+        student_email: userEmail || '',
+        student_phone: userPhone || '',
+        student_class: userClass || '',
+        location: location || 'Không xác định',
+        message: `Báo cáo khẩn từ ${userTypeLabel} - Phòng Chống Bạo Lực`
+      };
+      
+      console.log('Sending SOS with payload:', payload);
+      
+      fetch('/api/sos/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        console.log('Response status:', res.status);
+        if (!res.ok) {
+          return res.json().then(data => {
+            throw new Error(data.error || `HTTP ${res.status}: ${res.statusText}`);
+          }).catch(() => {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          });
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log('SOS response:', data);
+        if (data.success) {
+          alert('Tín hiệu SOS đã được gửi thành công! Vui lòng chờ hỗ trợ từ quản trị viên.');
+        } else {
+          alert('Lỗi khi gửi SOS: ' + (data.error || 'Unknown error'));
+        }
+      })
+      .catch(error => {
+        console.error('SOS Error:', error);
+        alert('Lỗi khi gửi SOS: ' + error.message);
+      })
+      .finally(closeSidebar);
     }
   </script>
 </body>

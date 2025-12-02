@@ -12,312 +12,199 @@
   <title>Đăng nhập Quản trị viên - HappyEdu VN</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+  
   <style>
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #FEF08A 0%, #FCD34D 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #E0F2FE 0%, #BFE7F8 100%);
     }
     
     input:focus {
       outline: none;
-      border-color: #F59E0B;
-      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+      border-color: #0EA5E9;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
     }
 
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
-      color: white;
-      font-weight: 600;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: #6B7280;
-      border: 2px solid #E5E7EB;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      width: 100%;
-    }
-
-    .btn-outline:hover {
-      border-color: #F59E0B;
-      color: #F59E0B;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 2px solid #E5E7EB;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      background: white;
-    }
-
-    .input-field:focus {
-      border-color: #F59E0B;
-      background: #FFFBEB;
-    }
-
-    .error-message {
-      color: #DC2626;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-
-    .success-message {
-      color: #16A34A;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
+    .light-blue-bg {
+      background-color: #E0F2FE;
     }
 
     .admin-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%);
       color: white;
-      padding: 0.25rem 0.75rem;
+      padding: 0.5rem 1rem;
       border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .info-box {
-      background: #FFFBEB;
-      border-left: 4px solid #F59E0B;
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 1.5rem;
-    }
-
-    .info-box p {
-      color: #92400E;
       font-size: 0.875rem;
-      margin: 0;
-    }
-
-    @media (max-width: 640px) {
-      .glass-effect {
-        border-radius: 16px 16px 0 0;
-      }
+      font-weight: 600;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
-<body>
-  <div class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-      <!-- Logo & Header -->
-      <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-lg mb-4">
-          <i class="fas fa-user-shield text-3xl" style="background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+<body class="light-blue-bg">
+  <script>
+    // Check if already logged in as admin
+    if (sessionStorage.getItem('user_role') === 'AD') {
+      window.location.href = 'admin_dashboard.html';
+    }
+
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'index.html';
+      const userRole = sessionStorage.getItem('user_role');
+
+      if (path === 'admin_login.html' && userRole === 'AD') {
+        window.location.replace('admin_dashboard.html');
+      }
+
+      if (path === 'admin_dashboard.html' && userRole !== 'AD') {
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
+
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-8 w-full max-w-md">
+      <!-- Admin Badge -->
+      <div class="text-center mb-6">
+        <div class="admin-badge" style="justify-content: center; margin: 0 auto 1.5rem;">
+          <i class="fas fa-user-shield"></i>
+          Bảng điều khiển quản trị viên
         </div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">HappyEdu VN</h1>
-        <p class="text-sm text-gray-600">
-          <span class="admin-badge"><i class="fas fa-crown mr-1"></i>Cổng quản trị viên</span>
-        </p>
       </div>
 
-      <!-- Main Card -->
-      <div class="glass-effect rounded-lg shadow-xl p-8 mb-6">
-        <!-- Info Box -->
-        <div class="info-box">
-          <p><strong>Chú ý:</strong> Chỉ giáo viên được phép truy cập cổng quản trị. Bạn cần mã xác thực quản trị gồm 8 ký tự.</p>
+      <!-- Admin Login Form -->
+      <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Đăng nhập Admin</h2>
+      <p class="text-sm text-gray-600 text-center mb-6">Nhập mật khẩu quản trị viên để truy cập hệ thống quản lý</p>
+
+      <div id="alert-message" class="hidden mb-4 p-3 rounded text-sm"></div>
+
+      <form id="admin-login-form" class="space-y-4">
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu quản trị viên</label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="admin-password" 
+              name="password" 
+              required 
+              class="w-full px-3 py-2 border border-gray-300 rounded focus:border-blue-600 pr-10"
+              placeholder="••••••••"
+            />
+            <button 
+              type="button" 
+              id="toggle-password"
+              class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              onclick="togglePasswordVisibility()"
+            >
+              <i class="fas fa-eye text-sm"></i>
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Mật khẩu phải có 8 ký tự trở lên</p>
         </div>
 
-        <!-- Admin Login Form -->
-        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
-          <div class="mb-6">
-            <label for="adminEmail" class="block text-sm font-semibold text-gray-700 mb-2">
-              <i class="fas fa-envelope mr-2 text-amber-500"></i>Email giáo viên
-            </label>
-            <input
-              type="email"
-              id="adminEmail"
-              class="input-field"
-              placeholder="Nhập email giáo viên"
-              required
-            />
-            <div id="emailError" class="error-message"></div>
-          </div>
-
-          <div class="mb-6">
-            <label for="adminCode" class="block text-sm font-semibold text-gray-700 mb-2">
-              <i class="fas fa-key mr-2 text-amber-500"></i>Mã xác thực quản trị (8 ký tự)
-            </label>
-            <input
-              type="password"
-              id="adminCode"
-              class="input-field"
-              placeholder="Nhập mã xác thực quản trị"
-              maxlength="8"
-              required
-            />
-            <div id="codeError" class="error-message"></div>
-            <p class="text-xs text-gray-500 mt-1">Mã bao gồm chữ cái (A-Z, a-z) và số (0-9)</p>
-          </div>
-
-          <button type="submit" class="btn-primary mb-4">
-            <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập quản trị viên
-          </button>
-
-          <div id="loginMessage" class="text-center mb-4"></div>
-        </form>
-
-        <!-- Back Button -->
-        <button type="button" class="btn-outline" onclick="window.location.href='profile.html'">
-          <i class="fas fa-arrow-left mr-2"></i>Quay lại hồ sơ
+        <button 
+          type="submit" 
+          class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-medium transition-colors"
+        >
+          <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
         </button>
-      </div>
+      </form>
 
-      <!-- Footer Info -->
-      <div class="text-center text-sm text-gray-600 bg-white/50 rounded-lg p-4">
-        <p><i class="fas fa-info-circle mr-2"></i>Nếu quên mã xác thực, liên hệ với quản lý hệ thống</p>
+      <div class="text-center mt-6 pt-6 border-t border-gray-200">
+        <p class="text-sm text-gray-600 mb-4">
+          Chưa phải quản trị viên? 
+          <a href="profile.html" class="text-blue-600 hover:text-blue-700 font-medium">
+            Quay lại hồ sơ
+          </a>
+        </p>
+        <a href="index.html" class="text-xs text-gray-500 hover:text-gray-700">
+          ← Quay lại trang chủ
+        </a>
       </div>
     </div>
   </div>
 
   <script>
-    // Admin credentials (demo)
-    const ADMIN_ACCOUNTS = {
-      'teacher@example.com': {
-        adminCode: 'Admin12345',  // Example 8-character code
-        adminName: 'Giáo viên Demo'
-      },
-      'giao.vien@school.edu.vn': {
-        adminCode: 'GV@2024AB',
-        adminName: 'Giáo viên'
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('admin-password');
+      const toggleBtn = document.getElementById('toggle-password');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash text-sm"></i>';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.innerHTML = '<i class="fas fa-eye text-sm"></i>';
       }
-    };
-
-    // Validate admin code format (8 characters: letters and numbers)
-    function isValidAdminCode(code) {
-      const regex = /^[a-zA-Z0-9]{8}$/;
-      return regex.test(code);
     }
 
-    // Find admin account
-    function findAdminAccount(email, adminCode) {
-      const account = ADMIN_ACCOUNTS[email];
-      if (!account) return null;
+    // Handle form submission
+    document.getElementById('admin-login-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
       
-      // Compare codes (case-sensitive)
-      if (account.adminCode === adminCode) {
-        return account;
-      }
-      return null;
-    }
-
-    // Handle admin login
-    function handleAdminLogin(event) {
-      event.preventDefault();
+      const password = document.getElementById('admin-password').value;
+      const alertDiv = document.getElementById('alert-message');
       
-      const email = document.getElementById('adminEmail').value.trim();
-      const code = document.getElementById('adminCode').value.trim();
-      const emailError = document.getElementById('emailError');
-      const codeError = document.getElementById('codeError');
-      const loginMessage = document.getElementById('loginMessage');
-
-      // Clear previous errors
-      emailError.textContent = '';
-      codeError.textContent = '';
-      loginMessage.innerHTML = '';
-
-      // Validate email
-      if (!email) {
-        emailError.textContent = 'Vui lòng nhập email';
+      if (!password) {
+        showAlert(alertDiv, 'Vui lòng nhập mật khẩu', 'error');
         return;
       }
 
-      // Validate code format
-      if (!code) {
-        codeError.textContent = 'Vui lòng nhập mã xác thực';
+      if (password.length < 8) {
+        showAlert(alertDiv, 'Mật khẩu phải có ít nhất 8 ký tự', 'error');
         return;
       }
 
-      if (!isValidAdminCode(code)) {
-        codeError.textContent = 'Mã xác thực phải gồm 8 ký tự (chữ và số)';
-        return;
-      }
+      try {
+        const response = await fetch('/api/admin_login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            password: password,
+          }),
+        });
 
-      // Find admin account
-      const adminAccount = findAdminAccount(email, code);
-      
-      if (!adminAccount) {
-        emailError.textContent = 'Email hoặc mã xác thực không chính xác';
-        return;
-      }
+        const data = await response.json();
 
-      // Login successful
-      const today = new Date().toLocaleDateString('vi-VN');
-      sessionStorage.setItem('admin_logged_in', 'true');
-      sessionStorage.setItem('admin_email', email);
-      sessionStorage.setItem('admin_name', adminAccount.adminName);
-      sessionStorage.setItem('admin_login_time', today);
-
-      // Show success message
-      loginMessage.innerHTML = '<span class="success-message"><i class="fas fa-check-circle mr-1"></i>Đăng nhập thành công! Chuyển hướng...</span>';
-
-      // Redirect to admin dashboard (future page)
-      setTimeout(() => {
-        window.location.replace('admin_dashboard.html');
-      }, 1500);
-    }
-
-    // Check if user is a teacher before allowing access
-    document.addEventListener('DOMContentLoaded', function() {
-      const userRole = sessionStorage.getItem('user_role');
-      const userName = sessionStorage.getItem('user_name');
-
-      // If not logged in or not a teacher, redirect to login
-      if (!userRole || userRole !== 'GV') {
-        alert('Chỉ giáo viên mới có thể truy cập trang này!');
-        window.location.replace('login.html');
-        return;
-      }
-
-      // Populate email field with teacher's email if available
-      const userEmail = sessionStorage.getItem('user_email');
-      if (userEmail) {
-        document.getElementById('adminEmail').value = userEmail;
-      }
-
-      // Set page title with teacher name
-      if (userName) {
-        document.title = `Đăng nhập Quản trị - ${userName} - HappyEdu VN`;
+        if (data.success) {
+          showAlert(alertDiv, 'Đăng nhập thành công! Đang chuyển hướng...', 'success');
+          sessionStorage.setItem('user_role', 'AD');
+          setTimeout(() => {
+            window.location.href = 'admin_dashboard.html';
+          }, 1000);
+        } else {
+          showAlert(alertDiv, data.error || 'Mật khẩu không chính xác', 'error');
+        }
+      } catch (error) {
+        showAlert(alertDiv, 'Lỗi kết nối. Vui lòng thử lại.', 'error');
+        console.error('Error:', error);
       }
     });
 
-    // Allow Enter key to submit form
-    document.getElementById('adminCode').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('adminLoginForm').dispatchEvent(new Event('submit'));
+    function showAlert(element, message, type) {
+      element.textContent = message;
+      element.className = `p-3 rounded text-sm ${
+        type === 'error' 
+          ? 'bg-red-50 text-red-800 border border-red-200' 
+          : 'bg-green-50 text-green-800 border border-green-200'
+      }`;
+      element.classList.remove('hidden');
+    }
+
+    // Check if user is logged in and is a teacher
+    document.addEventListener('DOMContentLoaded', function() {
+      const userRole = sessionStorage.getItem('user_role');
+      
+      if (userRole !== 'GV' && userRole !== 'AD') {
+        alert('Chỉ giáo viên mới có thể truy cập trang này!');
+        window.location.replace('login.html');
       }
     });
   </script>

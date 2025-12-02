@@ -833,61 +833,44 @@
     
     // Trigger SOS from sidebar
     function triggerSOS() {
-      document.getElementById('sos-button').click();
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('sidebar-overlay').classList.remove('active');
-    }
-
-    // SOS Button Handler
-    function setupSOSButton() {
-      const sosButton = document.getElementById('sos-button');
-      if (!sosButton) return;
-      sosButton.addEventListener('click', function() {
-        const userID = sessionStorage.getItem('user_id') || 'Unknown';
-        const userRole = sessionStorage.getItem('user_role') || 'Unknown';
-        
-        if (confirm('Bạn chắc chắn muốn gửi tín hiệu SOS?')) {
-          sosButton.disabled = true;
-          sosButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang gửi...';
-          
-          fetch('/api/sos/send', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              user_id: userID,
-              user_role: userRole,
-              timestamp: new Date().toISOString()
-            })
-          })
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              alert('Tín hiệu SOS đã được gửi thành công!');
-            } else {
-              alert('Lỗi khi gửi SOS: ' + (data.message || 'Unknown error'));
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('Lỗi kết nối: ' + error.message);
-          })
-          .finally(() => {
-            sosButton.disabled = false;
-            sosButton.innerHTML = '<i class="fas fa-exclamation-triangle"></i> SOS Khẩn Cấp';
-          });
-        }
-      });
+      // For pages with sos-button element
+      if (document.getElementById('sos-button')) {
+        document.getElementById('sos-button').click();
+      } else {
+        // Direct SOS request for pages without sos-button
+        sendSOSRequest();
+      }
+      
+      // Close sidebar if open
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (sidebar) sidebar.classList.remove('active');
+      if (overlay) overlay.classList.remove('active');
     }
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadUserInfo();
       setupSOSButton();
+      
+      // Request geolocation permission when page loads
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            // Store location in sessionStorage for later use
+            const coords = `${position.coords.latitude},${position.coords.longitude}`;
+            sessionStorage.setItem('user_location', coords);
+            console.log('Location permission granted');
+          },
+          (error) => {
+            console.log('Location permission denied or error:', error.message);
+            sessionStorage.setItem('user_location', 'Không xác định');
+          }
+        );
+      }
     });
   </script>
+  <script src="sos_handler.js"></script>
   
 </body>
 </html>

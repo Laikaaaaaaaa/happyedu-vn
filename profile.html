@@ -1011,9 +1011,9 @@
 
   <main class="px-4 py-10">
     <div class="max-w-6xl mx-auto space-y-6">
-      <!-- Admin access link for teachers -->
+      <!-- Admin access link for teachers and admins -->
       <div id="admin-access-link" class="text-right mb-2" style="display: none;">
-        <a href="admin_login.html" class="text-sm text-amber-600 hover:text-amber-700 font-semibold transition">
+        <a id="admin-access-button" href="admin_login.html" class="text-sm text-amber-600 hover:text-amber-700 font-semibold transition">
           <i class="fas fa-user-shield mr-1"></i>Đăng nhập quản trị viên
         </a>
       </div>
@@ -1697,10 +1697,24 @@
         section.style.display = sectionRole === userRole ? 'block' : 'none';
       });
 
-      // Show admin access link only for teachers (GV)
+      // Show admin access link for teachers (GV) and admin panel for admins (AD)
       const adminLink = document.getElementById('admin-access-link');
-      if (adminLink) {
-        adminLink.style.display = userRole === 'GV' ? 'block' : 'none';
+      const adminButton = document.getElementById('admin-access-button');
+      if (adminLink && adminButton) {
+        if (userRole === 'AD') {
+          // If already admin, show link to admin panel
+          adminLink.style.display = 'block';
+          adminButton.href = 'admin_dashboard.html';
+          adminButton.innerHTML = '<i class="fas fa-tachometer-alt mr-1"></i>Đến trang Quản trị viên';
+        } else if (userRole === 'GV') {
+          // If teacher, show admin login link
+          adminLink.style.display = 'block';
+          adminButton.href = 'admin_login.html';
+          adminButton.innerHTML = '<i class="fas fa-user-shield mr-1"></i>Đăng nhập quản trị viên';
+        } else {
+          // Hide for students
+          adminLink.style.display = 'none';
+        }
       }
     }
 
@@ -1977,5 +1991,6 @@
       });
     }
   </script>
+  <script src="sos_handler.js"></script>
 </body>
 </html>
