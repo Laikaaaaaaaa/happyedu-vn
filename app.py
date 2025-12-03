@@ -84,8 +84,20 @@ def init_db():
         message TEXT,
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         resolved BOOLEAN DEFAULT 0,
-        resolved_at TIMESTAMP
+        resolved_at TIMESTAMP,
+        dismissed_by_admin BOOLEAN DEFAULT 0,
+        dismissed_at TIMESTAMP
     )''')
+    
+    # Add new columns if they don't exist (for existing databases)
+    try:
+        c.execute('ALTER TABLE sos_reports ADD COLUMN dismissed_by_admin BOOLEAN DEFAULT 0')
+    except:
+        pass
+    try:
+        c.execute('ALTER TABLE sos_reports ADD COLUMN dismissed_at TIMESTAMP')
+    except:
+        pass
     
     conn.commit()
     conn.close()
@@ -782,14 +794,17 @@ def admin_login():
 
 @app.route('/api/sos/reports', methods=['GET'])
 def get_sos_reports():
-    """Get all SOS reports for admin"""
+    """Get all SOS reports for admin (excluding dismissed ones)"""
     try:
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         
         c.execute('''SELECT id, student_id, student_name, student_email, student_phone, 
-                     student_class, location, message, timestamp, resolved, resolved_at 
-                     FROM sos_reports ORDER BY timestamp DESC''')
+                     student_class, location, message, timestamp, resolved, resolved_at,
+                     COALESCE(dismissed_by_admin, 0) as dismissed_by_admin, dismissed_at
+                     FROM sos_reports 
+                     WHERE COALESCE(dismissed_by_admin, 0) = 0
+                     ORDER BY timestamp DESC''')
         
         reports = []
         for row in c.fetchall():
@@ -804,7 +819,9 @@ def get_sos_reports():
                 'message': row[7],
                 'timestamp': row[8],
                 'resolved': bool(row[9]),
-                'resolved_at': row[10]
+                'resolved_at': row[10],
+                'dismissed_by_admin': bool(row[11]),
+                'dismissed_at': row[12]
             })
         
         conn.close()
@@ -839,6 +856,29 @@ def resolve_sos(sos_id):
         
     except Exception as e:
         print(f"Resolve SOS error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/sos/dismiss/<sos_id>', methods=['POST'])
+def dismiss_sos(sos_id):
+    """Dismiss SOS report - admin marks as dismissed (won't show in popup again)"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''UPDATE sos_reports SET dismissed_by_admin = 1, dismissed_at = ? WHERE id = ?''',
+                 (datetime.now().isoformat(), sos_id))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'message': 'SOS report dismissed'
+        }), 200
+        
+    except Exception as e:
+        print(f"Dismiss SOS error: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
@@ -887,6 +927,45 @@ def get_admin_stats():
         print(f"Error getting admin stats: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+
+@app.route('/api/admin/users', methods=['GET'])
+def get_admin_users():
+    """Get users filtered by role - for admin accounts page"""
+    try:
+        role = request.args.get('role', 'HS')  # Default to students
+        
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        # Get users by role, ordered by creation date (newest first)
+        c.execute("""
+            SELECT id, name, email, created_at 
+            FROM users 
+            WHERE role = ? 
+            ORDER BY created_at DESC
+        """, (role,))
+        
+        rows = c.fetchall()
+        users = []
+        for row in rows:
+            users.append({
+                'id': row[0],
+                'name': row[1],
+                'email': row[2],
+                'created_at': row[3]
+            })
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'users': users,
+            'count': len(users)
+        }), 200
+        
+    except Exception as e:
+        print(f"Error getting admin users: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/api/videos/list', methods=['GET'])
 def get_video_list():

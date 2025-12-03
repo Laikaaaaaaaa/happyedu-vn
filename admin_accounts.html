@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <title>Quản Lý Tài Khoản - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    .tab-button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: #e2e8f0;
+      color: #475569;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.2s;
+    }
+
+    .tab-button.active {
+      background: #1d4ed8;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .user-table th {
+      background: #f1f5f9;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #0f172a;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .user-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .user-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-student {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .badge-teacher {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .badge-parent {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .stat-box {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1d4ed8;
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="min-h-screen bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-8 h-8">
+            <h1 class="text-2xl font-bold text-gray-900">Quản Lý Tài Khoản</h1>
+          </div>
+          <button onclick="logoutAdmin()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+            <i class="fas fa-sign-out-alt mr-2"></i> Đăng Xuất
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <!-- Stats Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="stat-box">
+          <div class="stat-number" id="student-count">0</div>
+          <div class="stat-label">Tổng Học Sinh</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="teacher-count">0</div>
+          <div class="stat-label">Tổng Giáo Viên</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" id="parent-count">0</div>
+          <div class="stat-label">Tổng Phụ Huynh</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="flex gap-0 border-b border-gray-200">
+          <button class="tab-button active" onclick="switchTab('students')">
+            <i class="fas fa-graduation-cap mr-2"></i> Học Sinh
+          </button>
+          <button class="tab-button" onclick="switchTab('teachers')">
+            <i class="fas fa-chalkboard-user mr-2"></i> Giáo Viên
+          </button>
+          <button class="tab-button" onclick="switchTab('parents')">
+            <i class="fas fa-users mr-2"></i> Phụ Huynh
+          </button>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="students-tab" class="tab-content active p-6">
+          <div id="students-loading" class="loading">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu...
+          </div>
+          <div id="students-content" style="display: none;">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên</th>
+                  <th>Email</th>
+                  <th>Ngày Tạo</th>
+                </tr>
+              </thead>
+              <tbody id="students-list"></tbody>
+            </table>
+            <div id="students-empty" class="empty-state" style="display: none;">
+              Không có học sinh nào
+            </div>
+          </div>
+        </div>
+
+        <!-- Teachers Tab -->
+        <div id="teachers-tab" class="tab-content p-6">
+          <div id="teachers-loading" class="loading">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu...
+          </div>
+          <div id="teachers-content" style="display: none;">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên</th>
+                  <th>Email</th>
+                  <th>Ngày Tạo</th>
+                </tr>
+              </thead>
+              <tbody id="teachers-list"></tbody>
+            </table>
+            <div id="teachers-empty" class="empty-state" style="display: none;">
+              Không có giáo viên nào
+            </div>
+          </div>
+        </div>
+
+        <!-- Parents Tab -->
+        <div id="parents-tab" class="tab-content p-6">
+          <div id="parents-loading" class="loading">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu...
+          </div>
+          <div id="parents-content" style="display: none;">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên</th>
+                  <th>Email</th>
+                  <th>Ngày Tạo</th>
+                </tr>
+              </thead>
+              <tbody id="parents-list"></tbody>
+            </table>
+            <div id="parents-empty" class="empty-state" style="display: none;">
+              Không có phụ huynh nào
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Check admin login
+    (function checkAdminAuth() {
+      const adminId = sessionStorage.getItem('admin_id');
+      if (!adminId) {
+        window.location.replace('admin_login.html');
+      }
+    })();
+
+    let pollInterval = null;
+
+    function switchTab(tab) {
+      // Update buttons
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      event.target.closest('.tab-button').classList.add('active');
+
+      // Update content
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById(tab + '-tab').classList.add('active');
+
+      // Load data if not already loaded
+      if (!document.getElementById(tab + '-content').querySelector('table tbody').innerHTML) {
+        loadUsers(tab);
+      }
+    }
+
+    async function loadStats() {
+      try {
+        const response = await fetch('/api/admin/stats');
+        const data = await response.json();
+        
+        document.getElementById('student-count').textContent = data.students || 0;
+        document.getElementById('teacher-count').textContent = data.teachers || 0;
+        document.getElementById('parent-count').textContent = data.parents || 0;
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+    }
+
+    async function loadUsers(role) {
+      const roleMap = { 'students': 'HS', 'teachers': 'GV', 'parents': 'PH' };
+      const roleCode = roleMap[role];
+      
+      try {
+        const response = await fetch(`/api/admin/users?role=${roleCode}`);
+        const data = await response.json();
+
+        if (!data.success) throw new Error(data.error);
+
+        const users = data.users || [];
+        const tbody = document.getElementById(role + '-list');
+        const loading = document.getElementById(role + '-loading');
+        const content = document.getElementById(role + '-content');
+        const empty = document.getElementById(role + '-empty');
+
+        loading.style.display = 'none';
+        content.style.display = 'block';
+
+        if (users.length === 0) {
+          tbody.innerHTML = '';
+          empty.style.display = 'block';
+          return;
+        }
+
+        empty.style.display = 'none';
+        tbody.innerHTML = users.map(user => `
+          <tr>
+            <td><span class="font-mono text-sm">${user.id}</span></td>
+            <td>${escapeHtml(user.name)}</td>
+            <td>${escapeHtml(user.email)}</td>
+            <td>${new Date(user.created_at).toLocaleDateString('vi-VN')}</td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading users:', error);
+        document.getElementById(role + '-loading').innerHTML = '<span class="text-red-600">Lỗi khi tải dữ liệu</span>';
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function logoutAdmin() {
+      if (!confirm('Bạn chắc chắn muốn đăng xuất?')) return;
+      sessionStorage.clear();
+      window.location.replace('admin_login.html');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      loadUsers('students');
+
+      // Update stats every 3 seconds (real-time)
+      pollInterval = setInterval(loadStats, 3000);
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (pollInterval) clearInterval(pollInterval);
+    });
+  </script>
+</body>
+</html>
