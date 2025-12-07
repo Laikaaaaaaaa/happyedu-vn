@@ -1031,3 +1031,36 @@ if __name__ == '__main__':
     app.run(debug=debug_mode, host='0.0.0.0', port=port)
 
 
+@app.route('/api/quiz/questions/<role>', methods=['GET'])
+def get_quiz_questions(role):
+    """Get quiz questions for a specific user role"""
+    try:
+        # Role mapping: HS = học sinh, GV = giáo viên, PH = phụ huynh
+        if role not in ['HS', 'GV', 'PH']:
+            return jsonify({'success': False, 'error': 'Invalid role'}), 400
+        
+        # Read from quiz_questions.json
+        with open('quiz_questions.json', 'r', encoding='utf-8') as f:
+            quiz_data = json.load(f)
+        
+        if role not in quiz_data:
+            return jsonify({'success': False, 'error': 'No questions for this role'}), 404
+        
+        role_questions = quiz_data[role]
+        print(f"Returning {role_questions['total_questions']} questions for role {role}")
+        
+        return jsonify({
+            'success': True,
+            'role': role,
+            'total_questions': role_questions['total_questions'],
+            'max_score': role_questions['max_score'],
+            'categories': role_questions['categories']
+        }), 200
+        
+    except Exception as e:
+        print(f"Error loading quiz questions: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+

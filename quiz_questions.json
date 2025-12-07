@@ -1,0 +1,581 @@
+{
+  "HS": {
+    "max_score": 50,
+    "total_questions": 25,
+    "categories": [
+      {
+        "name": "Yêu thương - Quan Tâm",
+        "questions": [
+          {
+            "id": 1,
+            "text": "Khi mình buồn, mệt hay căng thẳng giữa giờ, thầy/cô hoặc bạn bè có nhận ra và đến hỏi thăm, chia sẻ giúp mình cảm thấy vui hơn không?",
+            "answers": [
+              {"level": 1, "text": "Không ai nhận ra; mình cảm thấy cô đơn.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; có người hỏi qua loa, không giúp gì.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; một vài người hỏi, tạo niềm vui nhỏ.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; nhiều người hỏi với thái độ ấm áp, mình cảm thấy nhẹ nhõm.", "score": 1.2},
+              {"level": 5, "text": "Luôn; mọi người chủ động, dành thời gian lắng nghe và tạo niềm vui hạnh phúc.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 2,
+            "text": "Khi mình nghỉ học hoặc gặp khó khăn học tập, thầy/cô và bạn bè có chủ động giúp mình theo kịp, gửi bài tập hay hướng dẫn vui vẻ không?",
+            "answers": [
+              {"level": 1, "text": "Không ai giúp; mình bị bỏ lại.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; có người biết nhưng không hỗ trợ.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; nhận được tài liệu hoặc hướng dẫn chung.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; nhiều người gửi tài liệu, giải thích chi tiết.", "score": 1.2},
+              {"level": 5, "text": "Luôn; họ hỗ trợ cụ thể, vui vẻ, giúp mình cảm thấy yên tâm.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 3,
+            "text": "Bạn bè/giáo viên có nhớ những điều nhỏ vui về mình (sở thích, ngày sinh nhật, trò cười) và dùng nó để khiến mình hạnh phúc không?",
+            "answers": [
+              {"level": 1, "text": "Không ai nhớ; mình vô hình.", "score": 0},
+              {"level": 2, "text": "Thỉnh thoảng; nhớ sơ nhưng không mang lại niềm vui.", "score": 0.4},
+              {"level": 3, "text": "Một vài chi tiết được nhớ; đôi khi tạo niềm vui nhẹ.", "score": 0.8},
+              {"level": 4, "text": "Nhiều chi tiết; thường làm mình vui.", "score": 1.2},
+              {"level": 5, "text": "Luôn; chủ động dùng chi tiết để tạo niềm vui và khiến mình cảm thấy đặc biệt.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Yêu thương - Chia Sẻ",
+        "questions": [
+          {
+            "id": 4,
+            "text": "Khi lớp có kể chuyện vui, thực hiện được ý tưởng sáng tạo, có tiết mục ca hát, … hoặc lập được thành tích nhỏ thì mọi người cùng vui, tham gia chia sẻ không?",
+            "answers": [
+              {"level": 1, "text": "Lớp không dám; sợ bị chế giễu.", "score": 0},
+              {"level": 2, "text": "Nói rất hạn chế; đôi khi bị cười nhạt.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng có những tiết mục vui; ít bạn tham gia cùng.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; nhiều người tham gia vui vẻ.", "score": 1.2},
+              {"level": 5, "text": "Luôn; các bạn cùng nhau chia sẻ niềm vui thoải mái.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 5,
+            "text": "Khi mình gặp khó khăn hoặc có thành tích trong học tập, mọi người có lắng nghe, khen ngợi và chia sẻ niềm vui học tập cùng mình không?",
+            "answers": [
+              {"level": 1, "text": "Không ai quan tâm; mình vui một mình.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; chỉ nhận lời khen hời hợt.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; vài người khen hoặc góp ý.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; nhiều người chia sẻ niềm vui và động viên.", "score": 1.2},
+              {"level": 5, "text": "Luôn; mọi người cùng ăn mừng, chia sẻ niềm vui học tập với mình.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 6,
+            "text": "Bạn bè có thường kể chuyện vui, ý tưởng hoặc thành tích của họ với mình, không chỉ mình chia sẻ một chiều không?",
+            "answers": [
+              {"level": 1, "text": "Không ai kể; mình cảm thấy không quan trọng.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; ít trao đổi.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; nhận được niềm vui nhỏ.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; nhiều bạn kể chuyện vui, trao đổi tích cực.", "score": 1.2},
+              {"level": 5, "text": "Luôn; chia sẻ thân thiết, cùng vui vẻ, hỗ trợ lẫn nhau.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Yêu thương - Tin Tưởng",
+        "questions": [
+          {
+            "id": 7,
+            "text": "Nếu mình kể chuyện riêng tư hoặc kế hoạch bất ngờ cho bạn/giáo viên, họ có giữ bí mật và phản ứng tích cực, hào hứng cùng mình không?",
+            "answers": [
+              {"level": 1, "text": "Thường bị tiết lộ; mất vui.", "score": 0},
+              {"level": 2, "text": "Có lần giữ, có lần tiết lộ; mình dè chừng.", "score": 0.4},
+              {"level": 3, "text": "Hầu hết giữ nhưng còn lo lắng.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên giữ; mình vui và tin tưởng.", "score": 1.2},
+              {"level": 5, "text": "Luôn giữ kín, hào hứng cùng tận hưởng niềm vui.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 8,
+            "text": "Mình có được giao nhiệm vụ, hoạt động thú vị vì mọi người tin mình làm tốt và tạo niềm vui cho nhóm/lớp không?",
+            "answers": [
+              {"level": 1, "text": "Chưa từng; luôn bị bỏ qua.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; giao việc nhỏ, không thú vị.", "score": 0.4},
+              {"level": 3, "text": "Được giao việc cơ bản; niềm vui vừa phải.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; được giao việc thú vị, có hướng dẫn.", "score": 1.2},
+              {"level": 5, "text": "Luôn; được giao việc quan trọng, tạo cơ hội tỏa sáng và vui vẻ.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 9,
+            "text": "Khi mình làm sai (ví dụ trò chơi nhóm, dự án), phản ứng của bạn/giáo viên có giúp mình sửa lỗi và giữ niềm vui không?",
+            "answers": [
+              {"level": 1, "text": "Buộc tội, xấu hổ hóa; mất vui.", "score": 0},
+              {"level": 2, "text": "Chê trách nhiều; ngại tham gia tiếp.", "score": 0.4},
+              {"level": 3, "text": "Nhắc nhở sơ; niềm vui giảm.", "score": 0.8},
+              {"level": 4, "text": "Góp ý cụ thể; vẫn vui vẻ thử lại.", "score": 1.2},
+              {"level": 5, "text": "Tin tưởng mình sẽ tiến bộ, hướng dẫn rõ ràng và duy trì niềm vui.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Yêu thương - Hỗ Trợ",
+        "questions": [
+          {
+            "id": 10,
+            "text": "Khi mình gặp môn khó, thầy/cô hoặc bạn bè có dành thời gian hướng dẫn bằng trò chơi, hoạt động vui hoặc giải thích chi tiết không?",
+            "answers": [
+              {"level": 1, "text": "Không ai giúp.", "score": 0},
+              {"level": 2, "text": "Giúp sơ sài; không vui.", "score": 0.4},
+              {"level": 3, "text": "Giải thích ngắn; niềm vui ít.", "score": 0.8},
+              {"level": 4, "text": "Dành thời gian ngoài giờ, tạo niềm vui.", "score": 1.2},
+              {"level": 5, "text": "Hướng dẫn/thiết kế bài vui và chi tiết, mình nắm chắc kiến thức và hạnh phúc.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 11,
+            "text": "Nếu gặp khó khăn cá nhân, thầy/cô hoặc bạn bè có giúp mình tham gia hoạt động vui, tham vấn hay giới thiệu hỗ trợ chuyên môn không?",
+            "answers": [
+              {"level": 1, "text": "Không ai quan tâm.", "score": 0},
+              {"level": 2, "text": "Biết nhưng né tránh.", "score": 0.4},
+              {"level": 3, "text": "Giới thiệu sơ; ít đồng hành.", "score": 0.8},
+              {"level": 4, "text": "Chủ động liên hệ, tham gia hỗ trợ vui.", "score": 1.2},
+              {"level": 5, "text": "Theo dõi liên tục, hỗ trợ bằng hoạt động vui và chuyên môn, mình thấy được chăm sóc và hạnh phúc.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 12,
+            "text": "Khi mình có hoàn cảnh đặc biệt, trường/lớp có linh hoạt tạo điều kiện học tập thuận lợi, vui vẻ mà không bỏ rơi mình không?",
+            "answers": [
+              {"level": 1, "text": "Không điều chỉnh.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; cứng nhắc.", "score": 0.4},
+              {"level": 3, "text": "Đồng ý nhưng mất thời gian.", "score": 0.8},
+              {"level": 4, "text": "Linh hoạt, chủ động đề xuất phương án hỗ trợ.", "score": 1.2},
+              {"level": 5, "text": "Luôn tìm phương án phù hợp, giúp mình học tốt và vui vẻ.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Yêu thương - Bao Dung",
+        "questions": [
+          {
+            "id": 13,
+            "text": "Khi mình khác người (phong cách, sở thích, quan điểm), mọi người phản ứng thế nào? Có vui vẻ chào đón và khen thú vị không?",
+            "answers": [
+              {"level": 1, "text": "Bị trêu/chê; mất vui.", "score": 0},
+              {"level": 2, "text": "Bị bàn tán; ít tôn trọng.", "score": 0.4},
+              {"level": 3, "text": "Chấp nhận nhưng không vui.", "score": 0.8},
+              {"level": 4, "text": "Tôn trọng; phản ứng tích cực.", "score": 1.2},
+              {"level": 5, "text": "Khác biệt được chào đón, khen thú vị, mình vui hạnh phúc.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 14,
+            "text": "Khi xảy ra tranh cãi, lớp/nhóm/giáo viên có giải quyết theo cách giúp mọi người nghe nhau, làm lành, và duy trì niềm vui không?",
+            "answers": [
+              {"level": 1, "text": "Chia phe, xúc phạm; mất vui.", "score": 0},
+              {"level": 2, "text": "Tránh nói chuyện; mâu thuẫn kéo dài.", "score": 0.4},
+              {"level": 3, "text": "Nói chuyện nhưng chưa giải quyết triệt để.", "score": 0.8},
+              {"level": 4, "text": "Buổi nói chuyện có tiến triển; cả nhóm nhẹ nhõm.", "score": 1.2},
+              {"level": 5, "text": "Học hỏi, tha thứ, hòa giải vui vẻ, quan hệ được hàn gắn.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 15,
+            "text": "Khi vào lớp/CLB/nhóm mới, mình có được mời tham gia, giới thiệu vui vẻ và ai đó giúp hòa nhập không?",
+            "answers": [
+              {"level": 1, "text": "Bị bỏ ngoài; cô đơn.", "score": 0},
+              {"level": 2, "text": "Được biết nhưng ít ai tiếp cận.", "score": 0.4},
+              {"level": 3, "text": "Phải chủ động; mới được nhận.", "score": 0.8},
+              {"level": 4, "text": "Được chào đón, người chủ động làm quen, vui vẻ.", "score": 1.2},
+              {"level": 5, "text": "Là thành viên thực sự; mọi người chủ động giúp hòa nhập, mình vui và an tâm.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "An Toàn - Thể Chất",
+        "questions": [
+          {
+            "id": 16,
+            "text": "Khi tham gia ra chơi hoặc hoạt động ngoài giờ, bạn có cảm thấy khuôn viên, thiết bị và tổ chức hoạt động an toàn (không trơn trượt, không lộn xộn, có giám sát) đến mức nào?",
+            "answers": [
+              {"level": 1, "text": "Khuôn viên/thiết bị gây nguy hiểm; không có giám sát.", "score": 0},
+              {"level": 2, "text": "Vẫn có nhiều chỗ rủi ro; giám sát ít, không đều.", "score": 0.4},
+              {"level": 3, "text": "Tương đối an toàn nhưng còn vài điểm cần chú ý.", "score": 0.8},
+              {"level": 4, "text": "Hầu hết an toàn; có giám sát, cảnh báo.", "score": 1.2},
+              {"level": 5, "text": "Rất an toàn; bố trí hợp lý, giám sát chủ động.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 17,
+            "text": "Khi có tai nạn nhỏ (trượt ngã, xây xát), nhà trường và giáo viên có xử lý kịp thời, có người sơ cứu cơ bản và ghi nhận sự kiện theo quy định không?",
+            "answers": [
+              {"level": 1, "text": "Không xử lý hoặc bỏ mặc; không ghi nhận.", "score": 0},
+              {"level": 2, "text": "Có phản ứng nhưng chậm/chưa đúng quy cách.", "score": 0.4},
+              {"level": 3, "text": "Xử lý cơ bản, ghi biên bản không đầy đủ.", "score": 0.8},
+              {"level": 4, "text": "Xử lý nhanh, sơ cứu cơ bản, có biên bản.", "score": 1.2},
+              {"level": 5, "text": "Xử lý chuẩn, hỗ trợ y tế kịp thời, báo cáo minh bạch.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 18,
+            "text": "Khi sử dụng phòng thí nghiệm, phòng tin, dụng cụ thể thao, bạn thấy có hướng dẫn an toàn, quy định thực hiện và giáo viên kiểm tra tuân thủ không?",
+            "answers": [
+              {"level": 1, "text": "Không có hướng dẫn/không ai kiểm tra; rủi ro lớn.", "score": 0},
+              {"level": 2, "text": "Hướng dẫn sơ sài, ít kiểm tra.", "score": 0.4},
+              {"level": 3, "text": "Hướng dẫn có nhưng chấp hành chưa nghiêm.", "score": 0.8},
+              {"level": 4, "text": "Hướng dẫn rõ, giám sát thường xuyên.", "score": 1.2},
+              {"level": 5, "text": "Hướng dẫn kiểm soát nghiêm ngặt; mọi người tuân thủ.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 19,
+            "text": "Khi bạn phát hiện nguy cơ (điện lỏng, hành vi nguy hiểm, thiết bị hỏng), bạn biết cách báo và cảm thấy nhà trường tiếp nhận, xử lý đúng trách nhiệm không?",
+            "answers": [
+              {"level": 1, "text": "Không biết báo cho ai; hoặc báo nhưng bị bỏ qua.", "score": 0},
+              {"level": 2, "text": "Biết kênh nhưng phản hồi chậm.", "score": 0.4},
+              {"level": 3, "text": "Báo được, xử lý nhưng không nhanh.", "score": 0.8},
+              {"level": 4, "text": "Biết kênh; báo là có phản hồi, có theo dõi.", "score": 1.2},
+              {"level": 5, "text": "Kênh rõ; báo là xử lý nhanh, thông báo kết quả.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 20,
+            "text": "Trường bạn có câu lạc bộ hỗ trợ hay có tổ chức sinh hoạt chuyên đề để trang bị cho HS kiến thức các biện pháp an toàn, bảo vệ bản thân và bạn bè?",
+            "answers": [
+              {"level": 1, "text": "Không có câu lạc bộ, không tổ chức sinh hoạt chuyên đề.", "score": 0},
+              {"level": 2, "text": "Câu lạc bộ có nhưng hoạt động không hiệu quả, ít hỗ trợ học sinh.", "score": 0.4},
+              {"level": 3, "text": "Câu lạc bộ có hỗ trợ học sinh nhưng phản hồi còn chậm.", "score": 0.8},
+              {"level": 4, "text": "Có câu lạc bộ hỗ trợ cho HS, có tổ chức chuyên đề hấp dẫn nhưng chưa nhiều.", "score": 1.2},
+              {"level": 5, "text": "Có câu lạc bộ hỗ trợ uy tín chất lượng, trường thường xuyên tổ chức sinh hoạt chuyên đề.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "An Toàn - Tinh Thần & Mạng",
+        "questions": [
+          {
+            "id": 21,
+            "text": "Khi bạn bị lỗi (học tập/ứng xử), giáo viên và bạn bè đối xử với bạn thế nào: giữ thể diện, góp ý riêng tư hay mắng nhục, bêu tên trước lớp?",
+            "answers": [
+              {"level": 1, "text": "Thường bị mắng nhục, bêu tên, xúc phạm.", "score": 0},
+              {"level": 2, "text": "Góp ý trước lớp, làm xấu hổ.", "score": 0.4},
+              {"level": 3, "text": "Góp ý có lúc chưa tế nhị.", "score": 0.8},
+              {"level": 4, "text": "Góp ý riêng, tôn trọng nhân phẩm.", "score": 1.2},
+              {"level": 5, "text": "Luôn hướng dẫn tế nhị, tôn trọng, hỗ trợ phục hồi.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 22,
+            "text": "Khi xảy ra tranh chấp giữa học sinh (lời nói hay hành vi), trường có các biện pháp kịp thời để can thiệp, hòa giải và bảo vệ nạn nhân không?",
+            "answers": [
+              {"level": 1, "text": "Không can thiệp; bạo lực kéo dài.", "score": 0},
+              {"level": 2, "text": "Can thiệp yếu, không che chở nạn nhân.", "score": 0.4},
+              {"level": 3, "text": "Can thiệp nhưng thiếu hệ thống.", "score": 0.8},
+              {"level": 4, "text": "Can thiệp, hòa giải, có biện pháp bảo vệ.", "score": 1.2},
+              {"level": 5, "text": "Can thiệp nhanh, có biện pháp phòng ngừa lặp lại, hỗ trợ nạn nhân.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 23,
+            "text": "Khi xuất hiện nội dung xúc phạm, bêu xấu, lan truyền ảnh/clip liên quan em trên mạng, trường/giáo viên có hỗ trợ bạn xử lý và chặn nguồn phát tán không?",
+            "answers": [
+              {"level": 1, "text": "Bị bêu xấu nhiều, không ai hỗ trợ.", "score": 0},
+              {"level": 2, "text": "Có báo nhưng xử lý chậm hoặc không triệt để.", "score": 0.4},
+              {"level": 3, "text": "Có hỗ trợ nhưng chưa đủ mạnh (chặn/gỡ chưa kịp).", "score": 0.8},
+              {"level": 4, "text": "Hỗ trợ, phối hợp với phụ huynh và nền tảng để gỡ/xử lý.", "score": 1.2},
+              {"level": 5, "text": "Hỗ trợ kịp thời, bảo vệ quyền riêng tư, xử lý triệt để.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 24,
+            "text": "Trong giao tiếp hàng ngày, mọi người (HS & GV) có sử dụng ngôn ngữ tôn trọng, tránh lời nói miệt thị, trêu chọc gây tổn thương không?",
+            "answers": [
+              {"level": 1, "text": "Ngôn ngữ thô tục, miệt thị phổ biến.", "score": 0},
+              {"level": 2, "text": "Thỉnh thoảng lời nói gây tổn thương.", "score": 0.4},
+              {"level": 3, "text": "Nhiều lúc tôn trọng, nhưng vẫn có vụ sai sót.", "score": 0.8},
+              {"level": 4, "text": "Đa phần giao tiếp tôn trọng; sai sót ít.", "score": 1.2},
+              {"level": 5, "text": "Giao tiếp văn minh, tôn trọng mọi người.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 25,
+            "text": "Bạn có cảm nhận rằng trường khuyến khích tinh thần tích cực (khuyến khích chia sẻ, khen ngợi, hỗ trợ tinh thần) và có kênh tư vấn/tâm lý rõ ràng để bạn tìm kiếm giúp đỡ khi cần?",
+            "answers": [
+              {"level": 1, "text": "Không biết chỗ hỗ trợ; không ai khuyến khích chia sẻ.", "score": 0},
+              {"level": 2, "text": "Kênh yếu, khuyến khích ít.", "score": 0.4},
+              {"level": 3, "text": "Có kênh nhưng ít người biết/khó tiếp cận.", "score": 0.8},
+              {"level": 4, "text": "Kênh rõ, có khuyến khích, dễ tiếp cận.", "score": 1.2},
+              {"level": 5, "text": "Kênh mạnh, chủ động khuyến khích, hỗ trợ tích cực, bảo mật.", "score": 1.6}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "GV": {
+    "max_score": 30,
+    "total_questions": 15,
+    "categories": [
+      {
+        "name": "Yêu thương",
+        "questions": [
+          {
+            "id": 1,
+            "text": "Trường/Ban giám hiệu có tạo điều kiện để giáo viên cảm thấy được quan tâm, chia sẻ khó khăn và nhận được hỗ trợ không?",
+            "answers": [
+              {"level": 1, "text": "Không; giáo viên cảm thấy cô đơn, bị lãng quên.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; lắng nghe nhưng ít hỗ trợ thực tế.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có buổi nói chuyện nhưng thiếu sâu sắc.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; có các biện pháp hỗ trợ từng giáo viên.", "score": 1.2},
+              {"level": 5, "text": "Luôn; tạo một cộng đồng giáo viên thân thiết, hỗ trợ toàn diện.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 2,
+            "text": "Giáo viên có cảm thấy công việc được công nhân, khen ngợi và có cơ hội phát triển chuyên môn không?",
+            "answers": [
+              {"level": 1, "text": "Không; công việc không được đánh giá, thiếu động viên.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; khen lâng lâng, chưa thực tế.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; công nhân nhưng cơ hội phát triển hạn chế.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; có khoá tập huấn, được khen công khai.", "score": 1.2},
+              {"level": 5, "text": "Luôn; công khai khen ngợi, có kế hoạch phát triển cá nhân rõ ràng.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 3,
+            "text": "Cộng đồng giáo viên có chia sẻ kinh nghiệm, trao đổi ý tưởng giảng dạy và tạo không khí hợp tác không?",
+            "answers": [
+              {"level": 1, "text": "Không; mỗi giáo viên làm việc riêng lẻ, ít tương tác.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; trao đổi bề ngoài, chưa sâu sắc.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có các buổi chia sẻ nhưng chưa đều đặn.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; các bộ môn hợp tác, trao đổi kinh nghiệm.", "score": 1.2},
+              {"level": 5, "text": "Luôn; thường xuyên hội thảo, nhóm nghiên cứu, chia sẻ tích cực.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 4,
+            "text": "Khi gặp sai lầm trong giáo dục, cấp trên có giúp giáo viên nhìn nhận, học hỏi và cải tiến mà không chê bai, đổ lỗi không?",
+            "answers": [
+              {"level": 1, "text": "Không; bị buộc tội, xấu hổ hóa, nản lòng.", "score": 0},
+              {"level": 2, "text": "Có nhắc nhở nhưng cách còn cứng nhắc, xúc phạm.", "score": 0.4},
+              {"level": 3, "text": "Có hỗ trợ nhưng hơi hình thức.", "score": 0.8},
+              {"level": 4, "text": "Phân tích nguyên nhân, đề xuất giải pháp, tôn trọng.", "score": 1.2},
+              {"level": 5, "text": "Cùng phân tích, học hỏi, tạo cơ hội cải tiến và phát triển.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 5,
+            "text": "Trường có các hoạt động tạo niềm vui, giảm căng thẳng cho giáo viên (sự kiện, du lịch, câu lạc bộ, v.v.) không?",
+            "answers": [
+              {"level": 1, "text": "Không; giáo viên làm việc căng thẳng liên tục.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; hoạt động không thường xuyên.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có vài hoạt động nhưng ít thú vị.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; các hoạt động được tổ chức định kỳ.", "score": 1.2},
+              {"level": 5, "text": "Luôn; tạo văn hóa kỷ niệm, vui vẻ, giảm căng thẳng.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "An Toàn",
+        "questions": [
+          {
+            "id": 6,
+            "text": "Trường có điều kiện làm việc an toàn về thể chất (không nhiễm độc, không ồn ào quá mức, thiết bị an toàn) không?",
+            "answers": [
+              {"level": 1, "text": "Không; điều kiện làm việc nguy hiểm, khó chịu.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; còn nhiều rủi ro.", "score": 0.4},
+              {"level": 3, "text": "Tương đối an toàn nhưng vẫn có vài điểm cần cải thiện.", "score": 0.8},
+              {"level": 4, "text": "Hầu hết an toàn; có biện pháp bảo vệ sức khỏe.", "score": 1.2},
+              {"level": 5, "text": "Rất an toàn; bảo trì liên tục, chủ động bảo vệ sức khỏe.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 7,
+            "text": "Khi gặp khó khăn với học sinh hoặc phụ huynh, giáo viên có được hỗ trợ từ ban giám hiệu và các đồng nghiệp không?",
+            "answers": [
+              {"level": 1, "text": "Không; phải đối mặt một mình, cảm thấy bất lực.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; có lời khuyên nhưng ít thực tế.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; nhận được hỗ trợ sơ sài.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; có kênh hỗ trợ rõ ràng.", "score": 1.2},
+              {"level": 5, "text": "Luôn; hỗ trợ toàn diện, tìm giải pháp cùng nhau.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 8,
+            "text": "Giáo viên có cảm thấy được bảo vệ khi phát hiện các vấn đề về bạo lực, lạm dụng hoặc nguy hiểm cho học sinh không?",
+            "answers": [
+              {"level": 1, "text": "Không; sợ báo cáo vì không có hỗ trợ.", "score": 0},
+              {"level": 2, "text": "Có kênh nhưng phản hồi chậm, chưa rõ ràng.", "score": 0.4},
+              {"level": 3, "text": "Có hỗ trợ nhưng hơi hình thức.", "score": 0.8},
+              {"level": 4, "text": "Cảm thấy an tâm; nhà trường xử lý trách nhiệm.", "score": 1.2},
+              {"level": 5, "text": "Luôn được bảo vệ; có quy trình rõ ràng, xử lý minh bạch.", "score": 1.6}
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Tôn Trọng",
+        "questions": [
+          {
+            "id": 9,
+            "text": "Ban giám hiệu có tôn trọng sự tự chủ của giáo viên trong giáo dục, phương pháp dạy học không áp đặt máy móc không?",
+            "answers": [
+              {"level": 1, "text": "Không; kiểm soát cứng nhắc, áp đặt hết.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; còn kiểm soát nhiều.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; cho phép sáng tạo nhưng còn hạn chế.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; tôn trọng nhưng có hướng dẫn.", "score": 1.2},
+              {"level": 5, "text": "Luôn; tôn trọng tư duy sáng tạo, hỗ trợ phát triển phương pháp.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 10,
+            "text": "Giáo viên từ các lớp/bộ môn khác nhau có được tôn trọng bình đẳng, không có sự phân biệt hay ưu tiên không?",
+            "answers": [
+              {"level": 1, "text": "Không; có sự phân biệt rõ rệt giữa các bộ môn.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; vẫn có ưu tiên tinh tế.", "score": 0.4},
+              {"level": 3, "text": "Tương đối bình đẳng nhưng vẫn có chênh lệch nhỏ.", "score": 0.8},
+              {"level": 4, "text": "Hầu hết bình đẳng; ít phân biệt.", "score": 1.2},
+              {"level": 5, "text": "Luôn; tôn trọng giá trị mỗi giáo viên, mỗi bộ môn.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 11, 
+            "text": "Khi có ý kiến khác biệt, giáo viên có được lắng nghe, không bị tố cáo hay trừng phạt không?",
+            "answers": [
+              {"level": 1, "text": "Không; bị tố cáo, phạt vì nói lên ý kiến.", "score": 0},
+              {"level": 2, "text": "Có nghe nhưng phản ứng không tích cực.", "score": 0.4},
+              {"level": 3, "text": "Nghe được nhưng còn hơi khó chịu.", "score": 0.8},
+              {"level": 4, "text": "Tôn trọng ý kiến, trao đổi bình đẳng.", "score": 1.2},
+              {"level": 5, "text": "Luôn; khuyến khích phản biện, đối thoại công bằng.", "score": 1.6}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "PH": {
+    "max_score": 20,
+    "total_questions": 10,
+    "categories": [
+      {
+        "name": "Yêu thương & An Toàn",
+        "questions": [
+          {
+            "id": 1,
+            "text": "Trường thường xuyên liên lạc với phụ huynh, chia sẻ tiến triển của con em và hỗ trợ khi con gặp khó khăn không?",
+            "answers": [
+              {"level": 1, "text": "Không; chỉ liên lạc khi có vấn đề tiêu cực.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; liên lạc sơ sài, ít chia sẻ.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có liên lạc nhưng không đủ thường xuyên.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; chia sẻ tiến triển, có hỗ trợ.", "score": 1.2},
+              {"level": 5, "text": "Luôn; liên lạc tích cực, hỗ trợ toàn diện, cùng nuôi dạy con.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 2,
+            "text": "Trường có minh bạch về tình hình sức khỏe, an toàn và học tập của con em không?",
+            "answers": [
+              {"level": 1, "text": "Không; phụ huynh không biết con học như thế nào.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; chỉ biết thông qua con em kể.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có báo cáo nhưng chưa đầy đủ.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; minh bạch tình hình học tập và an toàn.", "score": 1.2},
+              {"level": 5, "text": "Luôn; báo cáo chi tiết, cập nhật thường xuyên qua nhiều kênh.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 3,
+            "text": "Khi con em gặp vấn đề (học tập, hành vi, sức khỏe tâm lý), trường có tư vấn giáo viên + phụ huynh cùng hỗ trợ không?",
+            "answers": [
+              {"level": 1, "text": "Không; bỏ trách nhiệm cho phụ huynh hoặc chỉ xử phạt.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; hỗ trợ sơ sài.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có tư vấn nhưng chưa sâu sắc.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; gặp mặt, trao đổi giải pháp.", "score": 1.2},
+              {"level": 5, "text": "Luôn; hỗ trợ toàn diện, có kế hoạch cùng phụ huynh hỗ trợ con.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 4,
+            "text": "Trường có chủ động bảo vệ con em khỏi bạo lực, lạm dụng hoặc các rủi ro không?",
+            "answers": [
+              {"level": 1, "text": "Không; con em không cảm thấy an toàn.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; biện pháp chưa hiệu quả.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có biện pháp nhưng chưa đầy đủ.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; có các biện pháp phòng ngừa.", "score": 1.2},
+              {"level": 5, "text": "Luôn; chủ động phòng ngừa, can thiệp kịp thời, bảo vệ tuyệt đối.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 5,
+            "text": "Trường có tôn trọng phong cách, nền tảng, tôn giáo, hoàn cảnh của con em và gia đình không?",
+            "answers": [
+              {"level": 1, "text": "Không; con em bị kỳ thị hoặc miệt thị.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; có nhận xét bất tôn trọng.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; tôn trọng nhưng còn điểm khó chịu.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; tôn trọng sự đa dạng.", "score": 1.2},
+              {"level": 5, "text": "Luôn; tôn trọng tuyệt đối, khuyến khích sự đa dạng.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 6,
+            "text": "Trường có hỗ trợ con em có hoàn cảnh đặc biệt mà không làm con cảm thấy bị phân biệt không?",
+            "answers": [
+              {"level": 1, "text": "Không; con em bị bỏ lại hoặc bị chêm cười.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; hỗ trợ chưa hiệu quả, bị chú ý xấu.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có hỗ trợ nhưng chưa kín đáo.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; hỗ trợ linh hoạt, tôn trọng.", "score": 1.2},
+              {"level": 5, "text": "Luôn; hỗ trợ tối đa, kín đáo, con cảm thấy được chăm sóc.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 7,
+            "text": "Trường có tạo cơ hội cho phụ huynh tham gia các hoạt động của con em, cùng tạo môi trường học tập vui vẻ không?",
+            "answers": [
+              {"level": 1, "text": "Không; phụ huynh bị loại khỏi trường.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; ít cơ hội tham gia.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có vài hoạt động chung.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; có hội họp, sự kiện chung.", "score": 1.2},
+              {"level": 5, "text": "Luôn; khuyến khích tham gia, cùng xây dựng cộng đồng.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 8,
+            "text": "Trường có tiếp nhận ý kiến, phản ánh của phụ huynh và giải quyết các vấn đề công bằng không?",
+            "answers": [
+              {"level": 1, "text": "Không; phụ huynh nói gì cũng không nghe.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; nghe nhưng ít xử lý.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có xử lý nhưng chậm.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; tiếp nhận, xử lý công bằng.", "score": 1.2},
+              {"level": 5, "text": "Luôn; khuyến khích ý kiến, xử lý minh bạch, nhanh chóng.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 9,
+            "text": "Trường có cung cấp thông tin hữu ích để phụ huynh hỗ trợ con em phòng ngừa các rủi ro (an toàn mạng, tâm lý, v.v.) không?",
+            "answers": [
+              {"level": 1, "text": "Không; phụ huynh tự tìm hiểu.", "score": 0},
+              {"level": 2, "text": "Hiếm khi; cung cấp sơ sài.", "score": 0.4},
+              {"level": 3, "text": "Thỉnh thoảng; có thông tin nhưng chưa đầy đủ.", "score": 0.8},
+              {"level": 4, "text": "Thường xuyên; cung cấp thông tin hữu ích định kỳ.", "score": 1.2},
+              {"level": 5, "text": "Luôn; cung cấp thông tin chi tiết, kịp thời, hỗ trợ phụ huynh.", "score": 1.6}
+            ]
+          },
+          {
+            "id": 10,
+            "text": "Nhìn chung, phụ huynh có cảm thấy trường là cộng sự đáng tin cậy trong giáo dục con em không?",
+            "answers": [
+              {"level": 1, "text": "Không; phụ huynh lo lắng, không tin tưởng.", "score": 0},
+              {"level": 2, "text": "Ít; còn nhiều lo ngại.", "score": 0.4},
+              {"level": 3, "text": "Bình thường; có tin tưởng nhưng chưa tuyệt đối.", "score": 0.8},
+              {"level": 4, "text": "Lớn lao; phụ huynh an tâm gửi con.", "score": 1.2},
+              {"level": 5, "text": "Tuyệt đối; phụ huynh tin tưởng, hạnh phúc với sự lựa chọn.", "score": 1.6}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
