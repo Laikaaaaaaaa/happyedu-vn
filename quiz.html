@@ -416,6 +416,34 @@
       color: #ffffff;
     }
 
+    .other-response-field {
+      margin-top: 1.25rem;
+    }
+
+    .other-response-field label {
+      display: block;
+      font-size: 0.85rem;
+      color: #475569;
+      margin-bottom: 0.35rem;
+    }
+
+    .other-response-field input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid #CBD5F5;
+      background: #F8FAFC;
+      font-size: 0.95rem;
+      color: #0F172A;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .other-response-field input:focus {
+      outline: none;
+      border-color: #1D4ED8;
+      background: #FFFFFF;
+    }
+
     .textarea-field {
       width: 100%;
       padding: 0.75rem 1rem;
@@ -974,6 +1002,20 @@
         html += `<textarea class="textarea-field" placeholder="${q.placeholder || ''}" onchange="selectAnswer(${q.id}, this.value, 'text')">${currentValue}</textarea>`;
       }
 
+      const otherResponseValue = (answers[`${q.id}-other`] || '').replace(/"/g, '&quot;');
+      html += `
+        <div class="other-response-field">
+          <label for="other-${q.id}">Trả lời khác</label>
+          <input
+            type="text"
+            id="other-${q.id}"
+            placeholder="Bạn có thể chia sẻ cảm nhận, tình huống cụ thể..."
+            value="${otherResponseValue}"
+            oninput="handleOtherResponse(${q.id}, this.value)"
+          />
+        </div>
+      `;
+
       html += '</div>';
       container.innerHTML = html;
       updateButtons();
@@ -991,6 +1033,10 @@
         answers[qId] = value;
       }
       renderQuestion();
+    }
+
+    function handleOtherResponse(qId, text) {
+      answers[`${qId}-other`] = text;
     }
 
     function updateButtons() {
