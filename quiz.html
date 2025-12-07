@@ -743,152 +743,63 @@
   </footer>
 
   <script>
-    // Quiz Data
-    const quizzes = {
-      happiness: {
-        title: 'Đánh Giá Mức Độ Hạnh Phúc',
-        description: 'Vui lòng trả lời 10 câu hỏi dưới đây dựa trên cảm nhận của bạn về trường học.',
-        questions: [
-          {
-            id: 1,
-            text: 'Tôi cảm thấy hạnh phúc khi ở trường học',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 2,
-            text: 'Các giáo viên của tôi quan tâm đến sự phát triển của tôi',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 3,
-            text: 'Tôi cảm thấy được chấp nhận và yêu mến tại trường',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 4,
-            text: 'Tôi có những bạn thân thiện tại trường',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 5,
-            text: 'Môi trường học tập ở đây giúp tôi phát triển kỹ năng',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 6,
-            text: 'Tôi cảm thấy áp lực quá nhiều về học tập',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 7,
-            text: 'Điều nào là lý do chính khiến bạn cảm thấy hạnh phúc ở trường? (Chọn tất cả những lựa chọn phù hợp)',
-            type: 'checkbox',
-            options: ['Bạn bè', 'Giáo viên', 'Khoá học/Môn học', 'Hoạt động ngoại khoá', 'Phong cách quản lý']
-          },
-          {
-            id: 8,
-            text: 'Điều gì có thể cải thiện để làm cho bạn hạnh phúc hơn?',
-            type: 'text',
-            placeholder: 'Hãy chia sẻ ý kiến của bạn...'
-          },
-          {
-            id: 9,
-            text: 'Bạn muốn gửi góp ý ẩn danh cho quản lý trường?',
-            type: 'radio',
-            options: ['Có, tôi muốn gửi một bức thư ẩn danh', 'Không, cảm ơn']
-          },
-          {
-            id: 10,
-            text: 'Thêm bất kỳ bình luận bổ sung nào (tùy chọn)',
-            type: 'text',
-            placeholder: 'Nhập bình luận của bạn...'
-          }
-        ]
-      },
-      safety: {
-        title: 'Khảo Sát An Toàn Trường Học',
-        description: 'Chúng tôi muốn biết bạn cảm thấy an toàn như thế nào tại trường học.',
-        questions: [
-          {
-            id: 1,
-            text: 'Tôi cảm thấy an toàn thể chất tại trường học',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 2,
-            text: 'Tôi cảm thấy an toàn về mặt tâm lý/cảm xúc',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 3,
-            text: 'Tôi biết cách tìm kiếm sự giúp đỡ nếu gặp vấn đề',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 4,
-            text: 'Bạo lực hoặc bắt nạt là một vấn đề tại trường của tôi',
-            type: 'scale',
-            options: ['Hoàn toàn không đồng ý', 'Không đồng ý', 'Trung lập', 'Đồng ý', 'Hoàn toàn đồng ý']
-          },
-          {
-            id: 5,
-            text: 'Nếu bạn trả lời "Đồng ý" hoặc "Hoàn toàn đồng ý" ở câu trên, vui lòng mô tả tình hình (tùy chọn)',
-            type: 'text',
-            placeholder: 'Mô tả tình hình...'
-          }
-        ]
-      },
-      environment: {
-        title: 'Môi Trường Học Tập',
-        description: 'Đánh giá về cơ sở vật chất và không khí học tập.',
-        questions: [
-          {
-            id: 1,
-            text: 'Cơ sở vật chất của trường (lớp học, sân chơi, thư viện) tốt như thế nào?',
-            type: 'scale',
-            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
-          },
-          {
-            id: 2,
-            text: 'Không khí trong lớp học có thuận lợi cho học tập không?',
-            type: 'scale',
-            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
-          },
-          {
-            id: 3,
-            text: 'Mối quan hệ giữa học sinh-giáo viên như thế nào?',
-            type: 'scale',
-            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
-          },
-          {
-            id: 4,
-            text: 'Mối quan hệ giữa các học sinh như thế nào?',
-            type: 'scale',
-            options: ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt']
-          },
-          {
-            id: 5,
-            text: 'Điều gì có thể cải thiện môi trường học tập?',
-            type: 'text',
-            placeholder: 'Chia sẻ đề xuất của bạn...'
-          }
-        ]
-      }
-    };
-
+    // Quiz Data - will be loaded from API based on user role
+    let quizzes = {};
     let currentQuiz = null;
     let currentQuestion = 0;
     let answers = {};
     let quizStarted = false;
+
+    // Load quiz questions from API based on user role
+    async function loadQuizQuestions() {
+      try {
+        const userRole = sessionStorage.getItem('user_role') || 'HS';
+        console.log(`Loading quiz questions for role: ${userRole}`);
+        
+        const response = await fetch(`/api/quiz/questions/${userRole}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          console.log(`Loaded ${data.total_questions} questions for ${userRole}`);
+          
+          // Transform API data to quiz format
+          quizzes = {
+            assessment: {
+              title: 'Đánh Giá Trường Học Hạnh Phúc',
+              description: `Vui lòng trả lời ${data.total_questions} câu hỏi. Tổng điểm tối đa: ${data.max_score}`,
+              role: userRole,
+              max_score: data.max_score,
+              total_questions: data.total_questions,
+              questions: []
+            }
+          };
+          
+          // Flatten all questions from categories
+          let questionId = 1;
+          data.categories.forEach(category => {
+            category.questions.forEach(q => {
+              quizzes.assessment.questions.push({
+                id: q.id,
+                category: category.name,
+                text: q.text,
+                type: 'scale',
+                options: q.answers.map(a => `${a.level} - ${a.text}`),
+                answers: q.answers,
+                score_values: q.answers.map(a => a.score)
+              });
+            });
+          });
+          
+          console.log('Quiz data loaded successfully:', quizzes);
+        } else {
+          console.error('Failed to load quiz questions:', data.error);
+          alert('Lỗi: Không thể tải câu hỏi');
+        }
+      } catch (error) {
+        console.error('Error loading quiz questions:', error);
+        alert('Lỗi kết nối: ' + error.message);
+      }
+    }
 
     // Load user info
     function loadUserInfo() {
@@ -931,7 +842,10 @@
     }
 
     // Sidebar Toggle
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Load quiz questions first
+      await loadQuizQuestions();
+      
       const menuToggle = document.getElementById('mobile-menu-toggle');
       const sidebar = document.getElementById('sidebar');
       const sidebarOverlay = document.getElementById('sidebar-overlay');
