@@ -824,155 +824,155 @@
         "questions": [
           {
             "id": 1,
-            "text": "Trường/Ban giám hiệu có tạo điều kiện để giáo viên cảm thấy được quan tâm, chia sẻ khó khăn và nhận được hỗ trợ không?",
+            "text": "Trong công việc hàng ngày, học sinh có biểu hiện quan tâm, cảm ơn, hoặc bày tỏ lòng biết ơn với bạn (lời nói, cử chỉ, hành động nhỏ) đến mức nào — và điều đó ảnh hưởng ra sao tới cảm giác hạnh phúc của bạn?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; giáo viên cảm thấy cô đơn, bị lãng quên.",
+                "text": "Hiếm khi hoặc không; thường bị phớt lờ; bạn cảm thấy thất vọng, hụt hẫng; động lực giảm rõ.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; lắng nghe nhưng ít hỗ trợ thực tế.",
+                "text": "Thỉnh thoảng có vài hành động nhỏ (gật đầu, vâng), nhưng hiếm lời cảm ơn; cảm xúc tích cực ngắn, không bền.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có buổi nói chuyện nhưng thiếu sâu sắc.",
+                "text": "Có sự công nhận định kỳ (một vài học sinh tỏ ra trân trọng), bạn cảm thấy động lực giữ ở mức ổn.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; có các biện pháp hỗ trợ từng giáo viên.",
+                "text": "Thường xuyên nhận cử chỉ biết ơn (lời nói, thiệp nhỏ, hành động tiếp sức); bạn cảm thấy được khích lệ và vui khi dạy.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; tạo một cộng đồng giáo viên thân thiết, hỗ trợ toàn diện.",
+                "text": "Liên tục được học sinh chủ động bày tỏ sự quan tâm, cảm ơn; cảm xúc tích cực sâu, tạo nguồn năng lượng bền vững cho công việc.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 2,
-            "text": "Giáo viên có cảm thấy công việc được công nhân, khen ngợi và có cơ hội phát triển chuyên môn không?",
+            "text": "Khi bạn gặp khó khăn (bài giảng, học sinh cá biệt, áp lực hành chính), đồng nghiệp có chủ động hỏi thăm, chia sẻ công việc hoặc đưa ra hỗ trợ cụ thể không? Cảm nhận đó tác động thế nào đến hạnh phúc nghề nghiệp của bạn?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; công việc không được đánh giá, thiếu động viên.",
+                "text": "Gần như không ai hỏi; bạn phải tự xoay xở; cảm thấy cô lập, dễ dẫn tới stress nặng.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; khen lâng lâng, chưa thực tế.",
+                "text": "Một vài đồng nghiệp hỗ trợ khi được nhắc; hỗ trợ không bền; cảm giác bị \"gánh nặng riêng\".",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; công nhân nhưng cơ hội phát triển hạn chế.",
+                "text": "Có nhóm bạn có thể nhờ, hỗ trợ theo nhu cầu; đôi lúc bạn vẫn phải chủ động xin giúp.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; có khoá tập huấn, được khen công khai.",
+                "text": "Đồng nghiệp chủ động trao đổi, phân chia công việc, chia sẻ tài liệu; giảm tải thực tế, cảm xúc tích cực gia tăng.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; công khai khen ngợi, có kế hoạch phát triển cá nhân rõ ràng.",
+                "text": "Văn hóa đồng nghiệp là hỗ trợ liên tục: chủ động quan tâm, thay phiên gánh vác; bạn cảm thấy ấm áp, an tâm, hạnh phúc nghề nghiệp được nuôi dưỡng.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 3,
-            "text": "Cộng đồng giáo viên có chia sẻ kinh nghiệm, trao đổi ý tưởng giảng dạy và tạo không khí hợp tác không?",
+            "text": "Khi bạn có sáng kiến, cống hiến hoặc vượt khó, Ban Giám hiệu có công khai ghi nhận, khen ngợi hoặc tạo điều kiện phát triển cho bạn không? Điều đó ảnh hưởng thế nào tới niềm tự hào nghề nghiệp?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; mỗi giáo viên làm việc riêng lẻ, ít tương tác.",
+                "text": "Không bao giờ được ghi nhận; cảm thấy nỗ lực vô nghĩa; có ý định rời bỏ.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; trao đổi bề ngoài, chưa sâu sắc.",
+                "text": "Ghi nhận hiếm hoi, hình thức; ít tác động tinh thần.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có các buổi chia sẻ nhưng chưa đều đặn.",
+                "text": "Có khen ngợi/ghi nhận theo chương trình; bạn thấy được động viên nhưng không sâu.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; các bộ môn hợp tác, trao đổi kinh nghiệm.",
+                "text": "Ghi nhận thường xuyên, cụ thể (họp, thông báo, thư cảm ơn); bạn tự hào, muốn tiếp tục cống hiến.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; thường xuyên hội thảo, nhóm nghiên cứu, chia sẻ tích cực.",
+                "text": "Ghi nhận mang tính cá nhân hóa và có hệ thống (thưởng, cơ hội phát triển); thúc đẩy niềm tin nghề nghiệp và cam kết lâu dài.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 4,
-            "text": "Khi gặp sai lầm trong giáo dục, cấp trên có giúp giáo viên nhìn nhận, học hỏi và cải tiến mà không chê bai, đổ lỗi không?",
+            "text": "Trong giao tiếp thường nhật, phụ huynh có hành xử tôn trọng, hợp tác để hỗ trợ công việc dạy học của bạn, hay thường xuyên gây thêm áp lực/soi xét? Ảnh hưởng lên cảm xúc nghề nghiệp ra sao?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; bị buộc tội, xấu hổ hóa, nản lòng.",
+                "text": "Phụ huynh thường chỉ trích, yêu cầu vô lý; bạn cảm thấy bị tổn thương, mệt mỏi.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Có nhắc nhở nhưng cách còn cứng nhắc, xúc phạm.",
+                "text": "Có phụ huynh gây áp lực/soi xét đôi lúc; bạn phản ứng phòng thủ, stress tăng.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Có hỗ trợ nhưng hơi hình thức.",
+                "text": "Nhiều phụ huynh hợp tác nhưng vẫn có trường hợp gây bực; cảm xúc nghề nghề bình thường.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Phân tích nguyên nhân, đề xuất giải pháp, tôn trọng.",
+                "text": "Phụ huynh đa phần tôn trọng, hợp tác trong hoạt động học tập; bạn có cảm giác được đồng hành.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Cùng phân tích, học hỏi, tạo cơ hội cải tiến và phát triển.",
+                "text": "Phụ huynh chủ động hỗ trợ, trân trọng vai trò bạn; điều này làm tăng niềm vui và ý nghĩa nghề nghiệp.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 5,
-            "text": "Trường có các hoạt động tạo niềm vui, giảm căng thẳng cho giáo viên (sự kiện, du lịch, câu lạc bộ, v.v.) không?",
+            "text": "Bạn có cảm nhận các chính sách phúc lợi (bảo hiểm, nghỉ ốm, hỗ trợ tâm lý, hoạt động tập thể) thực sự giúp bạn phục hồi và tạo cảm giác được yêu thương, chăm sóc từ nhà trường không?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; giáo viên làm việc căng thẳng liên tục.",
+                "text": "Không có phúc lợi thực chất; cảm thấy bị bỏ rơi; sức khỏe & tinh thần suy giảm.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; hoạt động không thường xuyên.",
+                "text": "Phúc lợi tồn tại nhưng hình thức/khó tiếp cận; tác dụng nhỏ.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có vài hoạt động nhưng ít thú vị.",
+                "text": "Phúc lợi cơ bản, đôi lúc có chương trình hỗ trợ; hiệu quả trung bình.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; các hoạt động được tổ chức định kỳ.",
+                "text": "Phúc lợi thiết thực, dễ dùng; giúp bạn cân bằng công việc-sống.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; tạo văn hóa kỷ niệm, vui vẻ, giảm căng thẳng.",
+                "text": "Phúc lợi toàn diện, cá nhân hóa; bạn cảm thấy được trường thực sự quan tâm, hạnh phúc gia tăng.",
                 "score": 2.0
               }
             ]
@@ -980,97 +980,159 @@
         ]
       },
       {
-        "name": "An Toàn",
+        "name": "An toàn",
         "questions": [
           {
             "id": 6,
-            "text": "Trường có điều kiện làm việc an toàn về thể chất (không nhiễm độc, không ồn ào quá mức, thiết bị an toàn) không?",
+            "text": "Bạn có cảm thấy an toàn về thể chất khi thực hiện công việc (phòng học, trang thiết bị, sân trường, tổ chức ngoại khóa)? Mô tả cảm xúc và hành vi của bạn khi nhận thấy rủi ro.",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; điều kiện làm việc nguy hiểm, khó chịu.",
+                "text": "Nhiều điểm nguy hiểm, sự cố xảy ra thường xuyên; bạn cảm thấy sợ, né tránh tham gia hoạt động.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; còn nhiều rủi ro.",
+                "text": "Có vài rủi ro chưa được khắc phục; bạn lo lắng, hay nhắc nhở nhưng ít thay đổi.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Tương đối an toàn nhưng vẫn có vài điểm cần cải thiện.",
+                "text": "Hầu hết an toàn; khi có vấn đề, bạn tự điều chỉnh/nhắc nhở HS; cảm giác an tâm ở mức trung bình.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Hầu hết an toàn; có biện pháp bảo vệ sức khỏe.",
+                "text": "Hệ thống bảo trì tốt; trường xử lý rủi ro khi phát hiện; bạn yên tâm và tham gia tích cực.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Rất an toàn; bảo trì liên tục, chủ động bảo vệ sức khỏe.",
+                "text": "Môi trường rất an toàn, có quy trình phòng ngừa & kiểm tra định kỳ; bạn chủ động đề xuất cải tiến, cảm thấy an tâm tuyệt đối.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 7,
-            "text": "Khi gặp khó khăn với học sinh hoặc phụ huynh, giáo viên có được hỗ trợ từ ban giám hiệu và các đồng nghiệp không?",
+            "text": "Khi bạn bày tỏ suy nghĩ, đề xuất hoặc chia sẻ khó khăn với đồng nghiệp hoặc lãnh đạo, bạn có cảm thấy an toàn về mặt tinh thần (không bị xúc phạm, bị cô lập hay trả đũa)?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; phải đối mặt một mình, cảm thấy bất lực.",
+                "text": "Không dám nói; khi nói bị phán xét hoặc bị cô lập; cảm xúc tiêu cực kéo dài.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; có lời khuyên nhưng ít thực tế.",
+                "text": "Ngại bày tỏ; phản ứng thường là im lặng hoặc né tránh; bạn giữ khoảng cách.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; nhận được hỗ trợ sơ sài.",
+                "text": "Thỉnh thoảng chia sẻ; có lúc được tiếp nhận; cảm giác an toàn chỉ tạm thời.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; có kênh hỗ trợ rõ ràng.",
+                "text": "Thường cảm thấy an toàn; trao đổi cởi mở, có sự tôn trọng; bạn ít lo lắng.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; hỗ trợ toàn diện, tìm giải pháp cùng nhau.",
+                "text": "Hoàn toàn an toàn để chia sẻ; được lắng nghe, bảo vệ; bạn chủ động đề xuất cải tiến.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 8,
-            "text": "Giáo viên có cảm thấy được bảo vệ khi phát hiện các vấn đề về bạo lực, lạm dụng hoặc nguy hiểm cho học sinh không?",
+            "text": "Khi xảy ra xung đột (phàn nàn, công kích, bạo lực), nhà trường có bảo vệ bạn kịp thời, minh bạch và công bằng không? Hậu quả về cảm xúc của bạn như thế nào?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; sợ báo cáo vì không có hỗ trợ.",
+                "text": "Bị bỏ mặc, bạn phải tự đối mặt; cảm giác tổn thương, bất an.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Có kênh nhưng phản hồi chậm, chưa rõ ràng.",
+                "text": "Hỗ trợ yếu, phản ứng chậm; stress kéo dài.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Có hỗ trợ nhưng hơi hình thức.",
+                "text": "Hỗ trợ đúng lúc nhưng cổ điển, bạn được bảo vệ cơ bản.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Cảm thấy an tâm; nhà trường xử lý trách nhiệm.",
+                "text": "Bảo vệ rõ ràng, có thông báo minh bạch; bạn cảm thấy an tâm trở lại.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn được bảo vệ; có quy trình rõ ràng, xử lý minh bạch.",
+                "text": "Hệ thống bảo vệ chủ động, xử lý nhanh, có hỗ trợ tâm lý & truyền thông; bạn phục hồi nhanh và cảm thấy an toàn.",
+                "score": 2.0
+              }
+            ]
+          },
+          {
+            "id": 9,
+            "text": "Nếu có nội dung xúc phạm hoặc lan truyền thông tin sai lệch về bạn trên mạng (nhóm phụ huynh, mạng xã hội), trường hỗ trợ bạn thế nào và việc đó ảnh hưởng đến cảm giác hạnh phúc ra sao?",
+            "answers": [
+              {
+                "level": 1,
+                "text": "Không ai hỗ trợ; reputational damage nặng; bị tổn thương sâu.",
+                "score": 0.4
+              },
+              {
+                "level": 2,
+                "text": "Hỗ trợ hình thức, xử lý chậm; vẫn bị ảnh hưởng tinh thần.",
+                "score": 0.8
+              },
+              {
+                "level": 3,
+                "text": "Có hỗ trợ (gỡ, thông báo), nhưng kết quả chỉ phần nào.",
+                "score": 1.2
+              },
+              {
+                "level": 4,
+                "text": "Hỗ trợ nhanh, phối hợp với phụ huynh & nền tảng để gỡ; bạn được bảo vệ cơ bản.",
+                "score": 1.6
+              },
+              {
+                "level": 5,
+                "text": "Hỗ trợ chuyên nghiệp (pháp lý, PR, tâm lý), phục hồi danh dự; ảnh hưởng tinh thần được giảm tối đa.",
+                "score": 2.0
+              }
+            ]
+          },
+          {
+            "id": 10,
+            "text": "Mức độ phân công công việc, thời gian nghỉ và khả năng cân bằng công việc-cuộc sống có bảo đảm để bạn không bị kiệt sức và giữ được hạnh phúc nghề nghiệp không?",
+            "answers": [
+              {
+                "level": 1,
+                "text": "Khối lượng vượt sức, không có nghỉ, thường xuyên kiệt sức.",
+                "score": 0.4
+              },
+              {
+                "level": 2,
+                "text": "Công việc nặng, nghỉ ngơi ít, phục hồi chậm.",
+                "score": 0.8
+              },
+              {
+                "level": 3,
+                "text": "Cân bằng cơ bản: có lúc quá tải nhưng có thời gian hồi phục.",
+                "score": 1.2
+              },
+              {
+                "level": 4,
+                "text": "Phân công hợp lý, nghỉ ngơi được tôn trọng, bạn thường duy trì năng lượng tốt.",
+                "score": 1.6
+              },
+              {
+                "level": 5,
+                "text": "Quyền nghỉ & cân bằng cuộc sống được đảm bảo, bạn cảm thấy khỏe mạnh, tràn đầy năng lượng nghề nghiệp.",
                 "score": 2.0
               }
             ]
@@ -1078,97 +1140,159 @@
         ]
       },
       {
-        "name": "Tôn Trọng",
+        "name": "Tôn trọng",
         "questions": [
           {
-            "id": 9,
-            "text": "Ban giám hiệu có tôn trọng sự tự chủ của giáo viên trong giáo dục, phương pháp dạy học không áp đặt máy móc không?",
-            "answers": [
-              {
-                "level": 1,
-                "text": "Không; kiểm soát cứng nhắc, áp đặt hết.",
-                "score": 0.4
-              },
-              {
-                "level": 2,
-                "text": "Hiếm khi; còn kiểm soát nhiều.",
-                "score": 0.8
-              },
-              {
-                "level": 3,
-                "text": "Thỉnh thoảng; cho phép sáng tạo nhưng còn hạn chế.",
-                "score": 1.2
-              },
-              {
-                "level": 4,
-                "text": "Thường xuyên; tôn trọng nhưng có hướng dẫn.",
-                "score": 1.6
-              },
-              {
-                "level": 5,
-                "text": "Luôn; tôn trọng tư duy sáng tạo, hỗ trợ phát triển phương pháp.",
-                "score": 2.0
-              }
-            ]
-          },
-          {
-            "id": 10,
-            "text": "Giáo viên từ các lớp/bộ môn khác nhau có được tôn trọng bình đẳng, không có sự phân biệt hay ưu tiên không?",
-            "answers": [
-              {
-                "level": 1,
-                "text": "Không; có sự phân biệt rõ rệt giữa các bộ môn.",
-                "score": 0.4
-              },
-              {
-                "level": 2,
-                "text": "Hiếm khi; vẫn có ưu tiên tinh tế.",
-                "score": 0.8
-              },
-              {
-                "level": 3,
-                "text": "Tương đối bình đẳng nhưng vẫn có chênh lệch nhỏ.",
-                "score": 1.2
-              },
-              {
-                "level": 4,
-                "text": "Hầu hết bình đẳng; ít phân biệt.",
-                "score": 1.6
-              },
-              {
-                "level": 5,
-                "text": "Luôn; tôn trọng giá trị mỗi giáo viên, mỗi bộ môn.",
-                "score": 2.0
-              }
-            ]
-          },
-          {
             "id": 11,
-            "text": "Khi có ý kiến khác biệt, giáo viên có được lắng nghe, không bị tố cáo hay trừng phạt không?",
+            "text": "Bạn có cảm thấy ý kiến chuyên môn của mình (về chương trình, phương pháp, đánh giá học sinh) được tôn trọng, lắng nghe và có ảnh hưởng thực tế không? Cảm xúc của bạn khi đóng góp ý kiến ra sao?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; bị tố cáo, phạt vì nói lên ý kiến.",
+                "text": "Ý kiến bị bỏ ngoài, bạn cảm thấy vô giá trị, nản lòng.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Có nghe nhưng phản ứng không tích cực.",
+                "text": "Nghe cho có, ít hành động; bạn thấy phiền lòng, giảm hứng thú.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Nghe được nhưng còn hơi khó chịu.",
+                "text": "Được lắng nghe ở mức cơ bản; đôi khi ý kiến được áp dụng; bạn cảm thấy vừa phải.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Tôn trọng ý kiến, trao đổi bình đẳng.",
+                "text": "Ý kiến được coi trọng, thường được xem xét và áp dụng; bạn cảm thấy được tôn trọng.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; khuyến khích phản biện, đối thoại công bằng.",
+                "text": "Tiếng nói chuyên môn có trọng lượng; bạn trực tiếp tham gia quyết định; niềm tự hào và hạnh phúc nghề nghiệp cao.",
+                "score": 2.0
+              }
+            ]
+          },
+          {
+            "id": 12,
+            "text": "Đồng nghiệp và lãnh đạo có tôn trọng sự khác biệt về phong cách dạy học, cá tính và quan điểm của bạn không? Điều đó ảnh hưởng thế nào tới sự an tâm và hạnh phúc nghề nghiệp?",
+            "answers": [
+              {
+                "level": 1,
+                "text": "Bị chỉ trích, cô lập, ép buộc phải giống người khác; cảm thấy tổn thương.",
+                "score": 0.4
+              },
+              {
+                "level": 2,
+                "text": "Thi thoảng bị phán xét; bạn dè dặt thể hiện bản thân.",
+                "score": 0.8
+              },
+              {
+                "level": 3,
+                "text": "Chấp nhận ở mức cơ bản; bạn giữ một số điều riêng tư.",
+                "score": 1.2
+              },
+              {
+                "level": 4,
+                "text": "Được tôn trọng rõ ràng; bạn thoải mái thể hiện cá tính nghề.",
+                "score": 1.6
+              },
+              {
+                "level": 5,
+                "text": "Sự khác biệt được coi là tài sản; môi trường nuôi dưỡng sáng tạo và hạnh phúc.",
+                "score": 2.0
+              }
+            ]
+          },
+          {
+            "id": 13,
+            "text": "Bạn có cảm thấy các quyết định liên quan tới phân công, đánh giá khen thưởng và cơ hội phát triển được thực hiện công bằng, minh bạch không? Ảnh hưởng tới niềm tin nghề nghiệp của bạn thế nào?",
+            "answers": [
+              {
+                "level": 1,
+                "text": "Rõ ràng bất công, thiên vị; bạn mất niềm tin, demotivation mạnh.",
+                "score": 0.4
+              },
+              {
+                "level": 2,
+                "text": "Có dấu hiệu thiên vị; bạn cảm thấy hoài nghi.",
+                "score": 0.8
+              },
+              {
+                "level": 3,
+                "text": "Công bằng cơ bản; bạn chấp nhận nhưng còn băn khoăn.",
+                "score": 1.2
+              },
+              {
+                "level": 4,
+                "text": "Minh bạch, công bằng phần lớn; bạn thấy yên tâm và tiếp tục cống hiến.",
+                "score": 1.6
+              },
+              {
+                "level": 5,
+                "text": "Hoàn toàn công bằng, minh bạch; bạn tin tưởng và gắn bó lâu dài.",
+                "score": 2.0
+              }
+            ]
+          },
+          {
+            "id": 14,
+            "text": "Trường có đối xử với bạn bằng thái độ nhân văn (tôn trọng phẩm giá, không xúc phạm, tạo điều kiện cho hoàn cảnh riêng) hay không? Điều này tác động thế nào đến cảm giác được tôn trọng và hạnh phúc?",
+            "answers": [
+              {
+                "level": 1,
+                "text": "Đối xử thô lỗ, xúc phạm; bạn tổn thương, mất động lực.",
+                "score": 0.4
+              },
+              {
+                "level": 2,
+                "text": "Thỉnh thoảng có lời nói/ hành vi thiếu tế nhị; bạn thất vọng.",
+                "score": 0.8
+              },
+              {
+                "level": 3,
+                "text": "Đối xử ở mức tối thiểu nhân văn; bạn chấp nhận.",
+                "score": 1.2
+              },
+              {
+                "level": 4,
+                "text": "Thường xuyên đối xử lịch sự, hiểu hoàn cảnh; bạn cảm thấy được tôn trọng.",
+                "score": 1.6
+              },
+              {
+                "level": 5,
+                "text": "Đối xử hết sức nhân văn; bạn cảm thấy mình là con người, không chỉ là nhân viên.",
+                "score": 2.0
+              }
+            ]
+          },
+          {
+            "id": 15,
+            "text": "Bạn có cảm nhận rằng môi trường trường học tôn trọng và tạo điều kiện cho giá trị cá nhân, phát triển nghề nghiệp của bạn (học tập nâng cao, bồi dưỡng, tham gia dự án) không? Điều này ảnh hưởng thế nào tới cảm giác hạnh phúc và tương lai nghề nghiệp của bạn?",
+            "answers": [
+              {
+                "level": 1,
+                "text": "Không có đường dẫn phát triển; bạn thấy tương lai u ám.",
+                "score": 0.4
+              },
+              {
+                "level": 2,
+                "text": "Cơ hội ít, không phù hợp; bạn chán nản.",
+                "score": 0.8
+              },
+              {
+                "level": 3,
+                "text": "Có cơ hội cơ bản theo lộ trình chung; bạn có hy vọng vừa phải.",
+                "score": 1.2
+              },
+              {
+                "level": 4,
+                "text": "Nhiều cơ hội phù hợp, khuyến khích học tập; bạn thấy hạnh phúc và có kế hoạch nghề nghiệp.",
+                "score": 1.6
+              },
+              {
+                "level": 5,
+                "text": "Phát triển cá nhân được ưu tiên, cá nhân hóa; bạn hạnh phúc, tự tin về tương lai và cống hiến lâu dài.",
                 "score": 2.0
               }
             ]
@@ -1182,314 +1306,314 @@
     "total_questions": 10,
     "categories": [
       {
-        "name": "Yêu thương & An Toàn",
+        "name": "Phụ Huynh - Quan Sát Con Em",
         "questions": [
           {
             "id": 1,
-            "text": "Trường thường xuyên liên lạc với phụ huynh, chia sẻ tiến triển của con em và hỗ trợ khi con gặp khó khăn không?",
+            "text": "Trong những ngày học, con thường thể hiện cảm xúc như thế nào trước giờ đến trường?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; chỉ liên lạc khi có vấn đề tiêu cực.",
+                "text": "Hầu như ngày nào cũng lo âu, né tránh, than phiền mạnh; ảnh hưởng bữa ăn/giấc ngủ.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; liên lạc sơ sài, ít chia sẻ.",
+                "text": "Thường xuyên miễn cưỡng, than vãn, hay hỏi \"Hôm nay có tiết gì?\" với giọng lo lắng.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có liên lạc nhưng không đủ thường xuyên.",
+                "text": "Đa phần trung tính, ít biểu cảm, không quá hứng thú cũng không quá tiêu cực.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; chia sẻ tiến triển, có hỗ trợ.",
+                "text": "Thường vui vẻ, chủ động chuẩn bị đồ, thỉnh thoảng than vãn nhẹ.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; liên lạc tích cực, hỗ trợ toàn diện, cùng nuôi dạy con.",
+                "text": "Rất hào hứng, chủ động chuẩn bị, nói về việc \"mong đến trường\", năng lượng tích cực.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 2,
-            "text": "Trường có minh bạch về tình hình sức khỏe, an toàn và học tập của con em không?",
+            "text": "Sau khi đi học về, con bộc lộ cảm xúc như thế nào về trải nghiệm ở trường?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; phụ huynh không biết con học như thế nào.",
+                "text": "Thường xuyên buồn bã, cáu gắt, rút lui xã hội; từ chối kể chuyện; kéo dài nhiều ngày.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; chỉ biết thông qua con em kể.",
+                "text": "Khá thường xuyên mệt mỏi, bực bội, kể chuyện tiêu cực khi được hỏi.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có báo cáo nhưng chưa đầy đủ.",
+                "text": "Cảm xúc ổn định, đôi lúc tích cực/tiêu cực, nhưng không kéo dài.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; minh bạch tình hình học tập và an toàn.",
+                "text": "Thường kể chuyện vui, nêu được điều mình học được hoặc người tốt giúp mình.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; báo cáo chi tiết, cập nhật thường xuyên qua nhiều kênh.",
+                "text": "Rất tích cực, chủ động chia sẻ, cười nói, thể hiện sự biết ơn, tự hào.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 3,
-            "text": "Khi con em gặp vấn đề (học tập, hành vi, sức khỏe tâm lý), trường có tư vấn giáo viên + phụ huynh cùng hỗ trợ không?",
+            "text": "Bạn có quan sát thấy con thể hiện những hành vi gợi ý rằng con cảm thấy an toàn và thuộc về (hát, nói chuyện, tự tin thể hiện) không?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; bỏ trách nhiệm cho phụ huynh hoặc chỉ xử phạt.",
+                "text": "Thu mình, im lặng, sợ thể hiện bản thân; hành vi né tránh thường xuyên.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; hỗ trợ sơ sài.",
+                "text": "Ít chủ động; thỉnh thoảng vui nhưng phần lớn thụ động, dè dặt.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có tư vấn nhưng chưa sâu sắc.",
+                "text": "Thể hiện một số hành vi tích cực nhưng không ổn định.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; gặp mặt, trao đổi giải pháp.",
+                "text": "Thường cởi mở, thân thiện, tự tin thể hiện bản thân ở nhà.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; hỗ trợ toàn diện, có kế hoạch cùng phụ huynh hỗ trợ con.",
+                "text": "Rất chủ động, sáng tạo, vui vẻ; có năng lượng lan tỏa tích cực.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 4,
-            "text": "Trường có chủ động bảo vệ con em khỏi bạo lực, lạm dụng hoặc các rủi ro không?",
+            "text": "Mối quan hệ bạn bè của con ở trường diễn ra như thế nào?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; con em không cảm thấy an toàn.",
+                "text": "Thường xuyên bị cô lập/đùa cợt ác ý; lo sợ tiếp xúc.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; biện pháp chưa hiệu quả.",
+                "text": "Quan hệ bấp bênh, dễ xung đột, ít niềm vui từ bạn bè.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có biện pháp nhưng chưa đầy đủ.",
+                "text": "Quan hệ ổn định nhưng ít thân thiết hoặc ít tương tác.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; có các biện pháp phòng ngừa.",
+                "text": "Có bạn thân, nhận hỗ trợ, thỉnh thoảng mâu thuẫn nhưng giải quyết được.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; chủ động phòng ngừa, can thiệp kịp thời, bảo vệ tuyệt đối.",
+                "text": "Rất tích cực, hợp tác, cảm thấy thuộc về, được tôn trọng và yêu thương.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 5,
-            "text": "Trường có tôn trọng phong cách, nền tảng, tôn giáo, hoàn cảnh của con em và gia đình không?",
+            "text": "Khi tham gia vận động/hoạt động thể chất tại trường, con thể hiện mức độ an toàn và thoải mái như thế nào?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; con em bị kỳ thị hoặc miệt thị.",
+                "text": "Thường hay chấn thương; lo sợ, né tránh, phản đối tham gia.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; có nhận xét bất tôn trọng.",
+                "text": "Thỉnh thoảng bị thương; hay lo lắng, dễ bỏ cuộc.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; tôn trọng nhưng còn điểm khó chịu.",
+                "text": "Tham gia nhưng còn dè dặt, ít vui.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; tôn trọng sự đa dạng.",
+                "text": "Tự tin, an toàn; đôi lúc năng lượng thấp nhưng vẫn vui.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; tôn trọng tuyệt đối, khuyến khích sự đa dạng.",
+                "text": "Rất hứng thú, năng động, cảm thấy mạnh mẽ, an toàn, chủ động.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 6,
-            "text": "Trường có hỗ trợ con em có hoàn cảnh đặc biệt mà không làm con cảm thấy bị phân biệt không?",
+            "text": "Bạn có nhận thấy con có biểu hiện stress liên quan đến việc học và quan hệ xã hội ở trường không?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; con em bị bỏ lại hoặc bị chêm cười.",
+                "text": "Biểu hiện nghiêm trọng, kéo dài, tính tình gắt gỏng.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; hỗ trợ chưa hiệu quả, bị chú ý xấu.",
+                "text": "Thường xuyên lo âu, khó ngủ, dễ cáu gắt; ảnh hưởng sinh hoạt.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có hỗ trợ nhưng chưa kín đáo.",
+                "text": "Thỉnh thoảng lo lắng nhưng không kéo dài.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; hỗ trợ linh hoạt, tôn trọng.",
+                "text": "Hiếm khi lo lắng; chủ động nói ra khi có khó khăn.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; hỗ trợ tối đa, kín đáo, con cảm thấy được chăm sóc.",
+                "text": "Ổn định, kiên cường, có chiến lược đối phó tích cực.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 7,
-            "text": "Trường có tạo cơ hội cho phụ huynh tham gia các hoạt động của con em, cùng tạo môi trường học tập vui vẻ không?",
+            "text": "Bạn có nhận thấy con từng bị trêu chọc, bắt nạt hay lan truyền thông tin tiêu cực không?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; phụ huynh bị loại khỏi trường.",
+                "text": "Liên tục, ảnh hưởng mạnh đến tâm lý, né tránh trường học.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; ít cơ hội tham gia.",
+                "text": "Thỉnh thoảng, gây buồn bã kéo dài.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có vài hoạt động chung.",
+                "text": "Thi thoảng, con tự điều chỉnh hoặc nhờ hỗ trợ.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; có hội họp, sự kiện chung.",
+                "text": "Hiếm khi xảy ra; con biết phòng vệ và tìm trợ giúp.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; khuyến khích tham gia, cùng xây dựng cộng đồng.",
+                "text": "Không xảy ra; quan hệ trân trọng, an toàn.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 8,
-            "text": "Trường có tiếp nhận ý kiến, phản ánh của phụ huynh và giải quyết các vấn đề công bằng không?",
+            "text": "Bạn có quan sát thấy con cảm thấy được tôn trọng dù có khác biệt về cá tính, năng lực hay sở thích không?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; phụ huynh nói gì cũng không nghe.",
+                "text": "Thường xuyên bị phán xét, làm nhục.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; nghe nhưng ít xử lý.",
+                "text": "Thỉnh thoảng bị so sánh hoặc đùa cợt.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có xử lý nhưng chậm.",
+                "text": "Được tôn trọng ở mức cơ bản.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; tiếp nhận, xử lý công bằng.",
+                "text": "Được ủng hộ, có thể thể hiện bản thân khác biệt.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; khuyến khích ý kiến, xử lý minh bạch, nhanh chóng.",
+                "text": "Rất tự tin, tự hào, chủ động thể hiện nhận dạng cá nhân.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 9,
-            "text": "Trường có cung cấp thông tin hữu ích để phụ huynh hỗ trợ con em phòng ngừa các rủi ro (an toàn mạng, tâm lý, v.v.) không?",
+            "text": "Trong môi trường học tập, con thể hiện mức độ tự tin và chủ động như thế nào?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; phụ huynh tự tìm hiểu.",
+                "text": "Né tránh, im lặng, tự ti mạnh, sợ mắc lỗi.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Hiếm khi; cung cấp sơ sài.",
+                "text": "Ít tham gia, sợ sai, cần thúc đẩy nhiều.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Thỉnh thoảng; có thông tin nhưng chưa đầy đủ.",
+                "text": "Tham gia khi yêu cầu, ít chủ động.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Thường xuyên; cung cấp thông tin hữu ích định kỳ.",
+                "text": "Chủ động phần lớn thời gian, không sợ sai.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Luôn; cung cấp thông tin chi tiết, kịp thời, hỗ trợ phụ huynh.",
+                "text": "Rất chủ động, sáng tạo, đóng vai trò dẫn dắt.",
                 "score": 2.0
               }
             ]
           },
           {
             "id": 10,
-            "text": "Nhìn chung, phụ huynh có cảm thấy trường là cộng sự đáng tin cậy trong giáo dục con em không?",
+            "text": "Con có biểu hiện duy trì năng lượng tích cực cho việc học và các hoạt động ở trường không?",
             "answers": [
               {
                 "level": 1,
-                "text": "Không; phụ huynh lo lắng, không tin tưởng.",
+                "text": "Rất mệt mỏi, từ chối học, dễ suy sụp.",
                 "score": 0.4
               },
               {
                 "level": 2,
-                "text": "Ít; còn nhiều lo ngại.",
+                "text": "Thường xuyên chán nản, thiếu động lực.",
                 "score": 0.8
               },
               {
                 "level": 3,
-                "text": "Bình thường; có tin tưởng nhưng chưa tuyệt đối.",
+                "text": "Hứng thú trung bình, dao động theo môn/giáo viên.",
                 "score": 1.2
               },
               {
                 "level": 4,
-                "text": "Lớn lao; phụ huynh an tâm gửi con.",
+                "text": "Khá hứng thú, duy trì năng lượng tốt.",
                 "score": 1.6
               },
               {
                 "level": 5,
-                "text": "Tuyệt đối; phụ huynh tin tưởng, hạnh phúc với sự lựa chọn.",
+                "text": "Rất hào hứng, tò mò, chủ động tự học, tìm tòi kiến thức.",
                 "score": 2.0
               }
             ]
