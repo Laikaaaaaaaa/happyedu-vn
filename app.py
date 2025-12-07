@@ -25,7 +25,9 @@ SMTP_EMAIL = 'abc23072009@gmail.com'
 SMTP_PASSWORD = 'iola wved aacq lhcb'
 
 # Database
-DB_PATH = 'student_protect.db'
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+DB_PATH = os.path.join(BASE_DIR, 'student_protect.db')
+QUIZ_QUESTIONS_PATH = os.path.join(BASE_DIR, 'quiz_questions.json')
 
 def init_db():
     """Initialize database"""
@@ -1021,14 +1023,6 @@ def get_video_list():
         }), 500
 
 
-if __name__ == '__main__':
-    init_db()
-    print("Starting HappyEdu VN Server...")
-    print("Listening on http://localhost:5000")
-    print("Press CTRL+C to stop")
-    port = int(os.environ.get('PORT', 5000))
-    debug_mode = os.environ.get('FLASK_ENV') == 'development'
-    app.run(debug=debug_mode, host='0.0.0.0', port=port)
 
 
 @app.route('/api/quiz/questions/<role>', methods=['GET'])
@@ -1040,7 +1034,7 @@ def get_quiz_questions(role):
             return jsonify({'success': False, 'error': 'Invalid role'}), 400
         
         # Read from quiz_questions.json
-        with open('quiz_questions.json', 'r', encoding='utf-8') as f:
+        with open(QUIZ_QUESTIONS_PATH, 'r', encoding='utf-8') as f:
             quiz_data = json.load(f)
         
         if role not in quiz_data:
@@ -1062,5 +1056,15 @@ def get_quiz_questions(role):
         import traceback
         traceback.print_exc()
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+if __name__ == '__main__':
+    init_db()
+    print("Starting HappyEdu VN Server...")
+    print("Listening on http://localhost:5000")
+    print("Press CTRL+C to stop")
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_ENV') == 'development'
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)
 
 
