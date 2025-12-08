@@ -1042,6 +1042,9 @@
           <button class="btn-outline" onclick="window.location.href='change_password.html'">
             <i class="fas fa-lock"></i> Đổi mật khẩu
           </button>
+          <button id="admin-delete-btn" class="btn-outline" style="border-color: #dc2626; color: #dc2626; display: none;" onclick="deleteAllUsers()">
+            <i class="fas fa-trash"></i> Xóa toàn bộ tài khoản
+          </button>
         </div>
       </section>
 
@@ -1720,6 +1723,10 @@
           if (deleteUsersLink) {
             deleteUsersLink.style.display = 'block';
           }
+          const deleteBtn = document.getElementById('admin-delete-btn');
+          if (deleteBtn) {
+            deleteBtn.style.display = 'inline-flex';
+          }
         } else if (userRole === 'GV') {
           // If teacher, show admin login link
           adminLink.style.display = 'block';
@@ -1730,11 +1737,19 @@
           if (deleteUsersLink) {
             deleteUsersLink.style.display = 'none';
           }
+          const deleteBtn = document.getElementById('admin-delete-btn');
+          if (deleteBtn) {
+            deleteBtn.style.display = 'none';
+          }
         } else {
           // Hide for students
           adminLink.style.display = 'none';
           if (deleteUsersLink) {
             deleteUsersLink.style.display = 'none';
+          }
+          const deleteBtn = document.getElementById('admin-delete-btn');
+          if (deleteBtn) {
+            deleteBtn.style.display = 'none';
           }
         }
       }
