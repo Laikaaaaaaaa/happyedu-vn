@@ -968,7 +968,7 @@
           const isSelected = answers[q.id] === idx;
           html += `
             <button type="button" class="scale-btn ${isSelected ? 'active' : ''}" onclick="selectAnswer(${q.id}, ${idx}, 'scale')">
-              ${idx + 1}
+              ${opt}
             </button>
           `;
         });
