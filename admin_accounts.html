@@ -681,11 +681,13 @@
     async function loadStats() {
       try {
         const response = await fetch('/api/admin/stats');
-        const data = await response.json();
+        const result = await response.json();
         
-        document.getElementById('totalStudents').textContent = data.students || 0;
-        document.getElementById('totalTeachers').textContent = data.teachers || 0;
-        document.getElementById('totalParents').textContent = data.parents || 0;
+        if (result.success && result.data) {
+          document.getElementById('totalStudents').textContent = result.data.students || 0;
+          document.getElementById('totalTeachers').textContent = result.data.teachers || 0;
+          document.getElementById('totalParents').textContent = result.data.parents || 0;
+        }
       } catch (error) {
         console.error('Error loading stats:', error);
       }
