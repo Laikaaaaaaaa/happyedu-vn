@@ -609,8 +609,8 @@
   <script>
     // Check admin login
     (function checkAdminAuth() {
-      const adminId = sessionStorage.getItem('admin_id');
-      if (!adminId) {
+      const userRole = sessionStorage.getItem('user_role');
+      if (userRole !== 'AD') {
         window.location.replace('admin_login.html');
       }
     })();
@@ -655,11 +655,12 @@
 
     // Load user info
     function loadUserInfo() {
-      const adminId = sessionStorage.getItem('admin_id') || 'Admin';
-      document.getElementById('user-name').textContent = adminId;
-      document.getElementById('user-id-display').textContent = 'Quản Trị Viên';
-      document.getElementById('sidebar-user-name').textContent = adminId;
-      document.getElementById('sidebar-user-id').textContent = 'Quản Trị Viên';
+      const userName = sessionStorage.getItem('user_name') || 'Admin';
+      const userEmail = sessionStorage.getItem('user_email') || 'admin@school.edu.vn';
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-id-display').textContent = userEmail;
+      document.getElementById('sidebar-user-name').textContent = userName;
+      document.getElementById('sidebar-user-id').textContent = userEmail;
     }
 
     function switchTab(tab) {
