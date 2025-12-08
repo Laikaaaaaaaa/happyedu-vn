@@ -782,8 +782,8 @@
       // Set up filter
       document.getElementById('roleFilter').addEventListener('change', filterSubmissions);
 
-      // Update data every 5 seconds
-      pollInterval = setInterval(loadSubmissions, 5000);
+      // Update data every 1 second (near real-time)
+      pollInterval = setInterval(loadSubmissions, 1000);
     });
 
     // Load user info

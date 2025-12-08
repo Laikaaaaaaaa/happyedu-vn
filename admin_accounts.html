@@ -652,11 +652,11 @@
       // Track current active tab
       window.activeTab = 'students';
 
-      // Update stats and users every 3 seconds (real-time)
+      // Update stats and users every 1 second (near real-time)
       pollInterval = setInterval(() => {
         loadStats();
         loadUsers(window.activeTab);
-      }, 3000);
+      }, 1000);
     });
 
     // Load user info
