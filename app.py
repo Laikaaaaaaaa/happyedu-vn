@@ -1319,6 +1319,44 @@ def get_complete_stats():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+@app.route('/api/admin/delete-all-users', methods=['POST'])
+def delete_all_users():
+    """Delete all users except admin - ADMIN ONLY"""
+    # Check admin access
+    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+    
+    try:
+        # Require confirmation
+        data = request.json or {}
+        confirmation = data.get('confirmation', '').lower()
+        
+        if confirmation != 'yes':
+            return jsonify({'success': False, 'error': 'Confirmation required'}), 400
+        
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        # Count users before deletion (excluding admin)
+        c.execute("SELECT COUNT(*) FROM users WHERE role != 'AD'")
+        deleted_count = c.fetchone()[0]
+        
+        # Delete all users except admin
+        c.execute("DELETE FROM users WHERE role != 'AD'")
+        conn.commit()
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'message': f'Đã xóa {deleted_count} tài khoản',
+            'deleted_count': deleted_count
+        }), 200
+    except Exception as e:
+        print(f"Error deleting users: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     init_db()
     print("Starting HappyEdu VN Server...")

@@ -1018,6 +1018,13 @@
         </a>
       </div>
 
+      <!-- Admin delete all users button -->
+      <div id="admin-delete-users-link" class="text-right mb-2" style="display: none;">
+        <button onclick="deleteAllUsers()" class="text-sm text-red-600 hover:text-red-700 font-semibold transition">
+          <i class="fas fa-trash mr-1"></i>Xóa toàn bộ tài khoản (trừ admin)
+        </button>
+      </div>
+
       <section class="card-base hero-card profile-header-card">
         <p class="hero-tagline" id="profile-hero-tagline">Hồ sơ học sinh</p>
         <div class="profile-avatar" id="profile-avatar-initials">--</div>
@@ -1700,20 +1707,35 @@
       // Show admin access link for teachers (GV) and admin panel for admins (AD)
       const adminLink = document.getElementById('admin-access-link');
       const adminButton = document.getElementById('admin-access-button');
+      const deleteUsersLink = document.getElementById('admin-delete-users-link');
+      
       if (adminLink && adminButton) {
         if (userRole === 'AD') {
           // If already admin, show link to admin panel
           adminLink.style.display = 'block';
           adminButton.href = 'admin_dashboard.html';
           adminButton.innerHTML = '<i class="fas fa-tachometer-alt mr-1"></i>Đến trang Quản trị viên';
+          
+          // Show delete button for admin
+          if (deleteUsersLink) {
+            deleteUsersLink.style.display = 'block';
+          }
         } else if (userRole === 'GV') {
           // If teacher, show admin login link
           adminLink.style.display = 'block';
           adminButton.href = 'admin_login.html';
           adminButton.innerHTML = '<i class="fas fa-user-shield mr-1"></i>Đăng nhập quản trị viên';
+          
+          // Hide delete button for non-admin
+          if (deleteUsersLink) {
+            deleteUsersLink.style.display = 'none';
+          }
         } else {
           // Hide for students
           adminLink.style.display = 'none';
+          if (deleteUsersLink) {
+            deleteUsersLink.style.display = 'none';
+          }
         }
       }
     }
@@ -1760,6 +1782,45 @@
 
       renderProfile();
       updateRoleBasedVisibility();
+    }
+
+    function deleteAllUsers() {
+      // Double confirmation to prevent accidents
+      const confirm1 = confirm('⚠️ BẠN CHẮC CHẮN MUỐN XÓA TẤT CẢ TÀI KHOẢN KHÔNG?\n\nThao tác này không thể hoàn tác!');
+      if (!confirm1) return;
+
+      const confirm2 = confirm('⚠️⚠️ NHẬP "YES" ĐỂ XÓA\n\n(Hãy gõ YES để xác nhận)');
+      if (!confirm2) return;
+
+      const confirm3 = prompt('Nhập từ khóa "YES" để xác nhận xóa toàn bộ tài khoản:');
+      if (confirm3 !== 'YES') {
+        alert('❌ Hủy bỏ. Từ khóa xác nhận không chính xác.');
+        return;
+      }
+
+      fetch('/api/admin/delete-all-users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          confirmation: 'yes'
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert(`✅ ${data.message}`);
+          // Reload page to update stats
+          location.reload();
+        } else {
+          alert(`❌ Lỗi: ${data.error || 'Không thể xóa tài khoản'}`);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Lỗi kết nối: ' + error.message);
+      });
     }
 
     function setText(id, value, fallback = 'Chưa xác định') {
