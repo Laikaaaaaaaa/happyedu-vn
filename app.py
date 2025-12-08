@@ -397,13 +397,17 @@ def finalize_register():
     email = pending.get('email')
     password = pending.get('password')
     name = pending.get('name')
-    role = pending.get('role', 'student')
+    role_input = pending.get('role', 'student')
+    
+    # Convert role string to role code
+    role_map = {'student': 'HS', 'teacher': 'GV', 'parent': 'PH'}
+    role = role_map.get(role_input, 'HS')
 
     if not all([email, password, name]):
         return jsonify({'success': False, 'message': 'Dữ liệu không đầy đủ'}), 400
 
     # Create user
-    user_id = generate_user_id(role=role)
+    user_id = generate_user_id(role=role_input)
     hashed_password = hash_password(password)
 
     conn = sqlite3.connect(DB_PATH)
