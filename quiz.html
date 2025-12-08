@@ -381,28 +381,30 @@
     }
 
     .scale-options {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
       margin-top: 1rem;
     }
 
     @media (max-width: 768px) {
       .scale-options {
-        grid-template-columns: repeat(3, 1fr);
+        flex-direction: column;
       }
     }
 
     .scale-btn {
-      padding: 0.75rem;
+      padding: 1rem 1.25rem;
       border: 2px solid #E2E8F0;
-      border-radius: 10px;
+      border-radius: 12px;
       background: #ffffff;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 500;
       color: #0F172A;
       transition: all 0.2s ease;
-      font-size: 0.85rem;
+      font-size: 0.95rem;
+      text-align: left;
+      width: 100%;
     }
 
     .scale-btn:hover {
