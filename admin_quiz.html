@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  
+  <title>Quản Lý Bài Quiz - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+    
+    .sidebar.active {
+      left: 0;
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+    
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+        font-size: 1rem;
+      }
+      .nav-brand img {
+        width: 32px;
+        height: 32px;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
+    }
+
+    .card-base {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid #E2E8F0;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card-base:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-color: #CBD5F5;
+    }
+
+    .stat-card {
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+    }
+
+    .stat-card h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1D4ED8;
+    }
+
+    .stat-card p {
+      font-size: 0.875rem;
+      color: #64748B;
+      margin-top: 0.5rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .submissions-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .submissions-table th {
+      background: #F8FAFC;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #0f172a;
+      border-bottom: 2px solid #E2E8F0;
+      white-space: nowrap;
+    }
+
+    .submissions-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .submissions-table tr:hover {
+      background: #F8FAFC;
+    }
+
+    .submissions-table tbody tr {
+      cursor: pointer;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-hs {
+      background: #E0F2FE;
+      color: #0284C7;
+    }
+
+    .badge-gv {
+      background: #F0FDF4;
+      color: #15803D;
+    }
+
+    .badge-ph {
+      background: #FEF3C7;
+      color: #D97706;
+    }
+
+    .score-badge {
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      background: #E0F2FE;
+      color: #1D4ED8;
+      font-weight: 600;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow-y: auto;
+      width: 100%;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #64748B;
+      transition: color 0.2s ease;
+    }
+
+    .close-btn:hover {
+      color: #0F172A;
+    }
+
+    .user-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #F8FAFC;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-size: 0.85rem;
+      color: #64748B;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+      font-size: 1rem;
+      color: #0F172A;
+      font-weight: 500;
+    }
+
+    .score-display {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #E0F2FE 0%, #E0FFFF 100%);
+      border-radius: 8px;
+      border: 1px solid #BAE6FD;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .score-display h3 {
+      font-size: 0.875rem;
+      color: #64748B;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-display .score-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1D4ED8;
+    }
+
+    .answers-section {
+      margin-top: 2rem;
+    }
+
+    .answers-section h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 1.5rem;
+    }
+
+    .question-answer {
+      padding: 1.5rem;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .question-answer h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0F172A;
+      margin-bottom: 1rem;
+    }
+
+    .question-answer .answer-given {
+      padding: 0.75rem 1rem;
+      background: #DBEAFE;
+      border-left: 3px solid #1D4ED8;
+      border-radius: 4px;
+      color: #0C4A6E;
+      font-weight: 500;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #64748B;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #94A3B8;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    main {
+      background: #F8FAFC;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #CBD5F5;
+      border-radius: 8px;
+      background: white;
+      color: #0F172A;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-select:hover,
+    .filter-select:focus {
+      border-color: #1D4ED8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Overlay -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <li>
+        <a href="admin_dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-th-large" style="width: 20px; text-align: center;"></i> Bảng Điều Khiển
+        </a>
+      </li>
+      <li>
+        <a href="admin_accounts.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-users" style="width: 20px; text-align: center;"></i> Tài Khoản
+        </a>
+      </li>
+      <li>
+        <a href="admin_quiz.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
+          <i class="fas fa-clipboard-list" style="width: 20px; text-align: center;"></i> Bài Quiz
+        </a>
+      </li>
+      <li>
+        <a href="admin_reports.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-chart-bar" style="width: 20px; text-align: center;"></i> Báo Cáo
+        </a>
+      </li>
+      <li>
+        <a href="admin_settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-cog" style="width: 20px; text-align: center;"></i> Cài Đặt
+        </a>
+      </li>
+      <li>
+        <a href="admin_sos_reports.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </a>
+      </li>
+      <li class="border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
+          </div>
+          HappyEdu VN
+        </div>
+
+        <nav class="nav-menu">
+          <a href="admin_dashboard.html">Bảng Điều Khiển</a>
+          <a href="admin_accounts.html">Tài Khoản</a>
+          <a href="admin_quiz.html" class="active">Bài Quiz</a>
+          <a href="admin_reports.html">Báo Cáo</a>
+          <a href="admin_settings.html">Cài Đặt</a>
+        </nav>
+
+        <div class="nav-utilities">
+          <div class="user-pill" id="user-pill">
+            <i class="fas fa-shield-alt text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="px-4 py-6 md:py-10">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header Section -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Quản Lý Bài Quiz</h1>
+        <p class="text-gray-600">Xem và quản lý tất cả bài quiz được gửi bởi học sinh, giáo viên và phụ huynh</p>
+      </div>
+
+      <!-- Stats Section -->
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="card-base stat-card">
+          <h3 id="totalSubmissions">0</h3>
+          <p><i class="fas fa-list mr-2"></i>Tổng Bài Quiz</p>
+        </div>
+        <div class="card-base stat-card">
+          <h3 id="studentSubmissions">0</h3>
+          <p><i class="fas fa-graduation-cap mr-2"></i>Học Sinh</p>
+        </div>
+        <div class="card-base stat-card">
+          <h3 id="teacherSubmissions">0</h3>
+          <p><i class="fas fa-chalkboard-user mr-2"></i>Giáo Viên</p>
+        </div>
+        <div class="card-base stat-card">
+          <h3 id="parentSubmissions">0</h3>
+          <p><i class="fas fa-users mr-2"></i>Phụ Huynh</p>
+        </div>
+      </section>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <select id="roleFilter" class="filter-select">
+          <option value="">Tất cả vai trò</option>
+          <option value="HS">Học Sinh</option>
+          <option value="GV">Giáo Viên</option>
+          <option value="PH">Phụ Huynh</option>
+        </select>
+      </div>
+
+      <!-- Submissions Table -->
+      <div class="card-base">
+        <div class="overflow-x-auto">
+          <table class="submissions-table">
+            <thead>
+              <tr>
+                <th>Người Dùng</th>
+                <th>Vai Trò</th>
+                <th>Bài Quiz</th>
+                <th>Số Câu</th>
+                <th>Điểm</th>
+                <th>Thời Gian</th>
+                <th>Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="submissions-list">
+              <tr>
+                <td colspan="7" class="empty-state">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  <p>Đang tải dữ liệu...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Detail Modal -->
+  <div id="detailModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Chi Tiết Bài Quiz</h2>
+        <button class="close-btn" onclick="closeDetailModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div id="modalBody">
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin mr-2"></i> Đang tải...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check admin login
+    (function checkAdminAuth() {
+      const adminId = sessionStorage.getItem('admin_id');
+      if (!adminId) {
+        window.location.replace('admin_login.html');
+      }
+    })();
+
+    let allSubmissions = [];
+    let pollInterval = null;
+
+    // Sidebar Toggle
+    document.addEventListener('DOMContentLoaded', async function() {
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('active');
+          sidebarOverlay.classList.toggle('active');
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      }
+
+      const sidebarLinks = sidebar.querySelectorAll('a, button');
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      });
+
+      loadUserInfo();
+      loadSubmissions();
+
+      // Set up filter
+      document.getElementById('roleFilter').addEventListener('change', filterSubmissions);
+
+      // Update data every 5 seconds
+      pollInterval = setInterval(loadSubmissions, 5000);
+    });
+
+    // Load user info
+    function loadUserInfo() {
+      const adminId = sessionStorage.getItem('admin_id') || 'Admin';
+      document.getElementById('user-name').textContent = adminId;
+      document.getElementById('user-id-display').textContent = 'Quản Trị Viên';
+      document.getElementById('sidebar-user-name').textContent = adminId;
+      document.getElementById('sidebar-user-id').textContent = 'Quản Trị Viên';
+    }
+
+    async function loadSubmissions() {
+      try {
+        const response = await fetch('/api/admin/quiz/submissions');
+        const data = await response.json();
+
+        if (data.success) {
+          allSubmissions = data.submissions || [];
+          updateStats();
+          displaySubmissions(allSubmissions);
+        }
+      } catch (error) {
+        console.error('Error loading submissions:', error);
+      }
+    }
+
+    function updateStats() {
+      const totalSubmissions = allSubmissions.length;
+      const studentCount = allSubmissions.filter(s => s.user_role === 'HS').length;
+      const teacherCount = allSubmissions.filter(s => s.user_role === 'GV').length;
+      const parentCount = allSubmissions.filter(s => s.user_role === 'PH').length;
+
+      document.getElementById('totalSubmissions').textContent = totalSubmissions;
+      document.getElementById('studentSubmissions').textContent = studentCount;
+      document.getElementById('teacherSubmissions').textContent = teacherCount;
+      document.getElementById('parentSubmissions').textContent = parentCount;
+    }
+
+    function filterSubmissions() {
+      const roleFilter = document.getElementById('roleFilter').value;
+      let filtered = allSubmissions;
+
+      if (roleFilter) {
+        filtered = allSubmissions.filter(s => s.user_role === roleFilter);
+      }
+
+      displaySubmissions(filtered);
+    }
+
+    function displaySubmissions(submissions) {
+      const tbody = document.getElementById('submissions-list');
+
+      if (submissions.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <p>Chưa có bài quiz nào</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = submissions.map(sub => `
+        <tr onclick="showDetail('${sub.id}')">
+          <td>
+            <div class="font-medium">${escapeHtml(sub.user_name)}</div>
+            <div class="text-sm text-gray-500">${escapeHtml(sub.user_email)}</div>
+          </td>
+          <td>
+            <span class="badge badge-${sub.user_role.toLowerCase()}">
+              ${sub.user_role === 'HS' ? 'Học Sinh' : sub.user_role === 'GV' ? 'Giáo Viên' : 'Phụ Huynh'}
+            </span>
+          </td>
+          <td>${getRoleLabel(sub.quiz_role)}</td>
+          <td>${sub.total_questions}</td>
+          <td>
+            <span class="score-badge">${sub.total_score.toFixed(1)} / ${sub.max_score}</span>
+          </td>
+          <td class="text-sm text-gray-600">
+            ${new Date(sub.submitted_at).toLocaleString('vi-VN')}
+          </td>
+          <td>
+            <button onclick="showDetail('${sub.id}'); event.stopPropagation();" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+              <i class="fas fa-eye mr-1"></i>Xem Chi Tiết
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function getRoleLabel(role) {
+      const labels = {
+        'HS': 'Học Sinh',
+        'GV': 'Giáo Viên',
+        'PH': 'Phụ Huynh'
+      };
+      return labels[role] || role;
+    }
+
+    async function showDetail(submissionId) {
+      try {
+        const response = await fetch(`/api/admin/quiz/submissions/${submissionId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          displayDetail(data);
+          document.getElementById('detailModal').classList.add('active');
+        }
+      } catch (error) {
+        console.error('Error loading detail:', error);
+      }
+    }
+
+    function displayDetail(data) {
+      const submission = data;
+      const modalBody = document.getElementById('modalBody');
+
+      let answersHtml = '';
+      const answers = submission.answers;
+      let questionIndex = 0;
+
+      // Để lấy được nội dung câu hỏi, bạn cần load from quiz_questions.json
+      // Ở đây tôi sẽ hiển thị các câu trả lời
+      for (const [qId, answerIdx] of Object.entries(answers)) {
+        if (typeof answerIdx === 'number' || typeof answerIdx === 'string') {
+          questionIndex++;
+          answersHtml += `
+            <div class="question-answer">
+              <h4>Câu ${questionIndex}: ${qId}</h4>
+              <div class="answer-given">
+                <strong>Câu Trả Lời:</strong> Mức độ ${Number(answerIdx) + 1}
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      const scorePercentage = ((submission.total_score / submission.max_score) * 100).toFixed(0);
+
+      modalBody.innerHTML = `
+        <div class="user-info">
+          <div class="info-item">
+            <div class="info-label">Họ Tên</div>
+            <div class="info-value">${escapeHtml(submission.user_name)}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Email</div>
+            <div class="info-value">${escapeHtml(submission.user_email)}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Vai Trò</div>
+            <div class="info-value">
+              <span class="badge badge-${submission.user_role.toLowerCase()}">
+                ${getRoleLabel(submission.user_role)}
+              </span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Bài Quiz</div>
+            <div class="info-value">${getRoleLabel(submission.quiz_role)}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Thời Gian Gửi</div>
+            <div class="info-value">${new Date(submission.submitted_at).toLocaleString('vi-VN')}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Số Câu Hỏi</div>
+            <div class="info-value">${submission.total_questions}</div>
+          </div>
+        </div>
+
+        <div class="score-display">
+          <h3>Tổng Điểm</h3>
+          <div class="score-number">${submission.total_score.toFixed(1)}</div>
+          <div style="font-size: 0.875rem; color: #64748B; margin-top: 0.5rem;">
+            ${submission.total_score.toFixed(1)} / ${submission.max_score} điểm (${scorePercentage}%)
+          </div>
+        </div>
+
+        <div class="answers-section">
+          <h3>Chi Tiết Câu Trả Lời</h3>
+          ${answersHtml}
+        </div>
+      `;
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detailModal').classList.remove('active');
+    }
+
+    function logoutUser() {
+      if (!confirm('Bạn chắc chắn muốn đăng xuất?')) return;
+      sessionStorage.clear();
+      window.location.replace('admin_login.html');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('detailModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeDetailModal();
+      }
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (pollInterval) clearInterval(pollInterval);
+    });
+  </script>
+</body>
+</html>

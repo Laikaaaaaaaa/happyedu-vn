@@ -22,9 +22,253 @@
 
     body {
       min-height: 100vh;
-      background: #f8fafc;
+      background: #ffffff;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       color: #0F172A;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+    
+    .sidebar.active {
+      left: 0;
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+    
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+        font-size: 1rem;
+      }
+      .nav-brand img {
+        width: 32px;
+        height: 32px;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
     }
 
     .tab-button {
@@ -133,40 +377,148 @@
       padding: 2rem;
       color: #94a3b8;
     }
+
+    .card-base {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid #E2E8F0;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card-base:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-color: #CBD5F5;
+    }
+
+    .stat-card {
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+    }
+
+    .stat-card h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1D4ED8;
+    }
+
+    .stat-card p {
+      font-size: 0.875rem;
+      color: #64748B;
+      margin-top: 0.5rem;
+    }
+
+    main {
+      background: #f8fafc;
+    }
   </style>
 </head>
 <body>
-  <div class="min-h-screen bg-gray-50">
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-8 h-8">
-            <h1 class="text-2xl font-bold text-gray-900">Quản Lý Tài Khoản</h1>
+  <!-- Sidebar Overlay -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <li>
+        <a href="admin_dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-th-large" style="width: 20px; text-align: center;"></i> Bảng Điều Khiển
+        </a>
+      </li>
+      <li>
+        <a href="admin_accounts.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
+          <i class="fas fa-users" style="width: 20px; text-align: center;"></i> Tài Khoản
+        </a>
+      </li>
+      <li>
+        <a href="admin_quiz.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-clipboard-list" style="width: 20px; text-align: center;"></i> Bài Quiz
+        </a>
+      </li>
+      <li>
+        <a href="admin_reports.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-chart-bar" style="width: 20px; text-align: center;"></i> Báo Cáo
+        </a>
+      </li>
+      <li>
+        <a href="admin_settings.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-cog" style="width: 20px; text-align: center;"></i> Cài Đặt
+        </a>
+      </li>
+      <li>
+        <a href="admin_sos_reports.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </a>
+      </li>
+      <li class="border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
           </div>
-          <button onclick="logoutAdmin()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
-            <i class="fas fa-sign-out-alt mr-2"></i> Đăng Xuất
+          HappyEdu VN
+        </div>
+
+        <nav class="nav-menu">
+          <a href="admin_dashboard.html">Bảng Điều Khiển</a>
+          <a href="admin_accounts.html" class="active">Tài Khoản</a>
+          <a href="admin_quiz.html">Bài Quiz</a>
+          <a href="admin_reports.html">Báo Cáo</a>
+          <a href="admin_settings.html">Cài Đặt</a>
+        </nav>
+
+        <div class="nav-utilities">
+          <div class="user-pill" id="user-pill">
+            <i class="fas fa-shield-alt text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
           </button>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Main Content -->
+  <main class="px-4 py-6 md:py-10">
+    <div class="max-w-5xl mx-auto">
       <!-- Stats Section -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div class="stat-box">
-          <div class="stat-number" id="student-count">0</div>
-          <div class="stat-label">Tổng Học Sinh</div>
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="card-base stat-card">
+          <h3 id="totalStudents">0</h3>
+          <p><i class="fas fa-graduation-cap mr-2"></i>Tổng Học Sinh</p>
         </div>
-        <div class="stat-box">
-          <div class="stat-number" id="teacher-count">0</div>
-          <div class="stat-label">Tổng Giáo Viên</div>
+        <div class="card-base stat-card">
+          <h3 id="totalTeachers">0</h3>
+          <p><i class="fas fa-chalkboard-user mr-2"></i>Tổng Giáo Viên</p>
         </div>
-        <div class="stat-box">
-          <div class="stat-number" id="parent-count">0</div>
-          <div class="stat-label">Tổng Phụ Huynh</div>
+        <div class="card-base stat-card">
+          <h3 id="totalParents">0</h3>
+          <p><i class="fas fa-user-tie mr-2"></i>Tổng Phụ Huynh</p>
         </div>
-      </div>
+      </section>
 
       <!-- Tabs -->
       <div class="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -251,8 +603,8 @@
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <script>
     // Check admin login
@@ -264,6 +616,51 @@
     })();
 
     let pollInterval = null;
+
+    // Sidebar Toggle
+    document.addEventListener('DOMContentLoaded', async function() {
+      const menuToggle = document.getElementById('mobile-menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('active');
+          sidebarOverlay.classList.toggle('active');
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      }
+
+      const sidebarLinks = sidebar.querySelectorAll('a, button');
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      });
+
+      loadUserInfo();
+      loadStats();
+      loadUsers('students');
+
+      // Update stats every 3 seconds (real-time)
+      pollInterval = setInterval(loadStats, 3000);
+    });
+
+    // Load user info
+    function loadUserInfo() {
+      const adminId = sessionStorage.getItem('admin_id') || 'Admin';
+      document.getElementById('user-name').textContent = adminId;
+      document.getElementById('user-id-display').textContent = 'Quản Trị Viên';
+      document.getElementById('sidebar-user-name').textContent = adminId;
+      document.getElementById('sidebar-user-id').textContent = 'Quản Trị Viên';
+    }
 
     function switchTab(tab) {
       // Update buttons
@@ -285,9 +682,9 @@
         const response = await fetch('/api/admin/stats');
         const data = await response.json();
         
-        document.getElementById('student-count').textContent = data.students || 0;
-        document.getElementById('teacher-count').textContent = data.teachers || 0;
-        document.getElementById('parent-count').textContent = data.parents || 0;
+        document.getElementById('totalStudents').textContent = data.students || 0;
+        document.getElementById('totalTeachers').textContent = data.teachers || 0;
+        document.getElementById('totalParents').textContent = data.parents || 0;
       } catch (error) {
         console.error('Error loading stats:', error);
       }
@@ -339,20 +736,11 @@
       return div.innerHTML;
     }
 
-    function logoutAdmin() {
+    function logoutUser() {
       if (!confirm('Bạn chắc chắn muốn đăng xuất?')) return;
       sessionStorage.clear();
       window.location.replace('admin_login.html');
     }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      loadStats();
-      loadUsers('students');
-
-      // Update stats every 3 seconds (real-time)
-      pollInterval = setInterval(loadStats, 3000);
-    });
 
     // Cleanup on page unload
     window.addEventListener('beforeunload', () => {

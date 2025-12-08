@@ -101,6 +101,21 @@ def init_db():
     except:
         pass
     
+    # Quiz Submissions table
+    c.execute('''CREATE TABLE IF NOT EXISTS quiz_submissions (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        user_name TEXT NOT NULL,
+        user_email TEXT NOT NULL,
+        user_role TEXT NOT NULL,
+        quiz_role TEXT NOT NULL,
+        total_questions INTEGER,
+        max_score FLOAT,
+        total_score FLOAT,
+        answers TEXT,
+        submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )''')
+    
     conn.commit()
     conn.close()
 
@@ -1055,6 +1070,120 @@ def get_quiz_questions(role):
         print(f"Error loading quiz questions: {e}")
         import traceback
         traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/quiz/submit', methods=['POST'])
+def submit_quiz():
+    """Submit quiz answers and save to database"""
+    try:
+        data = request.get_json()
+        
+        # Generate unique submission ID
+        import uuid
+        submission_id = str(uuid.uuid4())
+        
+        # Convert answers to JSON string for storage
+        answers_json = json.dumps(data.get('answers', {}))
+        
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''INSERT INTO quiz_submissions 
+                    (id, user_id, user_name, user_email, user_role, quiz_role, 
+                     total_questions, max_score, total_score, answers)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                 (submission_id,
+                  data.get('user_id'),
+                  data.get('user_name'),
+                  data.get('user_email'),
+                  data.get('user_role'),
+                  data.get('quiz_role'),
+                  data.get('total_questions'),
+                  data.get('max_score'),
+                  data.get('total_score'),
+                  answers_json))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'success': True, 'submission_id': submission_id}), 200
+    except Exception as e:
+        print(f"Error submitting quiz: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/admin/quiz/submissions', methods=['GET'])
+def get_quiz_submissions():
+    """Get all quiz submissions for admin"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        # Get all submissions sorted by date
+        c.execute('''SELECT id, user_id, user_name, user_email, user_role, quiz_role,
+                           total_questions, max_score, total_score, submitted_at
+                    FROM quiz_submissions
+                    ORDER BY submitted_at DESC''')
+        
+        submissions = c.fetchall()
+        conn.close()
+        
+        result = []
+        for sub in submissions:
+            result.append({
+                'id': sub[0],
+                'user_id': sub[1],
+                'user_name': sub[2],
+                'user_email': sub[3],
+                'user_role': sub[4],
+                'quiz_role': sub[5],
+                'total_questions': sub[6],
+                'max_score': sub[7],
+                'total_score': sub[8],
+                'submitted_at': sub[9]
+            })
+        
+        return jsonify({'success': True, 'submissions': result}), 200
+    except Exception as e:
+        print(f"Error fetching quiz submissions: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/admin/quiz/submissions/<submission_id>', methods=['GET'])
+def get_quiz_submission_detail(submission_id):
+    """Get detailed submission data including answers"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''SELECT id, user_id, user_name, user_email, user_role, quiz_role,
+                           total_questions, max_score, total_score, answers, submitted_at
+                    FROM quiz_submissions
+                    WHERE id = ?''', (submission_id,))
+        
+        sub = c.fetchone()
+        conn.close()
+        
+        if not sub:
+            return jsonify({'success': False, 'error': 'Submission not found'}), 404
+        
+        return jsonify({
+            'success': True,
+            'id': sub[0],
+            'user_id': sub[1],
+            'user_name': sub[2],
+            'user_email': sub[3],
+            'user_role': sub[4],
+            'quiz_role': sub[5],
+            'total_questions': sub[6],
+            'max_score': sub[7],
+            'total_score': sub[8],
+            'answers': json.loads(sub[9]),
+            'submitted_at': sub[10]
+        }), 200
+    except Exception as e:
+        print(f"Error fetching submission detail: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
