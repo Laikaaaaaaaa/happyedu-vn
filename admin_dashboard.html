@@ -523,7 +523,7 @@
           console.error('Error loading stats:', error);
         });
       
-      // Poll stats every 1 second for near real-time updates
+      // Poll stats every 500ms for instant updates
       setInterval(() => {
         fetch('/api/admin/stats')
           .then(res => res.json())
@@ -537,7 +537,7 @@
             }
           })
           .catch(error => console.error('Error polling stats:', error));
-      }, 1000);
+      }, 500);
       
       // Check for unresolved SOS reports periodically
       setInterval(() => {

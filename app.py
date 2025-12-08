@@ -1199,6 +1199,126 @@ def get_quiz_submission_detail(submission_id):
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+# Admin database access endpoints
+@app.route('/api/admin/users/all', methods=['GET'])
+def get_all_users():
+    """Get all users from database - ADMIN ONLY"""
+    # Check admin access
+    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        c.execute('''SELECT id, email, role, name, verified, created_at FROM users ORDER BY created_at DESC''')
+        rows = c.fetchall()
+        
+        users = []
+        for row in rows:
+            users.append({
+                'id': row[0],
+                'email': row[1],
+                'role': row[2],
+                'name': row[3],
+                'verified': bool(row[4]),
+                'created_at': row[5]
+            })
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'total': len(users),
+            'users': users
+        }), 200
+    except Exception as e:
+        print(f"Error fetching all users: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/admin/database/download', methods=['GET'])
+def download_database():
+    """Download entire database file - ADMIN ONLY"""
+    # Check admin access
+    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+    
+    try:
+        if not os.path.exists(DB_PATH):
+            return jsonify({'success': False, 'error': 'Database not found'}), 404
+        
+        return send_file(
+            DB_PATH,
+            as_attachment=True,
+            download_name='student_protect.db',
+            mimetype='application/octet-stream'
+        )
+    except Exception as e:
+        print(f"Error downloading database: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/admin/stats/complete', methods=['GET'])
+def get_complete_stats():
+    """Get complete statistics - ADMIN ONLY"""
+    # Check admin access
+    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+    
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        # Count by role
+        c.execute("SELECT role, COUNT(*) FROM users GROUP BY role")
+        role_counts = dict(c.fetchall())
+        
+        # Get total quiz submissions
+        c.execute("SELECT COUNT(*) FROM quiz_submissions")
+        total_submissions = c.fetchone()[0]
+        
+        # Get total SOS reports
+        c.execute("SELECT COUNT(*), SUM(CASE WHEN resolved=0 THEN 1 ELSE 0 END) FROM sos_reports")
+        sos_total, sos_unresolved = c.fetchone()
+        
+        # Get database file size
+        db_size = os.path.getsize(DB_PATH) if os.path.exists(DB_PATH) else 0
+        
+        conn.close()
+        
+        stats = {
+            'users': {
+                'total': sum(role_counts.values()),
+                'by_role': {
+                    'HS': role_counts.get('HS', 0),
+                    'GV': role_counts.get('GV', 0),
+                    'PH': role_counts.get('PH', 0),
+                    'AD': role_counts.get('AD', 0)
+                }
+            },
+            'quiz_submissions': total_submissions,
+            'sos_reports': {
+                'total': sos_total or 0,
+                'unresolved': sos_unresolved or 0
+            },
+            'database': {
+                'size_bytes': db_size,
+                'size_mb': round(db_size / (1024 * 1024), 2),
+                'path': DB_PATH
+            },
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        return jsonify({
+            'success': True,
+            'data': stats
+        }), 200
+    except Exception as e:
+        print(f"Error getting complete stats: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     init_db()
     print("Starting HappyEdu VN Server...")
