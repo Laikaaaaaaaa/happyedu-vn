@@ -731,6 +731,21 @@
       closeSidebar();
     }
 
+    // Check if user still exists in database
+    function checkUserExists() {
+      fetch('/api/auth/check-user-exists')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.exists) {
+            // User was deleted, logout
+            sessionStorage.clear();
+            alert('Tài khoản của bạn đã bị xóa. Vui lòng đăng nhập lại.');
+            window.location.replace('login.html');
+          }
+        })
+        .catch(error => console.error('Error checking user:', error));
+    }
+
     // Load user info
     function loadUserInfo() {
       const userID = sessionStorage.getItem('user_id') || null;
@@ -850,6 +865,7 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
+      checkUserExists();
       loadUserInfo();
       setupSOSButton();
       

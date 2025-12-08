@@ -1799,6 +1799,21 @@
       updateRoleBasedVisibility();
     }
 
+    // Check if user still exists in database
+    function checkUserExists() {
+      fetch('/api/auth/check-user-exists')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.exists) {
+            // User was deleted, logout
+            sessionStorage.clear();
+            alert('Tài khoản của bạn đã bị xóa. Vui lòng đăng nhập lại.');
+            window.location.replace('login.html');
+          }
+        })
+        .catch(error => console.error('Error checking user:', error));
+    }
+
     function deleteAllUsers() {
       // Double confirmation to prevent accidents
       const confirm1 = confirm('⚠️ BẠN CHẮC CHẮN MUỐN XÓA TẤT CẢ TÀI KHOẢN KHÔNG?\n\nThao tác này không thể hoàn tác!');
@@ -2036,6 +2051,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      checkUserExists();
       initSidebarToggle();
       loadUserInfo();
       setupSOSButton();
