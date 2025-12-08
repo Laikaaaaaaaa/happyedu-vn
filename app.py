@@ -934,6 +934,11 @@ def get_admin_stats():
                 stats['parents'] = count
             stats['total'] += count
         
+        # If current user is admin, add 1 to teachers (since admin isn't in users table)
+        if session.get('user_role') == 'AD' and session.get('admin_logged_in'):
+            stats['teachers'] += 1
+            stats['total'] += 1
+        
         # Get SOS statistics
         c.execute("SELECT COUNT(*) as total, SUM(CASE WHEN resolved = 0 THEN 1 ELSE 0 END) as unresolved FROM sos_reports")
         sos_data = c.fetchone()
