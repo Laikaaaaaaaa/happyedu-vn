@@ -906,7 +906,7 @@ def get_admin_stats():
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         
-        # Count users by role
+        # Count users by role (include admin 'AD' as teachers 'GV')
         c.execute("SELECT role, COUNT(*) as count FROM users GROUP BY role")
         results = c.fetchall()
         
@@ -923,6 +923,9 @@ def get_admin_stats():
                 stats['students'] = count
             elif role == 'GV':
                 stats['teachers'] = count
+            elif role == 'AD':
+                # Admins are counted as teachers (higher level)
+                stats['teachers'] += count
             elif role == 'PH':
                 stats['parents'] = count
             stats['total'] += count
