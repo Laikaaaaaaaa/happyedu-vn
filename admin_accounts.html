@@ -648,9 +648,15 @@
       loadUserInfo();
       loadStats();
       loadUsers('students');
+      
+      // Track current active tab
+      window.activeTab = 'students';
 
-      // Update stats every 3 seconds (real-time)
-      pollInterval = setInterval(loadStats, 3000);
+      // Update stats and users every 3 seconds (real-time)
+      pollInterval = setInterval(() => {
+        loadStats();
+        loadUsers(window.activeTab);
+      }, 3000);
     });
 
     // Load user info
@@ -672,10 +678,11 @@
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
       document.getElementById(tab + '-tab').classList.add('active');
 
-      // Load data if not already loaded
-      if (!document.getElementById(tab + '-content').querySelector('table tbody').innerHTML) {
-        loadUsers(tab);
-      }
+      // Update active tab for polling
+      window.activeTab = tab;
+
+      // Load data
+      loadUsers(tab);
     }
 
     async function loadStats() {
