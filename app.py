@@ -1357,33 +1357,6 @@ def delete_all_users():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
-@app.route('/api/auth/check-user-exists', methods=['POST'])
-def check_user_exists():
-    """Check if user exists in database by user_id"""
-    data = request.json or {}
-    user_id = data.get('user_id')
-    
-    if not user_id:
-        # No user_id provided, skip check (user not logged in)
-        return jsonify({'success': True, 'exists': True, 'message': 'No user_id provided, skip check'}), 200
-    
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        c = conn.cursor()
-        
-        c.execute("SELECT id FROM users WHERE id = ?", (user_id,))
-        user = c.fetchone()
-        conn.close()
-        
-        if user:
-            return jsonify({'success': True, 'exists': True}), 200
-        else:
-            return jsonify({'success': True, 'exists': False, 'message': 'User no longer exists'}), 200
-    except Exception as e:
-        print(f"Error checking user: {e}")
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-
 if __name__ == '__main__':
     init_db()
     print("Starting HappyEdu VN Server...")
