@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session, send_from_directory, send_file
+from flask import Flask, request, jsonify, session, send_from_directory, send_file, redirect, url_for
 from werkzeug.wsgi import wrap_file
 from flask_cors import CORS
 from urllib.parse import unquote
@@ -16,6 +16,7 @@ import mimetypes
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.secret_key = 'your-secret-key-change-this'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 CORS(app)
 
 # Email Configuration
@@ -174,6 +175,22 @@ def generate_user_id(role='student'):
 def hash_password(password):
     """Hash password using SHA256"""
     return hashlib.sha256(password.encode()).hexdigest()
+
+# Middleware to check if user still exists in database
+@app.before_request
+def check_user_exists():
+    """Verify that logged-in user still exists in database"""
+    if 'user_id' in session:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute('SELECT id FROM users WHERE id = ?', (session['user_id'],))
+        user = c.fetchone()
+        conn.close()
+        
+        if not user:
+            # User was deleted from database, clear session
+            session.clear()
+            return redirect(url_for('index'))
 
 # Routes - Serve static files
 @app.route('/')
