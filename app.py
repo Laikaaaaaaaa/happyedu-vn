@@ -13,10 +13,11 @@ import sqlite3
 import hashlib
 import json
 import mimetypes
+import jwt
+from functools import wraps
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 app.secret_key = 'your-secret-key-change-this'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 CORS(app)
 
 # Email Configuration
@@ -176,21 +177,63 @@ def hash_password(password):
     """Hash password using SHA256"""
     return hashlib.sha256(password.encode()).hexdigest()
 
-# Middleware to check if user still exists in database
-@app.before_request
-def check_user_exists():
-    """Verify that logged-in user still exists in database"""
-    if 'user_id' in session:
+def create_token(user_id, role, expires_in=86400):
+    """Create JWT token (valid for 24 hours by default)"""
+    payload = {
+        'user_id': user_id,
+        'role': role,
+        'exp': datetime.utcnow() + timedelta(seconds=expires_in)
+    }
+    return jwt.encode(payload, app.secret_key, algorithm='HS256')
+
+def verify_token(token):
+    """Verify JWT token and return payload"""
+    try:
+        payload = jwt.decode(token, app.secret_key, algorithms=['HS256'])
+        return payload
+    except jwt.ExpiredSignatureError:
+        return None  # Token expired
+    except jwt.InvalidTokenError:
+        return None  # Invalid token
+
+def token_required(f):
+    """Decorator to protect routes that require authentication"""
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        
+        # Check Authorization header
+        if 'Authorization' in request.headers:
+            auth_header = request.headers['Authorization']
+            try:
+                token = auth_header.split(" ")[1]
+            except IndexError:
+                return jsonify({'error': 'Invalid token format'}), 401
+        
+        if not token:
+            return jsonify({'error': 'Token required'}), 401
+        
+        payload = verify_token(token)
+        if not payload:
+            return jsonify({'error': 'Invalid or expired token'}), 401
+        
+        # Verify user still exists in database
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
-        c.execute('SELECT id FROM users WHERE id = ?', (session['user_id'],))
+        c.execute('SELECT id, role FROM users WHERE id = ?', (payload['user_id'],))
         user = c.fetchone()
         conn.close()
         
         if not user:
-            # User was deleted from database, clear session
-            session.clear()
-            return redirect(url_for('index'))
+            return jsonify({'error': 'User not found'}), 401
+        
+        # Pass user info to the route
+        request.user_id = payload['user_id']
+        request.user_role = payload['role']
+        
+        return f(*args, **kwargs)
+    
+    return decorated
 
 # Routes - Serve static files
 @app.route('/')
@@ -341,13 +384,12 @@ def login_complete():
 
     if user:
         user_id, role, name = user
-        session['user_id'] = user_id
-        session['user_email'] = email
-        session['user_role'] = role
-        session['user_name'] = name
+        # Create JWT token instead of session
+        token = create_token(user_id, role)
         return jsonify({
             'success': True,
             'message': 'Đăng nhập thành công',
+            'token': token,
             'user_id': user_id,
             'user_name': name,
             'user_role': role,
@@ -452,11 +494,9 @@ def finalize_register():
     })
 
 @app.route('/api/mail/send', methods=['POST'])
+@token_required
 def send_mail():
     """Send mail to recipient"""
-    if 'user_id' not in session:
-        return jsonify({'success': False, 'message': 'Chưa đăng nhập'}), 401
-
     data = request.json
     recipient_email = data.get('recipient_email')
     subject = data.get('subject')
@@ -477,7 +517,7 @@ def send_mail():
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         c.execute('INSERT INTO mail_logs (sender_id, recipient_email, subject, body, mail_type) VALUES (?, ?, ?, ?, ?)',
-                  (session['user_id'], recipient_email, subject, body, mail_type))
+                  (request.user_id, recipient_email, subject, body, mail_type))
         conn.commit()
         conn.close()
         
@@ -592,14 +632,12 @@ def teacher_login():
     if hash_password(password) != hashed_pwd:
         return jsonify({'success': False, 'message': 'Mật khẩu không chính xác'}), 401
 
-    # Create session for teacher
-    session['user_id'] = user_id
-    session['user_email'] = email
-    session['user_role'] = role
-    session['user_name'] = name
+    # Create JWT token for teacher
+    token = create_token(user_id, role)
     
     return jsonify({
         'success': True,
+        'token': token,
         'user_id': user_id,
         'user_email': email,
         'user_role': role,
@@ -643,14 +681,13 @@ def teacher_register():
     finally:
         conn.close()
 
-    session['user_id'] = user_id
-    session['user_email'] = email
-    session['user_role'] = 'teacher'
-    session['user_name'] = teacher_name
+    # Create JWT token for teacher
+    token = create_token(user_id, 'teacher')
 
     return jsonify({
         'success': True,
         'message': 'Đăng ký thành công',
+        'token': token,
         'user_id': user_id,
         'user_name': teacher_name,
         'user_role': 'teacher',
@@ -823,11 +860,15 @@ def admin_login():
     if password != ADMIN_PASSWORD:
         return jsonify({'success': False, 'error': 'Mật khẩu không chính xác'}), 401
     
-    # Set admin session - password is correct
-    session['admin_logged_in'] = True
-    session['user_role'] = 'AD'
+    # Create JWT token for admin
+    token = create_token('admin', 'admin')
     
-    return jsonify({'success': True, 'message': 'Đăng nhập quản trị viên thành công'})
+    return jsonify({
+        'success': True, 
+        'message': 'Đăng nhập quản trị viên thành công',
+        'token': token,
+        'user_role': 'admin'
+    })
 
 
 @app.route('/api/sos/reports', methods=['GET'])
@@ -921,9 +962,14 @@ def dismiss_sos(sos_id):
 
 
 @app.route('/api/admin/stats', methods=['GET'])
+@token_required
 def get_admin_stats():
     """Get dashboard statistics - count of students, teachers, parents"""
     try:
+        # Only admin can access this
+        if request.user_role != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+        
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         
@@ -952,9 +998,8 @@ def get_admin_stats():
             stats['total'] += count
         
         # If current user is admin, add 1 to teachers (since admin isn't in users table)
-        if session.get('user_role') == 'AD' and session.get('admin_logged_in'):
-            stats['teachers'] += 1
-            stats['total'] += 1
+        stats['teachers'] += 1
+        stats['total'] += 1
         
         # Get SOS statistics
         c.execute("SELECT COUNT(*) as total, SUM(CASE WHEN resolved = 0 THEN 1 ELSE 0 END) as unresolved FROM sos_reports")
@@ -1218,10 +1263,11 @@ def get_quiz_submission_detail(submission_id):
 
 # Admin database access endpoints
 @app.route('/api/admin/users/all', methods=['GET'])
+@token_required
 def get_all_users():
     """Get all users from database - ADMIN ONLY"""
     # Check admin access
-    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+    if request.user_role != 'admin':
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
     try:
@@ -1255,10 +1301,11 @@ def get_all_users():
 
 
 @app.route('/api/admin/database/download', methods=['GET'])
+@token_required
 def download_database():
     """Download entire database file - ADMIN ONLY"""
     # Check admin access
-    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+    if request.user_role != 'admin':
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
     try:
@@ -1277,10 +1324,11 @@ def download_database():
 
 
 @app.route('/api/admin/stats/complete', methods=['GET'])
+@token_required
 def get_complete_stats():
     """Get complete statistics - ADMIN ONLY"""
     # Check admin access
-    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+    if request.user_role != 'admin':
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
     try:
@@ -1337,10 +1385,11 @@ def get_complete_stats():
 
 
 @app.route('/api/admin/delete-all-users', methods=['POST'])
+@token_required
 def delete_all_users():
     """Delete all users except admin - ADMIN ONLY"""
     # Check admin access
-    if session.get('user_role') != 'AD' or not session.get('admin_logged_in'):
+    if request.user_role != 'admin':
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
     try:
