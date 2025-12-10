@@ -1403,12 +1403,12 @@ def delete_all_users():
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         
-        # Count users before deletion (excluding admin)
-        c.execute("SELECT COUNT(*) FROM users WHERE role != 'AD'")
+        # Count users before deletion (all users)
+        c.execute("SELECT COUNT(*) FROM users")
         deleted_count = c.fetchone()[0]
         
-        # Delete all users except admin
-        c.execute("DELETE FROM users WHERE role != 'AD'")
+        # Delete all users
+        c.execute("DELETE FROM users")
         conn.commit()
         
         conn.close()
