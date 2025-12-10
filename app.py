@@ -1357,13 +1357,15 @@ def delete_all_users():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
-@app.route('/api/auth/check-user-exists', methods=['GET'])
+@app.route('/api/auth/check-user-exists', methods=['POST'])
 def check_user_exists():
-    """Check if current user exists in database"""
-    user_id = session.get('user_id')
+    """Check if user exists in database by user_id"""
+    data = request.json or {}
+    user_id = data.get('user_id')
     
     if not user_id:
-        return jsonify({'success': False, 'exists': False, 'message': 'Not logged in'}), 200
+        # No user_id provided, skip check (user not logged in)
+        return jsonify({'success': True, 'exists': True, 'message': 'No user_id provided, skip check'}), 200
     
     try:
         conn = sqlite3.connect(DB_PATH)
@@ -1376,8 +1378,6 @@ def check_user_exists():
         if user:
             return jsonify({'success': True, 'exists': True}), 200
         else:
-            # User was deleted, clear session
-            session.clear()
             return jsonify({'success': True, 'exists': False, 'message': 'User no longer exists'}), 200
     except Exception as e:
         print(f"Error checking user: {e}")
