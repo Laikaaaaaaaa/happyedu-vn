@@ -240,6 +240,11 @@ def token_required(f):
 def index():
     return send_from_directory('.', 'index.html')
 
+@app.route('/reviews')
+def reviews_page():
+    """Serve the reviews page"""
+    return send_from_directory('.', 'reviews.html')
+
 @app.route('/<path:filename>')
 def serve_static(filename):
     """Serve static files"""

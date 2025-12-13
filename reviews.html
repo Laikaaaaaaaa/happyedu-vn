@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <title>Đánh Giá Website - HappyEdu VN</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="icon" type="image/x-icon" href="logo/favicon.ico">
+  <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logo/favicon-16x16.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+  <style>
+    * {
+      transition: all 0.2s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #0F172A;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .light-blue-bg {
+      background-color: #E0F2FE;
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: -250px;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.2s ease;
+      z-index: 1000;
+      padding-top: 80px;
+      overflow-y: auto;
+    }
+
+    .sidebar-user-info {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      background: #F8FAFC;
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+      margin: 0.75rem 0 0;
+    }
+
+    .sidebar-user-info strong {
+      font-size: 0.95rem;
+      color: #0F172A;
+    }
+
+    .sidebar-user-info span {
+      font-size: 0.8rem;
+      color: #475569;
+      letter-spacing: 0.3px;
+    }
+
+    .sidebar-item-active {
+      background-color: #DBEAFE !important;
+      color: #1D4ED8 !important;
+      font-weight: 700 !important;
+    }
+    
+    .sidebar.active {
+      left: 0;
+    }
+    
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 769px) {
+      .sidebar {
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .sidebar-overlay {
+        display: none !important;
+      }
+    }
+    
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .top-banner {
+      background: #0F172A;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-weight: 600;
+    }
+
+    .nav-shell {
+      background: #ffffff;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0F172A;
+    }
+
+    .nav-utilities {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu a {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #1D4ED8;
+      color: white;
+    }
+
+    .user-pill {
+      background: #F8FAFC;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      color: #0F172A;
+      font-weight: 600;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid #E2E8F0;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.4rem 0.65rem;
+      font-size: 1.1rem;
+      color: #0F172A;
+    }
+
+    .nav-toggle:hover {
+      background: #F8FAFC;
+    }
+
+    @media (max-width: 900px) {
+      .nav-bar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .nav-menu {
+        flex-basis: 100%;
+        order: 3;
+        justify-content: flex-start;
+        gap: 0.65rem;
+      }
+      .nav-utilities {
+        margin-left: auto;
+      }
+      .nav-menu a {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        flex-wrap: nowrap;
+      }
+      .nav-brand {
+        order: 2;
+        margin-left: auto;
+        gap: 0.5rem;
+      }
+      .nav-utilities {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        order: 0;
+        margin-right: 0.4rem;
+      }
+      .user-pill {
+        display: none;
+      }
+    }
+
+    .btn-primary {
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid #0F172A;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #0F172A;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #1E293B;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #CBD5F5;
+      color: #0F172A;
+    }
+
+    .btn-outline:hover {
+      border-color: #94A3B8;
+      background-color: #F8FAFC;
+    }
+
+    /* Reviews Layout Styles */
+    .reviews-container {
+      display: grid;
+      grid-template-columns: 200px 1fr 220px;
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .reviews-sidebar {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid #E2E8F0;
+      height: fit-content;
+      position: sticky;
+      top: 120px;
+    }
+
+    .reviews-sidebar h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .filter-category {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      margin-bottom: 0.25rem;
+      cursor: pointer;
+    }
+
+    .filter-category:hover {
+      background: #F1F5F9;
+      color: #1D4ED8;
+    }
+
+    .filter-category.active {
+      background: #DBEAFE;
+      color: #1D4ED8;
+      font-weight: 600;
+    }
+
+    .filter-category i {
+      width: 18px;
+      text-align: center;
+    }
+
+    .reviews-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .reviews-header {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid #E2E8F0;
+      text-align: center;
+    }
+
+    .reviews-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 0.5rem;
+    }
+
+    .reviews-header p {
+      color: #64748B;
+      font-size: 0.95rem;
+    }
+
+    /* Overall Rating Summary */
+    .rating-summary {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .rating-big {
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .rating-big .score {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1;
+    }
+
+    .rating-big .stars {
+      color: #FBBF24;
+      font-size: 1.25rem;
+      margin: 0.5rem 0;
+    }
+
+    .rating-big .total {
+      color: #64748B;
+      font-size: 0.85rem;
+    }
+
+    .rating-bars {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .rating-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .rating-bar-item .star-label {
+      font-size: 0.85rem;
+      color: #475569;
+      min-width: 50px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .rating-bar-item .bar-container {
+      flex: 1;
+      height: 8px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .rating-bar-item .bar-fill {
+      height: 100%;
+      background: #FBBF24;
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    .rating-bar-item .count {
+      font-size: 0.8rem;
+      color: #94A3B8;
+      min-width: 30px;
+      text-align: right;
+    }
+
+    /* New Review Box */
+    .new-review-box {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .new-review-form {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .review-input-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .star-rating-input {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .star-rating-input i {
+      font-size: 1.5rem;
+      color: #E2E8F0;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .star-rating-input i:hover {
+      transform: scale(1.1);
+    }
+
+    .star-rating-input i.active {
+      color: #FBBF24;
+    }
+
+    .review-input-area textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 0.75rem 1rem;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: none;
+      transition: border-color 0.2s;
+    }
+
+    .review-input-area textarea:focus {
+      outline: none;
+      border-color: #1D4ED8;
+    }
+
+    .review-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    /* Reviews List */
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .review-item {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid #E2E8F0;
+      transition: box-shadow 0.2s;
+    }
+
+    .review-item:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-author-info {
+      flex: 1;
+    }
+
+    .review-author-name {
+      font-weight: 600;
+      color: #0F172A;
+      font-size: 0.95rem;
+    }
+
+    .review-time {
+      font-size: 0.8rem;
+      color: #94A3B8;
+    }
+
+    .review-stars {
+      color: #FBBF24;
+      font-size: 0.9rem;
+    }
+
+    .review-content {
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .review-stats {
+      display: flex;
+      gap: 1.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #F1F5F9;
+    }
+
+    .review-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #64748B;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .review-stat:hover {
+      color: #1D4ED8;
+    }
+
+    /* Reviews Right Sidebar */
+    .reviews-right {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid #E2E8F0;
+      height: fit-content;
+      position: sticky;
+      top: 120px;
+    }
+
+    .reviews-right h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .top-reviewer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .top-reviewer:last-child {
+      border-bottom: none;
+    }
+
+    .top-reviewer .avatar-small {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10B981, #34D399);
+      color: white;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-reviewer-info {
+      flex: 1;
+    }
+
+    .top-reviewer-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    .top-reviewer-reviews {
+      font-size: 0.75rem;
+      color: #94A3B8;
+    }
+
+    @media (max-width: 1024px) {
+      .reviews-container {
+        grid-template-columns: 180px 1fr;
+      }
+
+      .reviews-right {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .reviews-container {
+        grid-template-columns: 1fr;
+      }
+
+      .reviews-sidebar {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 1rem;
+      }
+
+      .reviews-sidebar h3 {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .filter-category {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      .new-review-form {
+        flex-direction: column;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+      }
+
+      .rating-summary {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .rating-bars {
+        width: 100%;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    main > div {
+      animation: fadeInUp 0.5s ease;
+    }
+  </style>
+</head>
+
+<body class="light-blue-bg">
+  <script>
+    (function enforceAuth() {
+      const path = window.location.pathname.split('/').pop() || 'reviews.html';
+      const publicPages = ['login.html', 'register.html', 'otp.html'];
+      const isPublic = publicPages.includes(path);
+      const isLoggedIn = !!sessionStorage.getItem('user_id');
+
+      if (!isLoggedIn && !isPublic) {
+        window.location.replace('login.html');
+      }
+
+      if (isLoggedIn && (path === 'login.html' || path === 'register.html')) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
+  <!-- Sidebar Overlay -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <nav id="sidebar" class="sidebar">
+    <div class="p-6 border-b border-gray-200">
+      <h3 class="text-lg font-bold text-gray-800">Menu</h3>
+      <div id="sidebar-user-block" class="sidebar-user-info">
+        <strong id="sidebar-user-name">--</strong>
+        <span id="sidebar-user-id">--</span>
+      </div>
+    </div>
+    <ul class="space-y-2 p-4">
+      <!-- Not logged in menu -->
+      <li id="sidebar-login" class="block">
+        <a href="login.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-sign-in-alt" style="width: 20px; text-align: center;"></i> Đăng nhập
+        </a>
+      </li>
+      <li id="sidebar-register" class="block">
+        <a href="register.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user-plus" style="width: 20px; text-align: center;"></i> Đăng ký
+        </a>
+      </li>
+
+      <!-- Logged in menu -->
+      <li id="sidebar-home" class="hidden">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-home" style="width: 20px; text-align: center;"></i> Trang Chủ
+        </a>
+      </li>
+      <li id="sidebar-profile" class="hidden">
+        <a href="profile.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-user" style="width: 20px; text-align: center;"></i> Hồ Sơ
+        </a>
+      </li>
+      <li id="sidebar-assessment" class="hidden">
+        <a href="assessment.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-clipboard-list" style="width: 20px; text-align: center;"></i> Đánh giá
+        </a>
+      </li>
+      <li id="sidebar-chat" class="hidden">
+        <a href="conversation.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-comments" style="width: 20px; text-align: center;"></i> Trò Chuyện
+        </a>
+      </li>
+      <li id="sidebar-reviews" class="hidden">
+        <a href="reviews.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors sidebar-item-active">
+          <i class="fas fa-star" style="width: 20px; text-align: center;"></i> Đánh Giá Web
+        </a>
+      </li>
+      <li id="sidebar-prevent" class="hidden">
+        <a href="prevent_violence.html" class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-600 hover:bg-blue-50 font-medium transition-colors">
+          <i class="fas fa-shield-alt" style="width: 20px; text-align: center;"></i> Phòng Chống
+        </a>
+      </li>
+      <li id="sidebar-sos" class="hidden">
+        <button onclick="triggerSOS()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-colors">
+          <i class="fas fa-exclamation-triangle" style="width: 20px; text-align: center;"></i> SOS
+        </button>
+      </li>
+      <li id="sidebar-logout" class="hidden border-t border-gray-200 pt-2 mt-2">
+        <button onclick="logoutUser()" class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition-colors">
+          <i class="fas fa-sign-out-alt" style="width: 20px; text-align: center;"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50">
+    <div class="top-banner">Hệ thống hỗ trợ học đường</div>
+    <div class="nav-shell">
+      <div class="nav-bar">
+        <div class="nav-brand">
+          <div class="logo-circle">
+            <img src="logo/android-chrome-192x192.png" alt="Logo" class="w-10 h-10 object-cover">
+          </div>
+          HappyEdu VN
+        </div>
+
+        <nav class="nav-menu">
+          <a href="index.html">Trang Chủ</a>
+          <a href="assessment.html">Đánh Giá</a>
+          <a href="conversation.html">Trò Chuyện</a>
+          <a href="reviews.html" class="active">Nhận Xét</a>
+          <a href="profile.html">Hồ Sơ</a>
+        </nav>
+
+        <div class="nav-utilities">
+          <div class="user-pill" id="user-pill">
+            <i class="fas fa-circle text-[8px]"></i>
+            <span id="user-name">--</span>
+            <span class="text-xs opacity-80" id="user-id-display">--</span>
+          </div>
+          <button id="mobile-menu-toggle" class="nav-toggle" aria-label="Mở menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="px-4 py-6 md:py-10">
+    <div class="reviews-container">
+      <!-- Left Sidebar - Filters -->
+      <div class="reviews-sidebar">
+        <h3>Lọc Đánh Giá</h3>
+        <a href="#" class="filter-category active">
+          <i class="fas fa-star"></i>
+          <span>Tất Cả</span>
+        </a>
+        <a href="#" class="filter-category">
+          <i class="fas fa-star"></i>
+          <span>5 Sao</span>
+        </a>
+        <a href="#" class="filter-category">
+          <i class="fas fa-star"></i>
+          <span>4 Sao</span>
+        </a>
+        <a href="#" class="filter-category">
+          <i class="fas fa-star"></i>
+          <span>3 Sao</span>
+        </a>
+        <a href="#" class="filter-category">
+          <i class="fas fa-star"></i>
+          <span>2 Sao</span>
+        </a>
+        <a href="#" class="filter-category">
+          <i class="fas fa-star"></i>
+          <span>1 Sao</span>
+        </a>
+      </div>
+
+      <!-- Center - Main Content -->
+      <div class="reviews-main">
+        <!-- Reviews Header -->
+        <div class="reviews-header">
+          <h2><i class="fas fa-star text-yellow-400 mr-2"></i> Đánh Giá Website</h2>
+          <p>Chia sẻ trải nghiệm của bạn về HappyEdu VN</p>
+        </div>
+
+        <!-- Rating Summary -->
+        <div class="rating-summary">
+          <div class="rating-big">
+            <div class="score">4.7</div>
+            <div class="stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <div class="total">128 đánh giá</div>
+          </div>
+          <div class="rating-bars">
+            <div class="rating-bar-item">
+              <span class="star-label">5 <i class="fas fa-star text-yellow-400 text-xs"></i></span>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 75%;"></div>
+              </div>
+              <span class="count">96</span>
+            </div>
+            <div class="rating-bar-item">
+              <span class="star-label">4 <i class="fas fa-star text-yellow-400 text-xs"></i></span>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 15%;"></div>
+              </div>
+              <span class="count">19</span>
+            </div>
+            <div class="rating-bar-item">
+              <span class="star-label">3 <i class="fas fa-star text-yellow-400 text-xs"></i></span>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 6%;"></div>
+              </div>
+              <span class="count">8</span>
+            </div>
+            <div class="rating-bar-item">
+              <span class="star-label">2 <i class="fas fa-star text-yellow-400 text-xs"></i></span>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 2%;"></div>
+              </div>
+              <span class="count">3</span>
+            </div>
+            <div class="rating-bar-item">
+              <span class="star-label">1 <i class="fas fa-star text-yellow-400 text-xs"></i></span>
+              <div class="bar-container">
+                <div class="bar-fill" style="width: 1%;"></div>
+              </div>
+              <span class="count">2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Review Box -->
+        <div class="new-review-box">
+          <div class="new-review-form">
+            <div class="avatar" id="user-avatar">A</div>
+            <div class="review-input-area">
+              <div class="star-rating-input" id="star-rating">
+                <i class="far fa-star" data-rating="1"></i>
+                <i class="far fa-star" data-rating="2"></i>
+                <i class="far fa-star" data-rating="3"></i>
+                <i class="far fa-star" data-rating="4"></i>
+                <i class="far fa-star" data-rating="5"></i>
+                <span class="ml-2 text-sm text-gray-500">Chọn số sao</span>
+              </div>
+              <textarea placeholder="Chia sẻ trải nghiệm của bạn về website..."></textarea>
+              <div class="review-actions">
+                <button class="btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem; border-radius: 999px;">
+                  <i class="fas fa-paper-plane"></i> Gửi Đánh Giá
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="reviews-list">
+          <!-- Review 1 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="avatar" style="background: linear-gradient(135deg, #EC4899, #F472B6);">M</div>
+              <div class="review-author-info">
+                <div class="review-author-name">Minh Anh</div>
+                <div class="review-time">2 giờ trước</div>
+              </div>
+              <div class="review-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              Website rất hữu ích cho học sinh như mình! Các bài đánh giá tâm lý giúp mình hiểu bản thân hơn, và tính năng chat với chuyên gia rất tuyệt vời. Giao diện đẹp, dễ sử dụng. Cảm ơn đội ngũ phát triển! 💜
+            </div>
+            <div class="review-stats">
+              <span class="review-stat"><i class="far fa-thumbs-up"></i> 24</span>
+              <span class="review-stat"><i class="far fa-comment"></i> 3</span>
+              <span class="review-stat"><i class="far fa-share-square"></i> Chia sẻ</span>
+            </div>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="avatar" style="background: linear-gradient(135deg, #10B981, #34D399);">H</div>
+              <div class="review-author-info">
+                <div class="review-author-name">Hoàng Long</div>
+                <div class="review-time">5 giờ trước</div>
+              </div>
+              <div class="review-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              Tính năng SOS khẩn cấp rất cần thiết! Mình đã từng trong tình huống khó khăn và website đã giúp mình kết nối với người hỗ trợ nhanh chóng. Mong nhiều bạn học sinh biết đến ứng dụng này hơn.
+            </div>
+            <div class="review-stats">
+              <span class="review-stat"><i class="far fa-thumbs-up"></i> 45</span>
+              <span class="review-stat"><i class="far fa-comment"></i> 7</span>
+              <span class="review-stat"><i class="far fa-share-square"></i> Chia sẻ</span>
+            </div>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="avatar" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA);">T</div>
+              <div class="review-author-info">
+                <div class="review-author-name">Thu Hà</div>
+                <div class="review-time">1 ngày trước</div>
+              </div>
+              <div class="review-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              Diễn đàn cộng đồng rất hay, mình có thể chia sẻ và đọc kinh nghiệm của các bạn khác. Tuy nhiên mình mong có thêm tính năng nhắn tin riêng với bạn bè. Nhìn chung là 4 sao vì còn nhiều tiềm năng phát triển!
+            </div>
+            <div class="review-stats">
+              <span class="review-stat"><i class="far fa-thumbs-up"></i> 18</span>
+              <span class="review-stat"><i class="far fa-comment"></i> 2</span>
+              <span class="review-stat"><i class="far fa-share-square"></i> Chia sẻ</span>
+            </div>
+          </div>
+
+          <!-- Review 4 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="avatar" style="background: linear-gradient(135deg, #F59E0B, #FBBF24);">Q</div>
+              <div class="review-author-info">
+                <div class="review-author-name">Quốc Bảo</div>
+                <div class="review-time">2 ngày trước</div>
+              </div>
+              <div class="review-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              Là một phụ huynh, mình rất yên tâm khi con mình sử dụng website này. Nội dung giáo dục về phòng chống bạo lực học đường rất bổ ích. Cảm ơn vì đã tạo ra nền tảng an toàn cho các em! 👏
+            </div>
+            <div class="review-stats">
+              <span class="review-stat"><i class="far fa-thumbs-up"></i> 52</span>
+              <span class="review-stat"><i class="far fa-comment"></i> 8</span>
+              <span class="review-stat"><i class="far fa-share-square"></i> Chia sẻ</span>
+            </div>
+          </div>
+
+          <!-- Review 5 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="avatar" style="background: linear-gradient(135deg, #EF4444, #F87171);">N</div>
+              <div class="review-author-info">
+                <div class="review-author-name">Ngọc Linh</div>
+                <div class="review-time">3 ngày trước</div>
+              </div>
+              <div class="review-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              Website load nhanh, giao diện responsive trên điện thoại rất tốt. Mình thích tính năng quiz kiểm tra kiến thức, vừa học vừa chơi. Chỉ tiếc là chưa có app mobile, mong sẽ có trong tương lai! 📱
+            </div>
+            <div class="review-stats">
+              <span class="review-stat"><i class="far fa-thumbs-up"></i> 31</span>
+              <span class="review-stat"><i class="far fa-comment"></i> 5</span>
+              <span class="review-stat"><i class="far fa-share-square"></i> Chia sẻ</span>
+            </div>
+          </div>
+
+          <!-- Review 6 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="avatar" style="background: linear-gradient(135deg, #06B6D4, #22D3EE);">D</div>
+              <div class="review-author-info">
+                <div class="review-author-name">Đức Minh</div>
+                <div class="review-time">4 ngày trước</div>
+              </div>
+              <div class="review-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+            <div class="review-content">
+              Ý tưởng tốt nhưng mình thấy nội dung còn hơi ít. Mong có thêm nhiều bài viết về cách đối phó với stress học tập và áp lực thi cử. 3 sao để có động lực cải thiện nhé! 😊
+            </div>
+            <div class="review-stats">
+              <span class="review-stat"><i class="far fa-thumbs-up"></i> 12</span>
+              <span class="review-stat"><i class="far fa-comment"></i> 4</span>
+              <span class="review-stat"><i class="far fa-share-square"></i> Chia sẻ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-4">
+          <button class="btn-outline" style="border-radius: 999px; padding: 0.75rem 2rem;">
+            <i class="fas fa-chevron-down mr-2"></i> Xem thêm đánh giá
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Sidebar - Top Reviewers -->
+      <div class="reviews-right">
+        <h3>Top Người Đánh Giá</h3>
+        <div class="top-reviewer">
+          <div class="avatar-small">H</div>
+          <div class="top-reviewer-info">
+            <div class="top-reviewer-name">Hoàng Long</div>
+            <div class="top-reviewer-reviews">12 đánh giá</div>
+          </div>
+        </div>
+        <div class="top-reviewer">
+          <div class="avatar-small" style="background: linear-gradient(135deg, #EC4899, #F472B6);">M</div>
+          <div class="top-reviewer-info">
+            <div class="top-reviewer-name">Minh Anh</div>
+            <div class="top-reviewer-reviews">8 đánh giá</div>
+          </div>
+        </div>
+        <div class="top-reviewer">
+          <div class="avatar-small" style="background: linear-gradient(135deg, #F59E0B, #FBBF24);">Q</div>
+          <div class="top-reviewer-info">
+            <div class="top-reviewer-name">Quốc Bảo</div>
+            <div class="top-reviewer-reviews">6 đánh giá</div>
+          </div>
+        </div>
+        <div class="top-reviewer">
+          <div class="avatar-small" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA);">T</div>
+          <div class="top-reviewer-info">
+            <div class="top-reviewer-name">Thu Hà</div>
+            <div class="top-reviewer-reviews">5 đánh giá</div>
+          </div>
+        </div>
+        <div class="top-reviewer">
+          <div class="avatar-small" style="background: linear-gradient(135deg, #EF4444, #F87171);">N</div>
+          <div class="top-reviewer-info">
+            <div class="top-reviewer-name">Ngọc Linh</div>
+            <div class="top-reviewer-reviews">4 đánh giá</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Mobile menu toggle
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+
+    function openSidebar() {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    toggleBtn.addEventListener('click', openSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // Star rating interaction
+    const starRating = document.getElementById('star-rating');
+    const stars = starRating.querySelectorAll('i');
+    let currentRating = 0;
+
+    stars.forEach((star, index) => {
+      star.addEventListener('mouseenter', () => {
+        highlightStars(index + 1);
+      });
+
+      star.addEventListener('mouseleave', () => {
+        highlightStars(currentRating);
+      });
+
+      star.addEventListener('click', () => {
+        currentRating = index + 1;
+        highlightStars(currentRating);
+        updateRatingText(currentRating);
+      });
+    });
+
+    function highlightStars(count) {
+      stars.forEach((star, index) => {
+        if (index < count) {
+          star.classList.remove('far');
+          star.classList.add('fas', 'active');
+        } else {
+          star.classList.remove('fas', 'active');
+          star.classList.add('far');
+        }
+      });
+    }
+
+    function updateRatingText(rating) {
+      const texts = ['', 'Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Xuất sắc'];
+      const span = starRating.querySelector('span');
+      span.textContent = texts[rating];
+      span.classList.remove('text-gray-500');
+      span.classList.add('text-yellow-500', 'font-medium');
+    }
+
+    // User session handling
+    document.addEventListener('DOMContentLoaded', function () {
+      const isLoggedIn = sessionStorage.getItem('user_id');
+      const userName = sessionStorage.getItem('user_name') || '--';
+      const userId = sessionStorage.getItem('user_id') || '--';
+
+      // Update user display
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-id-display').textContent = userId;
+      document.getElementById('sidebar-user-name').textContent = userName;
+      document.getElementById('sidebar-user-id').textContent = userId;
+
+      // Update avatar
+      if (userName && userName !== '--') {
+        document.getElementById('user-avatar').textContent = userName.charAt(0).toUpperCase();
+      }
+
+      // Show/hide sidebar items based on login status
+      if (isLoggedIn) {
+        document.getElementById('sidebar-login').classList.add('hidden');
+        document.getElementById('sidebar-register').classList.add('hidden');
+        document.getElementById('sidebar-home').classList.remove('hidden');
+        document.getElementById('sidebar-profile').classList.remove('hidden');
+        document.getElementById('sidebar-assessment').classList.remove('hidden');
+        document.getElementById('sidebar-chat').classList.remove('hidden');
+        document.getElementById('sidebar-reviews').classList.remove('hidden');
+        document.getElementById('sidebar-prevent').classList.remove('hidden');
+        document.getElementById('sidebar-sos').classList.remove('hidden');
+        document.getElementById('sidebar-logout').classList.remove('hidden');
+      }
+    });
+
+    // Logout function
+    function logoutUser() {
+      sessionStorage.clear();
+      window.location.href = 'login.html';
+    }
+
+    // SOS function placeholder
+    function triggerSOS() {
+      alert('Tính năng SOS đang được kích hoạt...');
+    }
+
+    // Filter categories interaction
+    const filterCategories = document.querySelectorAll('.filter-category');
+    filterCategories.forEach(category => {
+      category.addEventListener('click', (e) => {
+        e.preventDefault();
+        filterCategories.forEach(c => c.classList.remove('active'));
+        category.classList.add('active');
+      });
+    });
+  </script>
+</body>
+
+</html>
