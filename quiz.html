@@ -551,6 +551,45 @@
       font-size: 0.95rem;
     }
 
+    .review-callout {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border: 1px solid #3B82F6;
+      background: #EFF6FF;
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.15);
+      flex-wrap: wrap;
+    }
+
+    .review-callout p {
+      flex: 1 1 220px;
+      margin: 0;
+      color: #1D4ED8;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .review-callout button {
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.65rem 1.25rem;
+      background: #1D4ED8;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .review-callout button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(59, 130, 246, 0.4);
+    }
+
     @media (max-width: 768px) {
       .quiz-container {
         padding: 1.5rem;
@@ -710,6 +749,13 @@
         <p>Câu trả lời của bạn đã được ghi nhận. Kết quả sẽ được xử lý để giúp chúng tôi hiểu rõ hơn về trải nghiệm của bạn.</p>
       </div>
 
+      <div class="review-callout" id="review-callout">
+        <p>Chúng tôi rất trân trọng phản hồi của bạn. Hệ thống sẽ chuyển sang phần đánh giá website sau <span id="review-redirect-count">5</span> giây để bạn tiếp tục nói rõ cảm nhận.</p>
+        <button type="button" id="review-action-btn">
+          Đánh giá web ngay
+        </button>
+      </div>
+
       <!-- Quiz Container -->
       <div class="quiz-container" id="quiz-container" style="display: none;">
         
@@ -757,7 +803,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="font-bold text-gray-800 mb-1">Đánh Giá Mức Độ Hạnh Phúc</h3>
-                <p class="text-sm text-gray-600">Trả lời 10 câu hỏi về mức độ hạnh phúc của bạn tại trường học</p>
+                <p class="text-sm text-gray-600">Trả lời các câu hỏi về mức độ hạnh phúc của bạn tại trường học</p>
                 <p class="text-xs text-gray-500 mt-2"><i class="fas fa-clock mr-1"></i>Khoảng 3-5 phút</p>
               </div>
             </div>
@@ -779,6 +825,8 @@
     let currentQuestion = 0;
     let answers = {};
     let quizStarted = false;
+    let reviewRedirectTimeout = null;
+    let reviewRedirectInterval = null;
 
     // Load quiz questions from API based on user role
     async function loadQuizQuestions() {
@@ -1129,15 +1177,44 @@
         document.getElementById('quiz-container').style.display = 'none';
         document.getElementById('quiz-summary').style.display = 'block';
         
-        // Reset after 3 seconds
-        setTimeout(() => {
-          document.getElementById('quiz-summary').style.display = 'none';
-          document.getElementById('quiz-landing').style.display = 'block';
-          currentQuiz = null;
-          quizStarted = false;
-          answers = {};
-          currentQuestion = 0;
-        }, 3000);
+        const reviewCallout = document.getElementById('review-callout');
+        const countdownEl = document.getElementById('review-redirect-count');
+        const redirectDelaySeconds = 5;
+        let remainingSeconds = redirectDelaySeconds;
+
+        if (countdownEl) {
+          countdownEl.textContent = remainingSeconds;
+        }
+
+        if (reviewCallout) {
+          reviewCallout.style.display = 'flex';
+        }
+
+        if (reviewRedirectInterval) {
+          clearInterval(reviewRedirectInterval);
+        }
+        reviewRedirectInterval = setInterval(() => {
+          remainingSeconds -= 1;
+          if (countdownEl) {
+            countdownEl.textContent = Math.max(remainingSeconds, 0);
+          }
+          if (remainingSeconds <= 0) {
+            clearInterval(reviewRedirectInterval);
+            reviewRedirectInterval = null;
+          }
+        }, 1000);
+
+        if (reviewRedirectTimeout) {
+          clearTimeout(reviewRedirectTimeout);
+        }
+        reviewRedirectTimeout = setTimeout(() => {
+          window.location.replace('reviews.html');
+        }, redirectDelaySeconds * 1000);
+
+        currentQuiz = null;
+        quizStarted = false;
+        answers = {};
+        currentQuestion = 0;
       })
       .catch(error => {
         console.error('Error submitting quiz:', error);
@@ -1148,6 +1225,21 @@
         }, 4000);
       });
     });
+
+    const reviewActionBtn = document.getElementById('review-action-btn');
+    if (reviewActionBtn) {
+      reviewActionBtn.addEventListener('click', () => {
+        if (reviewRedirectInterval) {
+          clearInterval(reviewRedirectInterval);
+          reviewRedirectInterval = null;
+        }
+        if (reviewRedirectTimeout) {
+          clearTimeout(reviewRedirectTimeout);
+          reviewRedirectTimeout = null;
+        }
+        window.location.replace('reviews.html');
+      });
+    }
   </script>
   <script src="sos_handler.js"></script>
   
